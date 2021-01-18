@@ -6,64 +6,58 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lxkj.dsn.R;
-import com.lxkj.dsn.bean.ResultBean;
-import com.lxkj.dsn.http.BaseCallback;
-import com.lxkj.dsn.http.Url;
+import com.lxkj.dsn.adapter.BigClassAdapter;
+import com.lxkj.dsn.adapter.ClassAdapter;
+import com.lxkj.dsn.adapter.ProductAdapter;
+import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.youth.banner.Banner;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
-
- *Time:2020/10/28
-
- *Author:李迪迦
-
- *Description:首页
-
+ * Time:2020/10/28
+ * <p>
+ * Author:李迪迦
+ * <p>
+ * Description:首页
  */
 public class HomeFra extends CachableFrg implements View.OnClickListener {
 
-    @BindView(R.id.imCommodity)
-    ImageView imCommodity;
-    @BindView(R.id.imkaiguan)
-    ImageView imkaiguan;
-    @BindView(R.id.im_classify)
-    ImageView imClassify;
-    @BindView(R.id.llwallet)
-    LinearLayout llwallet;
-    @BindView(R.id.imEvaluate)
-    ImageView imEvaluate;
-    @BindView(R.id.llDiscount)
-    LinearLayout llDiscount;
-    @BindView(R.id.imorder)
-    ImageView imorder;
-    @BindView(R.id.llbill)
-    LinearLayout llbill;
-    @BindView(R.id.llCommodity)
-    LinearLayout llCommodity;
-    @BindView(R.id.llFeight)
-    LinearLayout llFeight;
-    @BindView(R.id.tvtoday)
-    TextView tvtoday;
-    @BindView(R.id.tvtotalEarnings)
-    TextView tvtotalEarnings;
-    @BindView(R.id.tvname)
-    TextView tvname;
-    @BindView(R.id.tvState)
-    TextView tvState;
+
+    @BindView(R.id.et_seek)
+    TextView etSeek;
+    @BindView(R.id.tv_seek)
+    TextView tvSeek;
+    @BindView(R.id.ll_search)
+    LinearLayout llSearch;
+    @BindView(R.id.im_xiaoxi)
+    ImageView imXiaoxi;
+    @BindView(R.id.page_top)
+    LinearLayout pageTop;
+    @BindView(R.id.banner)
+    Banner banner;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.ryClass)
+    RecyclerView ryClass;
+    @BindView(R.id.ry_product)
+    RecyclerView ryProduct;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
 
-    private boolean Shopswitch = false;
-    private String opening = "0", carriage;
+    private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
+    private ClassAdapter messageAdapter;
+    private BigClassAdapter bigClassAdapter;
+    private ProductAdapter productAdapter;
+
     @Override
     protected int rootLayout() {
         return R.layout.fra_home;
@@ -72,6 +66,47 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
     @Override
     protected void initView() {
 
+        smart.setEnableNestedScroll(true);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
+        listBeans = new ArrayList<DataListBean>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        messageAdapter = new ClassAdapter(getContext(), listBeans);
+        recyclerView.setAdapter(messageAdapter);
+        messageAdapter.setOnItemClickListener(new ClassAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClickListener(int firstPosition) {
+
+            }
+        });
+
+        ryClass.setHasFixedSize(true);
+        ryClass.setNestedScrollingEnabled(false);
+        ryClass.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        bigClassAdapter = new BigClassAdapter(getContext(), listBeans);
+        ryClass.setAdapter(bigClassAdapter);
+        bigClassAdapter.setOnItemClickListener(new BigClassAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClickListener(int firstPosition) {
+
+
+            }
+        });
+        ryProduct.setHasFixedSize(true);
+        ryProduct.setNestedScrollingEnabled(false);
+        ryProduct.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        productAdapter = new ProductAdapter(getContext(), listBeans);
+        ryProduct.setAdapter(productAdapter);
+        productAdapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClickListener(int firstPosition) {
+
+
+            }
+        });
     }
 
     @Override
@@ -79,38 +114,6 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
         switch (view.getId()) {
 
         }
-    }
-
-
-    /**
-     * 首页信息
-     */
-    private void home() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("sid", userId);
-        mOkHttpHelper.post_json(getContext(), Url.home, params, new BaseCallback<ResultBean>() {
-            @Override
-            public void onBeforeRequest(Request request) {
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-            }
-
-            @Override
-            public void onResponse(Response response) {
-
-            }
-
-            @Override
-            public void onSuccess(Response response, ResultBean resultBean) {
-
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
     }
 
     @Override

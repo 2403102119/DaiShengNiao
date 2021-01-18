@@ -1,8 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#55000000"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <LinearLayout
+        android:id="@+id/page_top"
+        android:gravity="center"
+        android:paddingTop="35dp"
+        android:paddingBottom="8dp"
+        android:background="@color/white"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="9dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@mipmap/tianjia"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        <LinearLayout
+            android:id="@+id/ll_search"
+            android:background="@drawable/biankuang20"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="31dp">
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:src="@mipmap/sousuo"
+                    android:layout_width="15dp"
+                    android:layout_height="14dp" />
+                <TextView
+                    android:id="@+id/et_seek"
+                    android:hint="请输入关键词搜索"
+                    android:imeOptions="actionSearch"
+                    android:textCursorDrawable="@drawable/my_cursor2"
+                    android:layout_marginLeft="12sp"
+                    android:background="@null"
+                    android:textColorHint="#999999"
+                    android:singleLine="true"
+                    android:textColor="#FEFEFE"
+                    android:textSize="11sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_seek"
+                    android:text="搜索"
+                    android:visibility="gone"
+                    android:textSize="14sp"
+                    android:padding="3dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/im_xiaoxi"
+            android:src="@mipmap/xiaoxi"
+            android:layout_marginRight="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="65dp">
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/TagFlow"
+            app:max_select="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <View
+        android:background="#F2F2F2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ryFace"
+            android:paddingBottom="5dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

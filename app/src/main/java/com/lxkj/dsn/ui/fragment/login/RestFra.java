@@ -1,4 +1,4 @@
-package com.lxkj.dsn.ui.minorfragment;
+package com.lxkj.dsn.ui.fragment.login;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,14 +17,14 @@ import butterknife.Unbinder;
  * <p>
  * Author:李迪迦
  * <p>
- * Interface:其他手机号登录
+ * Interface:忘记密码
  */
 public class RestFra extends TitleFragment {
     Unbinder unbinder;
 
     @Override
     public String getTitleName() {
-        return "";
+        return "找回密码";
     }
 
     @Nullable

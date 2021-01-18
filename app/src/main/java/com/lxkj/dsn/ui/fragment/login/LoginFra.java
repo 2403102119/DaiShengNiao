@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +15,6 @@ import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.biz.EventCenter;
 import com.lxkj.dsn.ui.activity.MainActivity;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
-import com.lxkj.dsn.ui.minorfragment.RestFra;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
@@ -27,16 +27,24 @@ import butterknife.Unbinder;
 public class LoginFra extends TitleFragment implements View.OnClickListener, EventCenter.EventListener {
 
     Unbinder unbinder;
+    @BindView(R.id.etPhone)
+    EditText etPhone;
+    @BindView(R.id.etPassword)
+    EditText etPassword;
+    @BindView(R.id.imEys)
+    ImageView imEys;
+    @BindView(R.id.tvRegister)
+    TextView tvRegister;
+    @BindView(R.id.tvRetrieve)
+    TextView tvRetrieve;
     @BindView(R.id.tvLogin)
     TextView tvLogin;
-    @BindView(R.id.tvRest)
-    TextView tvRest;
-    @BindView(R.id.tvMynote)
-    TextView tvMynote;
-    @BindView(R.id.imQQ)
-    ImageView imQQ;
+    @BindView(R.id.tvYonghu)
+    TextView tvYonghu;
     @BindView(R.id.imWeChat)
     ImageView imWeChat;
+    @BindView(R.id.imQQ)
+    ImageView imQQ;
 
 
     @Override
@@ -61,9 +69,11 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
         eventCenter.registEvent(this, EventCenter.EventType.EVT_LOGIN);
         eventCenter.registEvent(this, EventCenter.EventType.EVT_REGISTER);
 
-        tvRest.setOnClickListener(this);
+
+        tvRegister.setOnClickListener(this);
+        tvRetrieve.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
-        tvMynote.setOnClickListener(this);
+
     }
 
     @Override
@@ -82,15 +92,15 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tvRest://其他号码登录
+            case R.id.tvRegister://注册
+                ActivitySwitcher.startFragment(act, RegisterFra.class);
+                break;
+            case R.id.tvRetrieve://忘记密码
                 ActivitySwitcher.startFragment(act, RestFra.class);
                 break;
-            case R.id.tvLogin://本机号码一键登录
+            case R.id.tvLogin://登录
                 ActivitySwitcher.start(act, MainActivity.class);
                 act.finishSelf();
-                break;
-            case R.id.tvMynote://账号密码登录
-
                 break;
         }
     }

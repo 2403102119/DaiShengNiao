@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_tag"
+    android:layout_width="75dp"
+    android:layout_height="25dp"
+    android:gravity="center"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="10dp"
+    android:background="@drawable/selector_choice_param_bg"
+    android:textColor="@drawable/text_color"
+    android:text="标签" />

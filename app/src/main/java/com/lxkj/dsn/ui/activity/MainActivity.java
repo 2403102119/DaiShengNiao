@@ -24,9 +24,9 @@ import com.lxkj.dsn.biz.EventCenter;
 import com.lxkj.dsn.socket.WsManager;
 import com.lxkj.dsn.ui.fragment.main.HomeFra;
 import com.lxkj.dsn.ui.fragment.main.HomeMineFra;
-import com.lxkj.dsn.ui.fragment.main.IssueFra;
-import com.lxkj.dsn.ui.fragment.main.MessageListFra;
-import com.lxkj.dsn.ui.fragment.main.NearbyFra;
+import com.lxkj.dsn.ui.fragment.main.FaceFra;
+import com.lxkj.dsn.ui.fragment.main.ShoppCar;
+import com.lxkj.dsn.ui.fragment.main.AudioFra;
 import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.ToastUtil;
 
@@ -108,8 +108,6 @@ public class MainActivity extends BaseFragAct
             TextView tab = ((TextView) vTab.findViewById(R.id.tab_label));
             if (i==1)
                 tvUnreadCount = ((TextView) vTab.findViewById(R.id.tvUnreadCount));
-            if (i==2)
-                tab.setVisibility(View.GONE);
 
             tab.setText(td.name);
             refreshTab(vTab, td, false);
@@ -136,15 +134,15 @@ public class MainActivity extends BaseFragAct
     private final List<TabDesc> tabs = new ArrayList<TabDesc>() {
         {
             add(TabDesc.make("home", R.string.home,//首页
-                    R.mipmap.dianpugaunli, R.mipmap.dianpuguanli_se, HomeFra.class));
-            add(TabDesc.make("tg", R.string.car,//消息
-                    R.mipmap.xiaoxi, R.mipmap.xiaoxi_se, MessageListFra.class));
-            add(TabDesc.make("add", R.string.add,//发布
-                    R.mipmap.xiaoxi, R.mipmap.xiaoxi_se, IssueFra.class));
-            add(TabDesc.make("shop", R.string.shop,//附近
-                    R.mipmap.dingdangaunli, R.mipmap.dingdanguanli, NearbyFra.class));
+                    R.drawable.shouye, R.drawable.shouye_xuanzhong, HomeFra.class));
+            add(TabDesc.make("shop", R.string.shop,//影音书
+                    R.drawable.yingyinshu, R.drawable.yingyinshu_xuanzhong, AudioFra.class));
+            add(TabDesc.make("add", R.string.add,//面对面
+                    R.drawable.face, R.drawable.face_xuanzhong, FaceFra.class));
+            add(TabDesc.make("tg", R.string.car,//购物车
+                    R.drawable.gouwuche, R.drawable.gouwuche_xuanzhong, ShoppCar.class));
             add(TabDesc.make("mine", R.string.mine,//我的
-                    R.mipmap.dianpuzhongxin, R.mipmap.dianpuzhongxin_se, HomeMineFra.class));
+                    R.drawable.wode, R.drawable.wode_xuanzhong, HomeMineFra.class));
         }
     };
 

@@ -39,7 +39,6 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        eventCenter.registEvent(this, EventCenter.EventType.EVT_EDITINFO);
 
 
 
@@ -65,8 +64,6 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        eventCenter.unregistEvent(this, EventCenter.EventType.EVT_EDITINFO);
-        eventCenter.unregistEvent(this, EventCenter.EventType.EVT_RZSUCCESS);
     }
 
 

@@ -1,94 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/nv"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="@dimen/title_h"
+        android:background="@color/white">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingTop="35dp"
-            android:paddingBottom="10dp"
-            android:text="消息"
-            android:textColor="#ff333333"
-            android:textSize="19sp"/>
-
-        <TextView
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:padding="12dp"
-            android:text="编辑"
-            android:textColor="#ff333333"
-            android:textSize="16sp" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:padding="@dimen/dp_10"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <ImageView
-            android:src="@mipmap/xitongtongzhi"
-            android:layout_width="41dp"
-            android:layout_height="41dp"/>
-
-        <LinearLayout
-            android:layout_marginLeft="@dimen/dp_10"
-            android:orientation="vertical"
+            android:id="@+id/navi_title"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="购物车"
+            android:textStyle="bold"
+            android:textColor="@color/txt_lv6"
+            android:textSize="@dimen/txt_title" />
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text=""
-                    android:textColor="#1A1A1A"
-                    android:textSize="15sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:text=""
-                    android:textColor="#999999"
-                    android:textSize="10sp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
+            <ImageView
+                android:src="@drawable/bianji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text=""
-                android:textColor="@color/colorBlack"
-                android:textSize="13sp" />
-
+                android:id="@+id/navi_right_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="12dp"
+                android:gravity="left|center_vertical"
+                android:layout_centerVertical="true"
+                android:paddingRight="12dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="编辑"
+                android:textColor="@color/txt_33"
+                android:textSize="@dimen/txt_size_13" />
         </LinearLayout>
 
-    </LinearLayout>
-    <View
-        android:background="#FAFAFA"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"/>
-
-
-
+    </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:paddingBottom="50dp"
+        android:layout_below="@+id/nv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -102,20 +62,19 @@
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:orientation="vertical">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_no" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="暂时没有聊天记录"
+                    android:text="暂无商品"
                     android:textColor="#ff989898"
                     android:textSize="13sp"
                     android:visibility="visible" />
@@ -133,6 +92,71 @@
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="49dp">
+        <ImageView
+            android:id="@+id/imageSel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/weixuanzhong" />
+        <TextView
+            android:text="全选"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="总计："
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="¥"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_sell_moeney"
+                    android:text="0.0"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_accounts"
+            android:text="去结算"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="19dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:background="@drawable/login_20"
+            android:layout_width="88dp"
+            android:layout_height="36dp" />
+    </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

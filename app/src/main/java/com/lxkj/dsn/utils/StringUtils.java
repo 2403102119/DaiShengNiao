@@ -1,6 +1,8 @@
 package com.lxkj.dsn.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,5 +84,9 @@ public class StringUtils {
         String result;
         result = str.substring(0,4) + "."+ str.substring(5,7) + "."+ str.substring(8,10);
         return result;
+    }
+    public static int getScreenWidth(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return displayMetrics.widthPixels;
     }
 }
