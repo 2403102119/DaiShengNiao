@@ -4,32 +4,47 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.biz.EventCenter;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
+import com.lxkj.dsn.ui.fragment.fra.IntegralFra;
+import com.lxkj.dsn.ui.fragment.login.RegisterFra;
 import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.ToastUtil;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
-
- *Time:2020/10/28
-
- *Author:李迪迦
-
- *Description:我的
-
+ * Time:2020/10/28
+ * <p>
+ * Author:李迪迦
+ * <p>
+ * Description:我的
  */
 public class HomeMineFra extends CachableFrg implements View.OnClickListener {
 
     Unbinder unbinder;
+    @BindView(R.id.riIcon)
+    RoundedImageView riIcon;
+    @BindView(R.id.tvName)
+    TextView tvName;
+    @BindView(R.id.tvMotto)
+    TextView tvMotto;
+    @BindView(R.id.tv_all)
+    TextView tvAll;
+    @BindView(R.id.llIntegral)
+    LinearLayout llIntegral;
 
 
     @Override
@@ -40,9 +55,7 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
     @Override
     protected void initView() {
 
-
-
-//        info();
+        llIntegral.setOnClickListener(this);
     }
 
     @Override
@@ -53,12 +66,11 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.llIntegral://积分商城
+                ActivitySwitcher.startFragment(getActivity(), IntegralFra.class);
+                break;
         }
     }
-
-
-
 
 
     @Override
@@ -103,7 +115,6 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
-
 
 
     @Override
