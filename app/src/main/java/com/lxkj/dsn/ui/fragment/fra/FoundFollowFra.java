@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.lxkj.dsn.R;
-import com.lxkj.dsn.actlink.NaviRightListener;
-import com.lxkj.dsn.adapter.IntegralAdapter;
 import com.lxkj.dsn.adapter.IntegralDetailAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
@@ -22,22 +20,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Time:2021/1/19
+ * Time:2021/1/22
  * <p>
  * Author:李迪迦
  * <p>
- * Interface:积分明细
+ * Interface:资金明细
  */
-public class IntegralDetailFra extends TitleFragment implements NaviRightListener {
+public class FoundFollowFra extends TitleFragment {
     Unbinder unbinder;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.llNodata)
+    LinearLayout llNodata;
+    @BindView(R.id.ryList)
+    RecyclerView ryList;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
     private ArrayList<DataListBean> listBeans;
@@ -45,25 +44,23 @@ public class IntegralDetailFra extends TitleFragment implements NaviRightListene
     private IntegralDetailAdapter integralDetailAdapter;
     @Override
     public String getTitleName() {
-        return "积分明细";
+        return "";
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        rootView = inflater.inflate(R.layout.fra_integraldetail, container, false);
+        rootView = inflater.inflate(R.layout.fra_recycleview, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         initView();
         return rootView;
     }
 
     public void initView() {
-
         listBeans = new ArrayList<DataListBean>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ryList.setLayoutManager(new LinearLayoutManager(getContext()));
         integralDetailAdapter = new IntegralDetailAdapter(getContext(), listBeans);
-        recyclerView.setAdapter(integralDetailAdapter);
+        ryList.setAdapter(integralDetailAdapter);
         integralDetailAdapter.setOnItemClickListener(new IntegralDetailAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
@@ -95,15 +92,5 @@ public class IntegralDetailFra extends TitleFragment implements NaviRightListene
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public String rightText() {
-        return "规则说明";
-    }
-
-    @Override
-    public void onRightClicked(View v) {
-
     }
 }

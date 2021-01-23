@@ -118,7 +118,7 @@ public class IntegralFra extends TitleFragment implements View.OnClickListener, 
 
     @Override
     public void onRightClicked(View v) {
-
+        ActivitySwitcher.startFragment(getActivity(), IntegralRecordFra.class);
     }
 
     @Override

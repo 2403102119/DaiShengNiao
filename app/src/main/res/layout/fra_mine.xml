@@ -30,6 +30,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"/>
                 <ImageView
+                    android:id="@+id/imMessage"
                     android:layout_marginLeft="19dp"
                     android:layout_marginRight="10dp"
                     android:src="@mipmap/xiaoxi"
@@ -250,16 +251,18 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-                <androidx.recyclerview.widget.RecyclerView
+                <cn.ymex.widget.banner.Banner
+                    android:id="@+id/banner"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginTop="21dp"
-                    android:layout_marginBottom="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginRight="12dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="100dp"/>
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llFound"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_marginTop="11dp"
@@ -384,6 +387,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"/>
                 <LinearLayout
+                    android:id="@+id/llIssue"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:background="@drawable/bg_rect_white_10dp"
@@ -408,6 +412,7 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/llCollet"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:background="@drawable/bg_rect_white_10dp"
@@ -432,6 +437,7 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
                 <LinearLayout
+
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:background="@drawable/bg_rect_white_10dp"

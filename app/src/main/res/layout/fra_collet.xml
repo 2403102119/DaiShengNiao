@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+   <LinearLayout
+       android:gravity="center_vertical"
+       android:background="@drawable/sousuokuang"
+       android:layout_marginTop="10dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginRight="10dp"
+       android:layout_width="match_parent"
+       android:layout_height="33dp">
+       <ImageView
+           android:layout_marginLeft="15dp"
+           android:src="@mipmap/sousuo"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"/>
+      <EditText
+          android:layout_marginLeft="10dp"
+          android:hint="请输入商品名称进行搜索"
+          android:textColor="@color/txt_33"
+          android:textSize="13sp"
+          android:background="@null"
+          android:gravity="center_vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
+   </LinearLayout>
+   <com.scwang.smartrefresh.layout.SmartRefreshLayout
+       android:id="@+id/smart"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+      <com.scwang.smartrefresh.layout.header.ClassicsHeader
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/recyclerView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
+   </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

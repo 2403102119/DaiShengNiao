@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/wuliu"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+    <LinearLayout
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvWuliu"
+            android:text="最新物流"
+            android:textSize="11sp"
+            android:textColor="@color/txt_99"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tvTime"
+            android:text="12-21"
+            android:textColor="@color/txt_99"
+            android:textSize="11sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imAvatar"
+                    app:riv_corner_radius="4dp"
+                    android:scaleType="fitXY"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_margin="12dp"
+                    android:src="@mipmap/logo" />
+
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:visibility="gone"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/bg_point_red" />
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:text="运输中"
+                        android:textColor="#248CE2"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tvContent"
+                        android:visibility="visible"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="12dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="【开封市】开封派件员：君临天下驿站的 电…"
+                        android:textColor="#999999"
+                        android:textSize="11sp" />
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp"
+    android:layout_marginTop="17dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+   <LinearLayout
+       android:gravity="center_vertical"
+       android:orientation="horizontal"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <com.makeramen.roundedimageview.RoundedImageView
+           android:id="@+id/riIcon"
+           android:src="@mipmap/touxiang"
+           android:scaleType="fitXY"
+           android:layout_width="35dp"
+           android:layout_height="35dp"/>
+       <TextView
+           android:text="北****晓"
+           android:layout_marginLeft="10dp"
+           android:textColor="@color/txt_33"
+           android:textSize="12sp"
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content"/>
+       <TextView
+           android:text="1天前"
+           android:textSize="12sp"
+           android:textColor="@color/main_color"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"/>
+   </LinearLayout>
+    <TextView
+        android:layout_marginTop="14dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="13sp"
+        android:text="一次很好的购物体验，服务周到，物流快速，配送也很周到，卖家态度也很好~ 下次还回购~"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_marginTop="18dp"
+        android:background="#F6F6F6"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+</LinearLayout>

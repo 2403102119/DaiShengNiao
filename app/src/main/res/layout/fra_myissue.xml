@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/llSearch"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <ImageView
+            android:id="@+id/navi_left"
+            android:layout_width="50dp"
+            android:padding="13dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/fanhui" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/bg_cir_un_blue"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <Button
+                android:id="@+id/btn2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="-10dp"
+                android:layout_weight="1"
+                android:background="@drawable/sel_cir_bg_selected_blue"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="25dp"
+                android:paddingTop="5dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="5dp"
+                android:singleLine="true"
+                android:text="我的心得"
+                android:textColor="@drawable/sel_text_selected_blue"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/btn1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-10dp"
+                android:layout_weight="1"
+                android:background="@drawable/sel_cir_bg_selected_blue"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="25dp"
+                android:paddingTop="5dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="5dp"
+                android:singleLine="true"
+                android:text="我的回复"
+                android:textColor="@drawable/sel_text_selected_blue"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

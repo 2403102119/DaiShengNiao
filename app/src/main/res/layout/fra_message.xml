@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="11dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@mipmap/quanbuxiaoxi"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+        <TextView
+            android:text="全部消息"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="14dp"
+            android:textColor="@color/txt_33"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="3"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:background="@drawable/shape_point1"
+            android:layout_width="19dp"
+            android:layout_height="19dp"/>
+    </LinearLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>
