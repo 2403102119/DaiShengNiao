@@ -21,6 +21,7 @@ import com.lxkj.dsn.ui.fragment.CachableFrg;
 import com.lxkj.dsn.ui.fragment.fra.ColletFra;
 import com.lxkj.dsn.ui.fragment.fra.FoundFra;
 import com.lxkj.dsn.ui.fragment.fra.IntegralFra;
+import com.lxkj.dsn.ui.fragment.fra.InviteFra;
 import com.lxkj.dsn.ui.fragment.fra.MessageFra;
 import com.lxkj.dsn.ui.fragment.fra.MyIssueFra;
 import com.lxkj.dsn.utils.SharePrefUtil;
@@ -72,6 +73,8 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
     LinearLayout llIssue;
     @BindView(R.id.llCollet)
     LinearLayout llCollet;
+    @BindView(R.id.llInvite)
+    LinearLayout llInvite;
     private List<DataListBean> BanString = new ArrayList<>();
     private ArrayList<ImageInfo> imageInfo = new ArrayList<>();
 
@@ -88,6 +91,7 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
         llFound.setOnClickListener(this);
         llIssue.setOnClickListener(this);
         llCollet.setOnClickListener(this);
+        llInvite.setOnClickListener(this);
 
         DataListBean dataListBean = new DataListBean();
         BanString.clear();
@@ -164,6 +168,9 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
                 break;
             case R.id.llCollet://我的收藏
                 ActivitySwitcher.startFragment(getActivity(), ColletFra.class);
+                break;
+            case R.id.llInvite://我的邀请
+                ActivitySwitcher.startFragment(getActivity(), InviteFra.class);
                 break;
         }
     }

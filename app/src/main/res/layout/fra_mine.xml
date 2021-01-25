@@ -437,7 +437,7 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
                 <LinearLayout
-
+                    android:id="@+id/llInvite"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:background="@drawable/bg_rect_white_10dp"
