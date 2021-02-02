@@ -73,11 +73,11 @@
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <TextView
+            android:id="@+id/tvAll"
             android:text="查看全部"
             android:textColor="@color/colorBlack"
             android:textSize="15sp"

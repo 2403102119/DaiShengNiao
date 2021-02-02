@@ -15,6 +15,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/tvTitle"
             android:text="启蒙教育"
             android:textSize="15sp"
             android:textColor="@color/colorBlack"
@@ -24,12 +25,14 @@
             android:text="学习会思考"
             android:textColor="@color/txt_99"
             android:textSize="11sp"
+            android:visibility="gone"
             android:layout_marginTop="11dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <com.makeramen.roundedimageview.RoundedImageView
-        android:src="@mipmap/guide1"
+        android:id="@+id/riIcon"
+        android:src="@mipmap/imageerror"
         android:scaleType="centerCrop"
         app:riv_corner_radius_top_right="5dp"
         app:riv_corner_radius_bottom_right="5dp"

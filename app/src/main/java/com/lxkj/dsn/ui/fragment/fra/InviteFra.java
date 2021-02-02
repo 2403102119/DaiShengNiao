@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.actlink.NaviRightListener;
-import com.lxkj.dsn.adapter.ColletAdapter;
 import com.lxkj.dsn.adapter.InviteAdapter;
 import com.lxkj.dsn.bean.DataListBean;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
 
 import java.util.ArrayList;
@@ -29,13 +30,16 @@ import butterknife.Unbinder;
  * <p>
  * Interface:我的邀请
  */
-public class InviteFra extends TitleFragment implements NaviRightListener {
+public class InviteFra extends TitleFragment implements NaviRightListener, View.OnClickListener {
     Unbinder unbinder;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.tvAll)
+    TextView tvAll;
     private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
     private InviteAdapter inviteAdapter;
+
     @Override
     public String getTitleName() {
         return "我的邀请";
@@ -63,6 +67,17 @@ public class InviteFra extends TitleFragment implements NaviRightListener {
 
             }
         });
+
+        tvAll.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tvAll://查看全部
+                ActivitySwitcher.startFragment(getActivity(), AllFriendFra.class);
+                break;
+        }
     }
 
     @Override

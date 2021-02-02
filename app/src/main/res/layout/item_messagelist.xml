@@ -36,6 +36,7 @@
                        android:src="@mipmap/xitongxiaoxi" />
 
                    <View
+                       android:id="@+id/viewWeidu"
                        android:layout_width="7dp"
                        android:layout_height="7dp"
                        android:visibility="gone"

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/etIdea"
+        android:hint="请留下您宝贵的意见！"
+        android:gravity="top"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        android:padding="15dp"
+        android:layout_marginTop="15dp"
+        android:background="#F6F6F6"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:text="联系方式"
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp"
+            android:textColor="@color/txt_33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:hint="便于我们联系您"
+            android:layout_marginLeft="25dp"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            android:inputType="number"
+            android:background="@null"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvIssue"
+        android:layout_width="287dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="62dp"
+        android:background="@drawable/login_20"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</LinearLayout>

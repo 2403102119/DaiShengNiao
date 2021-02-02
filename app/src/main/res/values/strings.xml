@@ -2,7 +2,7 @@
     <string name="app_name">戴胜鸟图书</string>
     <string name="httperror">网络请求失败...</string>
     <string name="press_again_to_leave">再按一次退出程序</string>
-
+    <string name="glide_plus_icon_string">android.resource://</string>
     <string name="home">首页</string>
     <string name="shop">影音书</string>
     <string name="car">购物车</string>

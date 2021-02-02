@@ -18,9 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/imPush"
             android:src="@mipmap/tianjia"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:padding="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
         <LinearLayout
             android:id="@+id/ll_search"
             android:background="@drawable/biankuang20"
@@ -31,7 +33,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_height="31dp">
             <LinearLayout
                 android:gravity="center_vertical"
@@ -68,12 +70,27 @@
             </LinearLayout>
 
         </LinearLayout>
-        <ImageView
-            android:id="@+id/im_xiaoxi"
-            android:src="@mipmap/xiaoxi"
-            android:layout_marginRight="15dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+        <RelativeLayout
+            android:layout_marginRight="10dp"
+            android:layout_width="24dp"
+            android:layout_height="25dp">
+            <ImageView
+                android:id="@+id/imMessage"
+                android:src="@mipmap/xiaoxi"
+                android:layout_width="24dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tvOrderCount"
+                android:text="0"
+                android:visibility="gone"
+                android:textSize="10sp"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:background="@drawable/zhibozhongview"
+                android:layout_width="13dp"
+                android:layout_height="13dp"/>
+        </RelativeLayout>
     </LinearLayout>
     <LinearLayout
         android:gravity="center"

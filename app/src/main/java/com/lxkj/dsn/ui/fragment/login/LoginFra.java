@@ -6,20 +6,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
+import com.lxkj.dsn.bean.ResultBean;
 import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.biz.EventCenter;
+import com.lxkj.dsn.http.BaseCallback;
+import com.lxkj.dsn.http.SpotsCallBack;
+import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.activity.MainActivity;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.utils.Md5;
+import com.lxkj.dsn.utils.SharePrefUtil;
+import com.lxkj.dsn.utils.StringUtil;
+import com.lxkj.dsn.utils.ToastUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.jpush.android.api.JPushInterface;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by kxn on 2020/1/9 0009.
@@ -45,6 +61,8 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
     ImageView imWeChat;
     @BindView(R.id.imQQ)
     ImageView imQQ;
+    @BindView(R.id.ckXieyi)
+    CheckBox ckXieyi;
 
 
     @Override
@@ -70,6 +88,8 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
         eventCenter.registEvent(this, EventCenter.EventType.EVT_REGISTER);
 
 
+
+
         tvRegister.setOnClickListener(this);
         tvRetrieve.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
@@ -79,7 +99,7 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
     @Override
     public void onResume() {
         super.onResume();
-
+        etPhone.setText(SharePrefUtil.getString(getContext(), AppConsts.PHONE, ""));
     }
 
 
@@ -99,86 +119,84 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
                 ActivitySwitcher.startFragment(act, RestFra.class);
                 break;
             case R.id.tvLogin://登录
-                ActivitySwitcher.start(act, MainActivity.class);
-                act.finishSelf();
+                if (StringUtil.isEmpty(etPhone.getText().toString())) {
+                    ToastUtil.show("请输入手机号");
+                    return;
+                }
+                if (StringUtil.isEmpty(etPassword.getText().toString())) {
+                    ToastUtil.show("请输入密码");
+                    return;
+                }
+                if (!ckXieyi.isChecked()){
+                    ToastUtil.show("请阅读并同意《用户协议》");
+                    return;
+                }
+
+                phoneRegister();
                 break;
         }
     }
 
-//    //登录
-//    private void userLogin() {
-//        if (TextUtils.isEmpty(etAccount.getText())) {
-//            ToastUtil.show("请输入手机号");
-//            return;
-//        }
-//        if (login_type.equals("0")) {
-//            if (TextUtils.isEmpty(etPsw.getText())) {
-//                ToastUtil.show("请输入密码");
-//                return;
-//            }
-//        } else if (login_type.equals("1")) {
-//            if (TextUtils.isEmpty(etcode.getText())) {
-//                ToastUtil.show("请输入验证码");
-//                return;
-//            }
-//        }
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("mobile", etAccount.getText().toString());
-//        params.put("password", Md5.encode(etPsw.getText().toString()));
-//        params.put("authCode", etcode.getText().toString());
-//        params.put("rid", JPushInterface.getRegistrationID(mContext));//推送标识
-//        mOkHttpHelper.post_json(mContext, Url.userLogin, params, new SpotsCallBack<ResultBean>(mContext) {
-//            @Override
-//            public void onSuccess(Response response, ResultBean resultBean) {
-//                eventCenter.sendType(EventCenter.EventType.EVT_LOGOUT); //关闭 重新打开
-//                if (resultBean.status.equals("1")){
-//                    SharePrefUtil.saveString(mContext, AppConsts.UID, resultBean.sid);
-//                    AppConsts.userId = resultBean.sid;
-//                    SharePrefUtil.saveString(mContext, AppConsts.PHONE, etAccount.getText().toString());
-//                    ActivitySwitcher.start(act, MainActivity.class);
-//                    act.finishSelf();
-//                }else if (resultBean.status.equals("2")){
-//                    ToastUtil.show("账号审核中，请耐心等候");
-//                }else if (resultBean.status.equals("3")){
-//                    ToastUtil.show("账号审核失败，请重新申请");
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onError(Response response, int code, Exception e) {
-//
-//            }
-//        });
-//    }
+    //密码登录
+    private void userLogin() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("phone", etPhone.getText().toString());
+        params.put("password", Md5.encode(etPassword.getText().toString()));
+        params.put("token", JPushInterface.getRegistrationID(mContext));//推送标识
+        mOkHttpHelper.post_json(mContext, Url.userLogin, params, new SpotsCallBack<ResultBean>(mContext) {
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                SharePrefUtil.saveString(mContext, AppConsts.UID, resultBean.uid);
+                AppConsts.userId = resultBean.uid;
+                SharePrefUtil.saveString(mContext, AppConsts.PHONE, etPhone.getText().toString());
+                ActivitySwitcher.start(act, MainActivity.class);
+                act.finishSelf();
+
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
+    }
 
 
-//    //获取验证码
-//    private void getAuthCode() {
-//        if (TextUtils.isEmpty(etAccount.getText())) {
-//            ToastUtil.show("请输入手机号");
-//            return;
-//        }
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("mobile", etAccount.getText().toString());
-//        mOkHttpHelper.post_json(mContext, Url.getAuthCode, params, new SpotsCallBack<ResultBean>(mContext) {
-//            @Override
-//            public void onSuccess(Response response, ResultBean resultBean) {
-//
-//                if (resultBean.getResult().equals("0")) {
-//                    TimerUtil mTimerUtil = new TimerUtil(tvgetcode);
-//                    mTimerUtil.timers();
-//                    ToastUtil.show("验证码已发送，其注意查收");
-//                } else
-//                    ToastUtil.show(resultBean.getResultNote());
-//            }
-//
-//            @Override
-//            public void onError(Response response, int code, Exception e) {
-//
-//            }
-//        });
-//    }
+    //验证手机号是否注册
+    private void phoneRegister() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("phone", etPhone.getText().toString());
+        mOkHttpHelper.post_json(mContext, Url.phoneRegister, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                if (resultBean.isregister.equals("0")){
+                    ToastUtil.show("手机号未注册");
+                    return;
+                }
+                userLogin();
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
+    }
 
 
     @Override
@@ -190,7 +208,7 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
     @Override
     public void onDestroy() {
         super.onDestroy();
-        eventCenter.unregistEvent(this, EventCenter.EventType.EVT_BINDPHONE);
+//        eventCenter.unregistEvent(this, EventCenter.EventType.EVT_BINDPHONE);
     }
 
     @Override

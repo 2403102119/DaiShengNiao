@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_height="31dp">
             <LinearLayout
                 android:gravity="center_vertical"
@@ -43,7 +43,7 @@
                     android:src="@mipmap/sousuo"
                     android:layout_width="15dp"
                     android:layout_height="14dp" />
-                <TextView
+                <EditText
                     android:id="@+id/et_seek"
                     android:hint="请输入关键词搜索"
                     android:imeOptions="actionSearch"
@@ -54,8 +54,8 @@
                     android:singleLine="true"
                     android:textColor="#FEFEFE"
                     android:textSize="11sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
                 <TextView
                     android:id="@+id/tv_seek"
                     android:text="搜索"
@@ -68,12 +68,27 @@
             </LinearLayout>
 
         </LinearLayout>
-        <ImageView
-            android:id="@+id/im_xiaoxi"
-            android:src="@mipmap/xiaoxi"
-            android:layout_marginRight="15dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+        <RelativeLayout
+            android:layout_marginRight="10dp"
+            android:layout_width="24dp"
+            android:layout_height="25dp">
+            <ImageView
+                android:id="@+id/imMessage"
+                android:src="@mipmap/xiaoxi"
+                android:layout_width="24dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tvOrderCount"
+                android:text="0"
+                android:visibility="gone"
+                android:textSize="10sp"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:background="@drawable/zhibozhongview"
+                android:layout_width="13dp"
+                android:layout_height="13dp"/>
+        </RelativeLayout>
     </LinearLayout>
     <LinearLayout
         android:gravity="center"
@@ -110,11 +125,7 @@
                 android:textColor="@color/txt_66"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <ImageView
-                android:layout_marginLeft="9dp"
-                android:src="@mipmap/xiaoliang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+
         </LinearLayout>
         <LinearLayout
             android:id="@+id/llClass"
@@ -127,6 +138,12 @@
                 android:text="销量"
                 android:textSize="13sp"
                 android:textColor="@color/txt_66"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/imXiaoliang"
+                android:layout_marginLeft="9dp"
+                android:src="@mipmap/xiaoliangdi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

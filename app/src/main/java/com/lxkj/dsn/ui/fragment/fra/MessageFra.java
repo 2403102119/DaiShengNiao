@@ -10,12 +10,18 @@ import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.IntegralAdapter;
 import com.lxkj.dsn.adapter.MessageListAdapter;
 import com.lxkj.dsn.bean.DataListBean;
+import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.http.BaseCallback;
+import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.utils.StringUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +31,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Time:2021/1/21
@@ -81,14 +89,62 @@ public class MessageFra extends TitleFragment {
                     return;
                 }
                 page++;
-
+                mymembernoticeslist();
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page = 1;
-
+                mymembernoticeslist();
                 refreshLayout.setNoMoreData(false);
+            }
+        });
+        mymembernoticeslist();
+    }
+
+
+    //用户消息列表
+    private void mymembernoticeslist() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("nowPage",page);
+        params.put("uid",userId);
+        params.put("pageCount","10");
+        mOkHttpHelper.post_json(getContext(), Url.mymembernoticeslist, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                if (!StringUtil.isEmpty(resultBean.totalPage))
+                    totalPage = Integer.parseInt(resultBean.totalPage);
+                smart.finishLoadMore();
+                smart.finishRefresh();
+                if (page == 1) {
+                    listBeans.clear();
+                    messageListAdapter.notifyDataSetChanged();
+                }
+                if (null != resultBean.dataList)
+                    listBeans.addAll(resultBean.dataList);
+
+                messageListAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
             }
         });
     }

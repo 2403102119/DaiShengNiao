@@ -130,6 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:id="@+id/ckXieyi"
                 android:scaleType="center"
                 android:button="@null"
                 android:background="@drawable/checkbox_round"

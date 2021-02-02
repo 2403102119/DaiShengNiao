@@ -8,13 +8,16 @@
     android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/imIcon"
             android:src="@mipmap/yingyinshu"
             android:layout_width="42dp"
             android:layout_height="42dp"/>
         <TextView
+            android:id="@+id/tvName"
             android:text="影音书"
             android:textColor="#252525"
             android:textSize="12sp"

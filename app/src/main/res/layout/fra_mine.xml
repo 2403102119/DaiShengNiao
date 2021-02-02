@@ -7,7 +7,7 @@
     android:background="#F6F6F6"
     android:orientation="vertical">
     <ImageView
-        android:src="@mipmap/imageerror"
+        android:src="@mipmap/bg"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="185dp"/>
@@ -26,18 +26,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/imSet"
                     android:src="@mipmap/shezhi"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"/>
-                <ImageView
-                    android:id="@+id/imMessage"
+                    android:padding="5dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"/>
+                <RelativeLayout
                     android:layout_marginLeft="19dp"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/xiaoxi"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"/>
+                    android:layout_width="24dp"
+                    android:layout_height="25dp">
+                    <ImageView
+                        android:id="@+id/imMessage"
+                        android:src="@mipmap/xiaoxi"
+                        android:layout_width="24dp"
+                        android:layout_height="25dp"/>
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/tvOrderCount"
+                        android:text="0"
+                        android:visibility="gone"
+                        android:textSize="10sp"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/white"
+                        android:background="@drawable/zhibozhongview"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"/>
+                </RelativeLayout>
+
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llUser"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="11dp"
                 android:layout_marginRight="11dp"
@@ -285,6 +304,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tvBalance"
                     android:text="¥0.00"
                     android:textColor="#BE0B0B"
                     android:textStyle="bold"

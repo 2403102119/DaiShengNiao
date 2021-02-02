@@ -4,9 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
@@ -35,26 +39,38 @@ public class BigClassAdapter extends RecyclerView.Adapter<BigClassAdapter.MyHold
 
     @Override
     public void onBindViewHolder(BigClassAdapter.MyHolder holder, final int position) {
-
+        holder.tvTitle.setText(list.get(position).name);
+        Glide.with(context).applyDefaultRequestOptions(new RequestOptions()
+                .error(R.mipmap.yingyinshu)
+                .placeholder(R.mipmap.yingyinshu))
+                .load(list.get(position).image)
+                .into(holder.riIcon);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemClickListener(position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-//
-//        if (list == null) {
-//            return 0;
-//        } else {
-//            return list.size();
-//        }
-        return 4;
+
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
-
+        private TextView tvTitle;
+        private RoundedImageView riIcon;
         public MyHolder(View itemView) {
             super(itemView);
-
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            riIcon = itemView.findViewById(R.id.riIcon);
         }
     }
     private BigClassAdapter.OnItemClickListener onItemClickListener;

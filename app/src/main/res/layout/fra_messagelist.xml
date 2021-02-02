@@ -47,6 +47,7 @@
 
     </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smart"
         android:paddingBottom="50dp"
         android:layout_below="@+id/nv"
         android:layout_width="match_parent"
@@ -95,7 +96,6 @@
     <LinearLayout
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="15dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:layout_width="match_parent"

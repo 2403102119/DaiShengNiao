@@ -78,7 +78,7 @@
                         android:maxLength="12"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:inputType="phone"
+                        android:inputType="number"
                         android:textColorHint="#FF8B8C91"
                         android:textColor="#FF8B8C91"
                         android:singleLine="true"
@@ -121,11 +121,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:background="@null"
                 android:hint="请输入密码"
-                android:inputType="phone"
                 android:maxLength="12"
                 android:textColorHint="#FF8B8C91"
                 android:textColor="#FF8B8C91"
@@ -152,11 +152,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
+                android:id="@+id/etEnterPassword"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:background="@null"
-                android:hint="请设置密码"
-                android:inputType="phone"
+                android:hint="请确认密码"
                 android:maxLength="12"
                 android:textColorHint="#FF8B8C91"
                 android:textColor="#FF8B8C91"
@@ -194,11 +194,11 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <EditText
+                android:id="@+id/etInviteCode"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:background="@null"
-                android:hint="请设置密码"
-                android:inputType="phone"
+                android:hint="请输入邀请码"
                 android:maxLength="12"
                 android:textColorHint="#FF8B8C91"
                 android:textColor="#FF8B8C91"
@@ -219,6 +219,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:id="@+id/ckXieyi"
                 android:scaleType="center"
                 android:button="@null"
                 android:background="@drawable/checkbox_round"

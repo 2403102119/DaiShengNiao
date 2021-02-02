@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#F6F6F6"
+    android:id="@+id/ll_sell"
+    android:layout_width="match_parent"
+    android:layout_height="47dp">
+
+   <ImageView
+       android:id="@+id/view_green"
+       android:visibility="visible"
+       android:layout_marginLeft="2dp"
+       android:src="@mipmap/fenleiqian"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_type"
+            android:text="生鲜蔬菜"
+            android:layout_marginLeft="5dp"
+            android:textSize="15sp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/txt_33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/roundim"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_10"
+            app:riv_oval="false"
+            android:layout_width="20dp"
+            android:layout_height="10dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -41,25 +41,44 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     @Override
     public void onBindViewHolder(MessageListAdapter.MyHolder holder, final int position) {
+          if (list.get(position).state.equals("0")){
+              holder.viewWeidu.setVisibility(View.VISIBLE);
+          }else {
+              holder.viewWeidu.setVisibility(View.GONE);
+          }
 
+          holder.tvTitle.setText(list.get(position).title);
+          holder.tvContent.setText(list.get(position).content);
+          holder.tvCreateDate.setText(list.get(position).adtime);
+          holder.itemView.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  onItemClickListener.OnItemClickListener(position);
+              }
+          });
     }
 
     @Override
     public int getItemCount() {
-//        if (list == null) {
-//            return 0;
-//        } else {
-//            return list.size();
-//        }
-        return 2;
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
-
+        View viewWeidu;
+        TextView tvTitle;
+        TextView tvContent;
+        TextView tvCreateDate;
         public MyHolder(View itemView) {
             super(itemView);
-
+            viewWeidu = itemView.findViewById(R.id.viewWeidu);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvContent = itemView.findViewById(R.id.tvContent);
+            tvCreateDate = itemView.findViewById(R.id.tvCreateDate);
         }
     }
     private MessageListAdapter.OnItemClickListener onItemClickListener;
