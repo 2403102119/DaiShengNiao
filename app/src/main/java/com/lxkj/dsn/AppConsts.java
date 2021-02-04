@@ -17,7 +17,7 @@ public class AppConsts {
     public static String paypassword = "";//支付密码
     public static final String ISAGREE = "isAgree";//是否同意
     public static final String TOKEN = "token"; //融云token
-
+    public static String title = "";
     public static int zuType = 0; //租车类型 0 短租 1 长租
 
     public static final String Notification = "Notification"; //是否免打扰

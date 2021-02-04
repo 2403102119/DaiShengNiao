@@ -1,5 +1,8 @@
 package com.lxkj.dsn.ui.fragment.main;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,14 +14,17 @@ import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.ShoppingAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
+import com.lxkj.dsn.ui.fragment.fra.AffirmOrderFra;
 import com.lxkj.dsn.utils.StringUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -146,9 +152,11 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                 refreshLayout.setNoMoreData(false);
             }
         });
-        getmygoodscar();
+
 
         imageSel.setOnClickListener(this);
+        tvAccounts.setOnClickListener(this);
+        naviRightTxt.setOnClickListener(this);
     }
 
     @Override
@@ -197,6 +205,35 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
 //                zong = bigDecimal.setScale(2, RoundingMode.HALF_DOWN).toString();
                 shoppingAdapter.notifyDataSetChanged();
                 break;
+            case R.id.tv_accounts://去结算
+                if (tvAccounts.getText().toString().equals("去结算")){
+                    if (cartidlist.size() == 0){
+                        Toast.makeText(getContext(),"请选择商品",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("bean", (Serializable) list_intent);
+                    bundle.putSerializable("gcidlist", (Serializable) cartidlist);
+                    bundle.putString("type", "1");
+                    ActivitySwitcher.startFragment(getActivity(), AffirmOrderFra.class,bundle);
+                }else {
+                    if (cartidlist.size() == 0){
+                        Toast.makeText(getContext(),"请选择商品",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    deletegoodscar();
+                }
+
+                break;
+            case R.id.navi_right_txt://编辑
+                 if (naviRightTxt.getText().toString().equals("编辑")){
+                     naviRightTxt.setText("取消");
+                     tvAccounts.setText("删除");
+                 }else {
+                     naviRightTxt.setText("编辑");
+                     tvAccounts.setText("去结算");
+                 }
+                break;
         }
     }
 
@@ -222,14 +259,22 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
 
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
-                if (!StringUtil.isEmpty(resultBean.totalPage))
-                    totalPage = Integer.parseInt(resultBean.totalPage);
+
                 smart.finishLoadMore();
                 smart.finishRefresh();
-                if (null != resultBean.dataList)
-                    listBeans.addAll(resultBean.dataList);
 
+                listBeans.clear();
+                listBeans.addAll(resultBean.dataList);
                 shoppingAdapter.notifyDataSetChanged();
+
+                cartidlist.clear();
+                list_intent.clear();
+                imageSel.setImageResource(R.drawable.weixuanzhong);
+                imageSelcheck = false;
+                tvAccounts.setText("去结算");
+                for (int i = 0; i <listBeans.size() ; i++) {
+                    listBeans.get(i).isCheck = false;
+                }
 
             }
 
@@ -307,6 +352,39 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
         });
     }
 
+    //删除购物车
+    private void deletegoodscar() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("uid", userId);
+        params.put("gcidlist", cartidlist);
+        mOkHttpHelper.post_json(getContext(), Url.deletegoodscar, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                getmygoodscar();
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -315,6 +393,6 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-
+        getmygoodscar();
     }
 }

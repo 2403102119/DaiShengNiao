@@ -6,17 +6,25 @@ import android.widget.LinearLayout;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.DynamicAdapter;
 import com.lxkj.dsn.bean.DataListBean;
+import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.http.BaseCallback;
+import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
+import com.lxkj.dsn.utils.StringUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Time:2021/1/22
@@ -72,14 +80,66 @@ public class NGCFra extends CachableFrg {
                     return;
                 }
                 page++;
+                getmyadddynamiclist();
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page = 1;
+                getmyadddynamiclist();
                 refreshLayout.setNoMoreData(false);
+
             }
         });
 
+        getmyadddynamiclist();
+
+    }
+
+
+    //我的发布
+    private void getmyadddynamiclist() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("nowPage", page);
+        params.put("uid", userId);
+        params.put("pageCount", "10");
+        mOkHttpHelper.post_json(getContext(), Url.getmyadddynamiclist, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                if (!StringUtil.isEmpty(resultBean.totalPage))
+                    totalPage = Integer.parseInt(resultBean.totalPage);
+                smart.finishLoadMore();
+                smart.finishRefresh();
+                if (page == 1) {
+                    listBeans.clear();
+                    dynamicAdapter.notifyDataSetChanged();
+                }
+                if (null != resultBean.dataList)
+                    listBeans.addAll(resultBean.dataList);
+
+                dynamicAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
     }
 }

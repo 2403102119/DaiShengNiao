@@ -4,9 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,29 +41,38 @@ public class RepalyAdapter extends RecyclerView.Adapter<RepalyAdapter.MyHolder> 
 
     @Override
     public void onBindViewHolder(RepalyAdapter.MyHolder holder, final int position) {
+        holder.tvName.setText(list.get(position).usernickname);
+        holder.tvContent.setText(list.get(position).content);
+        holder.tvTime.setText(list.get(position).adtime);
 
-
+        Glide.with(context).applyDefaultRequestOptions(new RequestOptions()
+                .error(R.mipmap.touxiang)
+                .placeholder(R.mipmap.touxiang))
+                .load(list.get(position).usericon)
+                .into(holder.riIcon);
     }
 
     @Override
     public int getItemCount() {
-
-//        if (list == null) {
-//            return 0;
-//        } else {
-//            return list.size();
-//        }
-        return 8;
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        RecyclerView recyclerView;
-
+        RoundedImageView riIcon;
+        TextView  tvName;
+        TextView  tvTime;
+        TextView  tvContent;
         public MyHolder(View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.recyclerView);
-
+            riIcon = itemView.findViewById(R.id.riIcon);
+            tvName = itemView.findViewById(R.id.tvName);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            tvContent = itemView.findViewById(R.id.tvContent);
         }
     }
     private RepalyAdapter.OnItemClickListener onItemClickListener;

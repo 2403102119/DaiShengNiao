@@ -1,5 +1,6 @@
 package com.lxkj.dsn.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * <p>
  * Interface:
  */
-public class DataListBean {
+public class DataListBean implements Serializable {
     public String id;
     public String bid;
     public String gid;
@@ -40,6 +41,16 @@ public class DataListBean {
     public String url;
     public String type;
     public String objid;
+    public String ordernum;
+    public String goodsprice;
+    public String addressid;
+    public String phone;
+    public String address;
+    public String addressdetail;
+    public String isdefault;
+    public String usernickname;
+    public String integral;
+    public List<OrdertailList> ordertailList;
 
 
     public String value;
@@ -49,4 +60,13 @@ public class DataListBean {
     public List<ChildrenBean> children;
     public List<GoodsListBean> orderGoodsList;
     public List<String> images;
+
+    public class OrdertailList{
+        public String gprice;
+        public String odid;
+        public String gid;
+        public String gimage;
+        public String gname;
+        public String gnum;
+    }
 }

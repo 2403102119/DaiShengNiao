@@ -50,7 +50,6 @@
         android:layout_height="90dp">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riIcon"
-            android:scaleType="centerCrop"
             app:riv_corner_radius="3dp"
             android:src="@mipmap/logo"
             android:layout_width="60dp"
@@ -147,10 +146,10 @@
             android:layout_marginRight="11dp"
             android:layout_marginLeft="11dp"
             android:visibility="visible"
-            android:background="@drawable/bg_border_e71919_50dp"
+            android:background="@drawable/xiangqing"
             android:gravity="center"
             android:text="取消订单"
-            android:textColor="#FF2121"
+            android:textColor="@color/txt_66"
             android:textSize="14sp"
             android:layout_width="82dp"
             android:layout_height="31dp"/>
@@ -159,14 +158,15 @@
             android:visibility="visible"
             android:background="@drawable/zaixianzixun"
             android:gravity="center"
-            android:text="支付"
+            android:layout_marginRight="10dp"
+            android:text="去付款"
             android:textColor="@color/main_color"
             android:textSize="14sp"
             android:layout_width="82dp"
             android:layout_height="31dp"/>
         <TextView
             android:id="@+id/tvDetail"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@drawable/xiangqing"
             android:gravity="center"
             android:text="详情"

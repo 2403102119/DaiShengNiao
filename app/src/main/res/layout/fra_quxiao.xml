@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+
+    android:paddingTop="11dp"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+   <EditText
+       android:id="@+id/etReason"
+       android:textSize="14sp"
+       android:textColor="@color/colorBlack"
+       android:padding="8dp"
+       android:hint="请输入您的退款原因"
+       android:gravity="top"
+       android:background="#F6F6F6"
+       android:minHeight="300dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvQueding"
+        android:text="确定"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:background="@drawable/login_20"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"/>
+</LinearLayout>

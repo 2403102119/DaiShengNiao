@@ -83,7 +83,7 @@ public class AgreementDialog extends Dialog {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "用户协议");
-                bundle.putString("url","http://62.234.20.192/tuangou/api/common/protocol/1");
+                bundle.putString("url","http://8.140.109.101/daishengniao/display/agreement?id=1");
                 ActivitySwitcher.startFragment(context, WebFra.class, bundle);
             }
 
@@ -100,7 +100,7 @@ public class AgreementDialog extends Dialog {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "隐私政策");
-                bundle.putString("url","http://62.234.20.192/tuangou/api/common/protocol/6");
+                bundle.putString("url","http://8.140.109.101/daishengniao/display/agreement?id=2");
                 ActivitySwitcher.startFragment(context, WebFra.class, bundle);
             }
 

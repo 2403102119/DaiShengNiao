@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.lxkj.dsn.R;
@@ -120,11 +121,55 @@ public class OrderListFra extends TitleFragment {
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OrderListAdapter.OnItemClickListener() {
             @Override
-            public void OnItem(int position) {
+            public void OnItem(int position) {//详情
                 Bundle bundle = new Bundle();
-//                bundle.putString("oid",listBeans.get(position).orderId);
-//                bundle.putString("title",name);
+                bundle.putString("ordernum",listBeans.get(position).ordernum);
                 ActivitySwitcher.startFragment(getActivity(), OrderDetailsFra.class,bundle);
+            }
+
+            @Override
+            public void OnPay(int position, String state) {
+                switch (state){
+                    case "去付款":
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ordernum",listBeans.get(position).ordernum);
+                        bundle.putString("money",listBeans.get(position).goodsprice);
+                        ActivitySwitcher.startFragment(getActivity(), PayFra.class,bundle);
+                        break;
+                    case "提醒发货":
+                        Toast toast = Toast.makeText(getContext(), "已提醒商家尽快发货", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER,0, 0);
+                        toast.show();
+                        break;
+                    case "确认收货":
+                        NormalDialog dialog = new NormalDialog(getContext(), "确认确认收货？", "取消", "确定", true);
+                        dialog.show();
+                        dialog.setOnButtonClickListener(new NormalDialog.OnButtonClick() {
+                            @Override
+                            public void OnRightClick() {
+                                orderconfirm(listBeans.get(pageNoIndex).ordernum);
+                            }
+
+                            @Override
+                            public void OnLeftClick() {
+
+                            }
+                        });
+                        break;
+                    case "去评价":
+
+                        break;
+
+                }
+            }
+
+
+            @Override
+            public void OnQuxiao(int position) {//取消订单
+                Bundle bundle = new Bundle();
+                bundle.putString("ordernum",listBeans.get(position).ordernum);
+                ActivitySwitcher.startFragment(getActivity(), QuxiaoOrderFra.class,bundle);
+
             }
         });
         smart.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -156,7 +201,7 @@ public class OrderListFra extends TitleFragment {
         Map<String, Object> params = new HashMap<>();
         params.put("uid", userId);
         params.put("nowPage", page + "");
-        params.put("state", state);
+        params.put("type", state);
         mOkHttpHelper.post_json(getContext(), Url.myorderlist, params, new BaseCallback<ResultBean>() {
             @Override
             public void onBeforeRequest(Request request) {
@@ -187,6 +232,39 @@ public class OrderListFra extends TitleFragment {
 
                 adapter.notifyDataSetChanged();
 
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
+
+    /**
+     * 确认收货
+     */
+    private void orderconfirm(String ordernum) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("uid", userId);
+        params.put("ordernum", ordernum);
+        mOkHttpHelper.post_json(getContext(), Url.orderconfirm, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+
+                myorderlist();
             }
 
             @Override

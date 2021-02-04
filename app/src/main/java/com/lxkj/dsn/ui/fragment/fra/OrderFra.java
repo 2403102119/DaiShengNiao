@@ -36,6 +36,7 @@ public class OrderFra extends TitleFragment implements NaviRightListener {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
+    private String state;
     @Override
     public String getTitleName() {
         return "全部订单";
@@ -52,6 +53,9 @@ public class OrderFra extends TitleFragment implements NaviRightListener {
     }
 
     public void initView() {
+
+        state = getArguments().getString("state");
+
         String[] titles = new String[5];
         titles[0] = "全部";
         titles[1] = "待付款";
@@ -61,27 +65,27 @@ public class OrderFra extends TitleFragment implements NaviRightListener {
         //空-全部,1.待支付，3.待发货，6.进行中，7.待从社区自提，8.已完成，0.退款售后订单
         OrderListFra allOrderListFra = new OrderListFra();
         Bundle all = new Bundle();
-        all.putString("state", "0");
+        all.putString("state", "");
         allOrderListFra.setArguments(all);
 
         OrderListFra dfkOrderListFra = new OrderListFra();
         Bundle dfk = new Bundle();
-        dfk.putString("state", "1");
+        dfk.putString("state", "0");
         dfkOrderListFra.setArguments(dfk);
 
         OrderListFra dfhOrderListFra = new OrderListFra();
         Bundle dfh = new Bundle();
-        dfh.putString("state", "2");
+        dfh.putString("state", "1");
         dfhOrderListFra.setArguments(dfh);
 
         OrderListFra dshOrderListFra = new OrderListFra();
         Bundle dsh = new Bundle();
-        dsh.putString("state", "3");
+        dsh.putString("state", "2");
         dshOrderListFra.setArguments(dsh);
 
         OrderListFra dpjOrderListFra = new OrderListFra();
         Bundle dpj = new Bundle();
-        dpj.putString("state", "4");
+        dpj.putString("state", "3");
         dpjOrderListFra.setArguments(dpj);
 
 
@@ -93,6 +97,7 @@ public class OrderFra extends TitleFragment implements NaviRightListener {
 
         viewPager.setAdapter(new MFragmentStatePagerAdapter(getChildFragmentManager(), fragments, titles));
         tabLayout.setViewPager(viewPager);
+        viewPager.setCurrentItem(Integer.parseInt(state));
     }
 
     @Override

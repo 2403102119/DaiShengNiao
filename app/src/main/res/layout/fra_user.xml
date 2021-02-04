@@ -109,19 +109,21 @@
             android:textColor="@color/txt_33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <TextView
             android:id="@+id/tvAge"
-            android:hint="点击设置"
-            android:textSize="14sp"
-            android:layout_marginLeft="5dp"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:textColor="@color/txt_33"
-            android:gravity="right|center_vertical"
-            android:background="@null"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:background="@null"
+            android:ellipsize="end"
+            android:gravity="right|center_vertical"
+            android:hint="点击设置"
+            android:singleLine="true"
+            android:textColor="@color/txt_33"
+            android:textSize="14sp" />
+
         <ImageView
             android:layout_marginLeft="15dp"
             android:src="@mipmap/xiangyou"
@@ -167,6 +169,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
     <LinearLayout
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -197,6 +200,7 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <View
+        android:visibility="gone"
         android:background="#F6F6F6"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
@@ -270,6 +274,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
     <LinearLayout
+        android:id="@+id/llSign"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -280,20 +285,22 @@
             android:textColor="@color/txt_33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <TextView
             android:id="@+id/tvSign"
-            android:hint="点击设置"
-            android:visibility="invisible"
-            android:textSize="14sp"
-            android:layout_marginLeft="5dp"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:textColor="@color/txt_33"
-            android:gravity="right|center_vertical"
-            android:background="@null"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:background="@null"
+            android:ellipsize="end"
+            android:gravity="right|center_vertical"
+            android:hint="点击设置"
+            android:singleLine="true"
+            android:textColor="@color/txt_33"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
         <ImageView
             android:layout_marginLeft="15dp"
             android:src="@mipmap/xiangyou"

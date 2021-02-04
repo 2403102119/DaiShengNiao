@@ -32,6 +32,7 @@ import com.lxkj.dsn.utils.ToastUtil;
 import com.lzy.ninegrid.ImageInfo;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,8 +107,11 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
 
     private ProductAdapter productAdapter;
     private List<DataListBean> listBeans = new ArrayList<>();
+    private List<DataListBean> listDataBeans = new ArrayList<>();
     private String gid,aid,iscoll;
     private List<String> BanString = new ArrayList<>();
+    private DataListBean dataListBean = new DataListBean();
+
 
     @Override
     public String getTitleName() {
@@ -136,7 +140,9 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
         productAdapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {//商品详情
-                ActivitySwitcher.startFragment(getActivity(), DetailFra.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("gid", listBeans.get(firstPosition).gid);
+                ActivitySwitcher.startFragment(getActivity(), DetailFra.class, bundle);
             }
         });
 
@@ -163,7 +169,11 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
                 ActivitySwitcher.startFragment(getActivity(), EvaluateDetalFra.class,bundle);
                 break;
             case R.id.tvBuy://购买
-                ActivitySwitcher.startFragment(getActivity(), AffirmOrderFra.class);
+                listDataBeans.clear();
+                listDataBeans.add(dataListBean);
+                bundle.putSerializable("bean", (Serializable) listDataBeans);
+                bundle.putString("type", "0");
+                ActivitySwitcher.startFragment(getActivity(), AffirmOrderFra.class,bundle);
                 break;
             case R.id.llEnshrine://收藏
                 addgoodscoll();
@@ -226,6 +236,15 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
                         })
                         //填充数据
                         .execute(BanString);
+
+                dataListBean.image = BanString.get(0);
+                dataListBean.gid = resultBean.dataobject.gid;
+                dataListBean.name = resultBean.dataobject.name;
+                dataListBean.oldprice = resultBean.dataobject.oldprice;
+                dataListBean.newprice = resultBean.dataobject.newprice;
+                dataListBean.numbers = "1";
+                dataListBean.type = "1";
+
                 aid = resultBean.dataobject.aid;
                 tvName.setText(resultBean.dataobject.name);
                 tvPrice.setText(resultBean.dataobject.newprice);

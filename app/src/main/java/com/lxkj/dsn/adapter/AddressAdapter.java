@@ -10,10 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
+import com.lxkj.dsn.bean.ResultBean;
 import com.lxkj.dsn.biz.ActivitySwitcher;
+import com.lxkj.dsn.http.OkHttpHelper;
+import com.lxkj.dsn.http.SpotsCallBack;
+import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.fra.EditeAddressFra;
+import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.view.NormalDialog;
 
 import java.util.HashMap;
@@ -57,15 +63,20 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-//        holder.tvName.setText(list.get(position).name);
-//        holder.tvPhone.setText(list.get(position).phone);
-//        holder.tvAddress.setText(list.get(position).address);
+        holder.tvName.setText(list.get(position).name);
+        holder.tvPhone.setText(list.get(position).phone);
+        holder.tvAddress.setText(list.get(position).address+list.get(position).addressdetail);
+        if (list.get(position).isdefault.equals("1")){
+            holder.tvMoren.setVisibility(View.VISIBLE);
+        }else {
+            holder.tvMoren.setVisibility(View.GONE);
+        }
 
         holder.tvEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-//                bundle.putSerializable("data", list.get(position));
+                bundle.putSerializable("data", list.get(position));
                 ActivitySwitcher.startFragment(context, EditeAddressFra.class, bundle);
             }
         });
@@ -78,7 +89,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                 dialog.setOnButtonClickListener(new NormalDialog.OnButtonClick() {
                     @Override
                     public void OnRightClick() {
-//                        deleteAddress(position);
+                        deleteAddress(position);
                     }
 
                     @Override
@@ -98,32 +109,31 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         });
     }
 
-//    /**
-//     * 删除地址
-//     *
-//     * @param position
-//     */
-//    private void deleteAddress(final int position) {
-//        final Map<String, Object> params = new HashMap<>();
-//        params.put("id", list.get(position).id);
-//        params.put("uid", SharePrefUtil.getString(context, AppConsts.UID,""));
-//        OkHttpHelper.getInstance().post_json(context, Url.deleteAddress, params, new SpotsCallBack<ResultBean>(context) {
-//            @Override
-//            public void onSuccess(Response response, ResultBean resultBean) {
-//                list.remove(position);
-//                notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onError(Response response, int code, Exception e) {
-//            }
-//        });
-//    }
+    /**
+     * 删除地址
+     *
+     * @param position
+     */
+    private void deleteAddress(final int position) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("addressid", list.get(position).addressid);
+        params.put("uid", SharePrefUtil.getString(context, AppConsts.UID,""));
+        OkHttpHelper.getInstance().post_json(context, Url.deleteAddress, params, new SpotsCallBack<ResultBean>(context) {
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                list.remove(position);
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
-//        return list.size();
-        return 2;
+        return list.size();
     }
 
 
@@ -134,6 +144,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         TextView tvPhone;
         @BindView(R.id.tvAddress)
         TextView tvAddress;
+        @BindView(R.id.tvMoren)
+        TextView tvMoren;
         @BindView(R.id.tvDelete)
         ImageView tvDelete;
         @BindView(R.id.tvEdit)

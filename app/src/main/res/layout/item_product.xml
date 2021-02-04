@@ -15,7 +15,6 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riImage"
             android:src="@mipmap/imageerror"
-            android:scaleType="centerCrop"
             app:riv_corner_radius_top_left="5dp"
             app:riv_corner_radius_top_right="5dp"
             android:layout_width="match_parent"

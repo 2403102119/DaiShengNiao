@@ -19,6 +19,10 @@
 
     <!-- 购物车check-->
 
+    <!-- 支付check-->
+    <style name="checkbox_pay_style" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_pay_selector</item>
+    </style>
 
     <!--Button-->
 

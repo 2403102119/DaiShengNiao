@@ -38,7 +38,18 @@ public class ActivitySwitcher {
 //                .show(((FragmentActivity) from).getSupportFragmentManager(), "big_picture");
     }
 
-
+    public static void startFrgForResultBun(final Activity from,
+                                            final Class<? extends TitleFragment> to,
+                                            final int requestCode,final Bundle bundle) {
+        startForResultbun(from,
+                new Intent(from, NaviActivity.class).putExtra(NaviActivity.EXT_FRAGMENT, to.getName()),
+                requestCode,bundle);
+    }
+    public static void startForResultbun(final Activity from,
+                                         final Intent intent, final int requestCode,final Bundle bundle) {
+        from.startActivityForResult(intent, requestCode,bundle);
+        addAnimR2L(from);
+    }
     public static void startFragment(final Activity from,
                                      final Class<? extends TitleFragment> to) {
         final Bundle bundle = new Bundle();

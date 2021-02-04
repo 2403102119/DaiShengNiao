@@ -44,19 +44,23 @@ public class ResultBean extends BaseBean implements Serializable {
     public String aimage;
     public String aschool;
     public String datastr;
+    public String ordernum;
+    public String body;
+    public String name;
 
 
     public String logo;
-    public String name;
 
     public Dataobject dataobject;
     public List<String> images;
     public List<String> dataarr;
+    public List<String> refundimage;
 
     public String id;
 
     public class Dataobject{
         public String uid;
+        public String ordernum;
         public String gid;
         public String phone;
         public String nickname;
@@ -90,7 +94,29 @@ public class ResultBean extends BaseBean implements Serializable {
         public String adescs;
 
         public List<String> images;
+        public String address;
+        public String goodsprice;
+        public String backmoney;
+        public String paytype;
+        public String remarks;
+        public String cancelreason;
+        public String refundreason;
+        public String refunddesc;
+        public String logisticsname;
+        public String logisticsnum;
+        public String state;
+        public String adtime;
+        public String paytime;
+        public String sendtime;
+        public String shtime;
+        public String pjtime;
+        public String sqtktime;
+        public String tkshtime;
+        public String qxtime;
+        public List<OrdertailListBean> ordertailList;
+
     }
+
 
 
 

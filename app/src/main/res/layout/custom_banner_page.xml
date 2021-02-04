@@ -9,6 +9,5 @@
         android:id="@+id/iv_pic"
         android:src="@mipmap/imageerror"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
         android:layout_height="match_parent" />
 </FrameLayout>

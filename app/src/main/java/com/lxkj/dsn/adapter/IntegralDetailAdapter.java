@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
@@ -39,24 +40,40 @@ public class IntegralDetailAdapter extends RecyclerView.Adapter<IntegralDetailAd
 
     @Override
     public void onBindViewHolder(IntegralDetailAdapter.MyHolder holder, final int position) {
-
+         holder.tvTitle.setText(list.get(position).title);
+         holder.tvJifen.setText(list.get(position).integral);
+         holder.tvTime.setText(list.get(position).adtime);
+         if (list.get(position).type.equals("0")){
+//             holder.tvReson.setText("购买书籍");
+             holder.tvReson.setText("");
+         }else {
+//             holder.tvReson.setText("兑换支出");
+             holder.tvReson.setText("");
+         }
     }
 
     @Override
     public int getItemCount() {
-//
-//        if (list == null) {
-//            return 0;
-//        } else {
-//            return list.size();
-//        }
-        return 5;
+
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle;
+        TextView tvJifen;
+        TextView tvTime;
+        TextView tvReson;
         public MyHolder(View itemView) {
             super(itemView);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvJifen = itemView.findViewById(R.id.tvJifen);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            tvReson = itemView.findViewById(R.id.tvReson);
         }
     }
     private IntegralDetailAdapter.OnItemClickListener onItemClickListener;

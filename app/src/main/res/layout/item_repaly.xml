@@ -18,15 +18,18 @@
            android:scaleType="fitXY"
            android:layout_width="35dp"
            android:layout_height="35dp"/>
+
        <TextView
-           android:text="北****晓"
+           android:id="@+id/tvName"
+           android:layout_width="315dp"
+           android:layout_height="wrap_content"
            android:layout_marginLeft="10dp"
-           android:textColor="@color/txt_33"
-           android:textSize="12sp"
-           android:layout_width="0dp"
            android:layout_weight="1"
-           android:layout_height="wrap_content"/>
+           android:text="北****晓"
+           android:textColor="@color/txt_33"
+           android:textSize="12sp" />
        <TextView
+           android:id="@+id/tvTime"
            android:text="1天前"
            android:textSize="12sp"
            android:textColor="@color/main_color"
@@ -34,6 +37,7 @@
            android:layout_height="wrap_content"/>
    </LinearLayout>
     <TextView
+        android:id="@+id/tvContent"
         android:layout_marginTop="14dp"
         android:textColor="@color/colorBlack"
         android:textSize="13sp"

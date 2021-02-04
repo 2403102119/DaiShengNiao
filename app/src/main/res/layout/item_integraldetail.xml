@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tvTitle"
             android:text="购物消费"
             android:textColor="@color/txt_33"
             android:textSize="14sp"
@@ -19,6 +20,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tvJifen"
             android:text="+¥89.00"
             android:textSize="14sp"
             android:textColor="@color/txt_33"
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tvReson"
             android:text="购买书籍送积分"
             android:textColor="@color/txt_66"
             android:textSize="11sp"
@@ -39,6 +42,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tvTime"
             android:text="2020-08-20  11:00"
             android:textSize="10sp"
             android:textColor="#CCCCCC"

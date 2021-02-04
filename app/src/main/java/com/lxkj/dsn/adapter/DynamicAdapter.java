@@ -43,11 +43,20 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.MyHolder
 
     @Override
     public void onBindViewHolder(DynamicAdapter.MyHolder holder, final int position) {
-
+        holder.tvTitle.setText(list.get(position).username);
+        holder.tvTime.setText(list.get(position).adtime);
+        holder.tvConten.setText(list.get(position).content);
+        holder.tvcommentCount.setText(list.get(position).commentnum);
+        holder.tvcollectCount.setText(list.get(position).zannum);
+        Glide.with(context).applyDefaultRequestOptions(new RequestOptions()
+                .error(R.mipmap.touxiang)
+                .placeholder(R.mipmap.touxiang))
+                .load(list.get(position).usericon)
+                .into(holder.riIcon);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         holder.recyclerView.setLayoutManager(layoutManager);
-        Recycle_one_itemAdapter recycletwoItemAdapter=new Recycle_one_itemAdapter(context,images);
+        Recycle_one_itemAdapter recycletwoItemAdapter=new Recycle_one_itemAdapter(context,list.get(position).images);
         holder.recyclerView.setAdapter(recycletwoItemAdapter);
         recycletwoItemAdapter.setOnItemClickListener(new Recycle_one_itemAdapter.OnItemClickListener() {
             @Override
@@ -62,22 +71,31 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.MyHolder
     @Override
     public int getItemCount() {
 
-//        if (list == null) {
-//            return 0;
-//        } else {
-//            return list.size();
-//        }
-        return 8;
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
         RecyclerView recyclerView;
-
+        TextView tvTitle;
+        TextView tvTime;
+        TextView tvConten;
+        TextView tvcommentCount;
+        TextView tvcollectCount;
+        RoundedImageView riIcon;
         public MyHolder(View itemView) {
             super(itemView);
             recyclerView = itemView.findViewById(R.id.recyclerView);
-
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            tvConten = itemView.findViewById(R.id.tvConten);
+            riIcon = itemView.findViewById(R.id.riIcon);
+            tvcommentCount = itemView.findViewById(R.id.tvcommentCount);
+            tvcollectCount = itemView.findViewById(R.id.tvcollectCount);
         }
     }
     private DynamicAdapter.OnItemClickListener onItemClickListener;

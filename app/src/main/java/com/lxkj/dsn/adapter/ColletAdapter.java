@@ -1,10 +1,15 @@
 package com.lxkj.dsn.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
 
@@ -35,29 +40,39 @@ public class ColletAdapter extends RecyclerView.Adapter<ColletAdapter.MyHolder> 
 
     @Override
     public void onBindViewHolder(ColletAdapter.MyHolder holder, final int position) {
-
+        Glide.with(context).applyDefaultRequestOptions(new RequestOptions()
+                .error(R.mipmap.touxiang)
+                .placeholder(R.mipmap.touxiang))
+                .load(list.get(position).image)
+                .into(holder.imIcon);
+        holder.tvTitle.setText(list.get(position).name);
+        holder.tvPrice.setText(list.get(position).newprice);
+        holder.tvNumber.setText("¥"+list.get(position).oldprice);
+        holder.tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
     }
 
     @Override
     public int getItemCount() {
-
-//        if (list == null) {
-//            return 0;
-//        } else {
-//            return list.size();
-//        }
-        return 8;
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        RecyclerView recyclerView;
-
+          ImageView imIcon;
+          TextView tvTitle;
+          TextView tvPrice;
+          TextView tvNumber;
         public MyHolder(View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.recyclerView);
-
+            imIcon = itemView.findViewById(R.id.imIcon);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvNumber = itemView.findViewById(R.id.tvNumber);
         }
     }
     private ColletAdapter.OnItemClickListener onItemClickListener;

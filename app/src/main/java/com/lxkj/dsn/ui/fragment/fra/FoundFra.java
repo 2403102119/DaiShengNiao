@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.MFragmentStatePagerAdapter;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +35,11 @@ public class FoundFra extends TitleFragment {
     SlidingTabLayout tabLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.tvintegral)
+    TextView tvintegral;
     private List<Fragment> fragments = new ArrayList<>();
-    private String CurrentItem = "1";
+    private String CurrentItem = "1", integral;
+
     @Override
     public String getTitleName() {
         return "我的余额";
@@ -53,6 +56,9 @@ public class FoundFra extends TitleFragment {
     }
 
     public void initView() {
+        integral = getArguments().getString("integral");
+        tvintegral.setText(integral);
+
         String[] titles = new String[3];
         titles[0] = "全部";
         titles[1] = "收入";
@@ -61,13 +67,13 @@ public class FoundFra extends TitleFragment {
         FoundFollowFra followFra = new FoundFollowFra();
         Bundle dfk = new Bundle();
         dfk.putString("attention", "1");
-        dfk.putString("type", "0");
+        dfk.putString("type", "");
         followFra.setArguments(dfk);
 
         FoundFollowFra followFra1 = new FoundFollowFra();
         Bundle dfk1 = new Bundle();
         dfk1.putString("attention", "0");
-        dfk1.putString("type", "2");
+        dfk1.putString("type", "0");
 
         followFra1.setArguments(dfk1);
 
@@ -75,7 +81,7 @@ public class FoundFra extends TitleFragment {
 
         Bundle dfk2 = new Bundle();
         dfk2.putString("attention", "0");
-        dfk2.putString("type", "3");
+        dfk2.putString("type", "1");
         followFra2.setArguments(dfk2);
 
 
@@ -85,7 +91,6 @@ public class FoundFra extends TitleFragment {
 
         viewPager.setAdapter(new MFragmentStatePagerAdapter(act.getSupportFragmentManager(), fragments, titles));
         tabLayout.setViewPager(viewPager);
-        viewPager.setCurrentItem(Integer.parseInt(CurrentItem));
     }
 
     @Override

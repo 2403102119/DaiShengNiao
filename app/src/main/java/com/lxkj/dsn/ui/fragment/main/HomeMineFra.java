@@ -1,6 +1,7 @@
 package com.lxkj.dsn.ui.fragment.main;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.lxkj.dsn.ui.fragment.fra.MyIssueFra;
 import com.lxkj.dsn.ui.fragment.fra.OrderFra;
 import com.lxkj.dsn.ui.fragment.fra.SetFra;
 import com.lxkj.dsn.ui.fragment.fra.UserFra;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.StringUtil;
 import com.lxkj.dsn.utils.ToastUtil;
 import com.lzy.ninegrid.ImageInfo;
@@ -90,8 +92,21 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
     TextView tvBalance;
     @BindView(R.id.tvOrderCount)
     TextView tvOrderCount;
+    @BindView(R.id.llDaifukuan)
+    LinearLayout llDaifukuan;
+    @BindView(R.id.llDaifahuo)
+    LinearLayout llDaifahuo;
+    @BindView(R.id.llDaishouhuo)
+    LinearLayout llDaishouhuo;
+    @BindView(R.id.llDaipingjia)
+    LinearLayout llDaipingjia;
+    @BindView(R.id.llTuikuan)
+    LinearLayout llTuikuan;
+    @BindView(R.id.llVip)
+    LinearLayout llVip;
     private List<DataListBean> BanString = new ArrayList<>();
     private ArrayList<ImageInfo> imageInfo = new ArrayList<>();
+    private String balance, integral;
 
     @Override
     protected int rootLayout() {
@@ -110,6 +125,12 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
         imSet.setOnClickListener(this);
         llUser.setOnClickListener(this);
         tvAll.setOnClickListener(this);
+        llDaifukuan.setOnClickListener(this);
+        llDaifahuo.setOnClickListener(this);
+        llDaishouhuo.setOnClickListener(this);
+        llDaipingjia.setOnClickListener(this);
+        llTuikuan.setOnClickListener(this);
+        llVip.setOnClickListener(this);
 
         DataListBean dataListBean = new DataListBean();
         BanString.clear();
@@ -159,15 +180,18 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.llIntegral://积分商城
-                ActivitySwitcher.startFragment(getActivity(), IntegralFra.class);
+                bundle.putString("balance", integral);
+                ActivitySwitcher.startFragment(getActivity(), IntegralFra.class, bundle);
                 break;
             case R.id.imMessage://系统消息
                 ActivitySwitcher.startFragment(getActivity(), MessageFra.class);
                 break;
             case R.id.llFound://资金账户
-                ActivitySwitcher.startFragment(getActivity(), FoundFra.class);
+                bundle.putString("integral", balance);
+                ActivitySwitcher.startFragment(getActivity(), FoundFra.class, bundle);
                 break;
             case R.id.llIssue://我的发布
                 ActivitySwitcher.startFragment(getActivity(), MyIssueFra.class);
@@ -185,7 +209,33 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
                 ActivitySwitcher.startFragment(getActivity(), UserFra.class);
                 break;
             case R.id.tv_all://全部订单
-                ActivitySwitcher.startFragment(getActivity(), OrderFra.class);
+                bundle.putString("state", "0");
+                ActivitySwitcher.startFragment(getActivity(), OrderFra.class, bundle);
+                break;
+            case R.id.llDaifukuan://待付款
+                bundle.putString("state", "1");
+                ActivitySwitcher.startFragment(getActivity(), OrderFra.class, bundle);
+                break;
+            case R.id.llDaifahuo://待发货
+                bundle.putString("state", "2");
+                ActivitySwitcher.startFragment(getActivity(), OrderFra.class, bundle);
+                break;
+            case R.id.llDaishouhuo://待收货
+                bundle.putString("state", "3");
+                ActivitySwitcher.startFragment(getActivity(), OrderFra.class, bundle);
+                break;
+            case R.id.llDaipingjia://待评价
+                bundle.putString("state", "4");
+                ActivitySwitcher.startFragment(getActivity(), OrderFra.class, bundle);
+                break;
+            case R.id.llTuikuan://退款
+                bundle.putString("state", "0");
+                ActivitySwitcher.startFragment(getActivity(), OrderFra.class, bundle);
+                break;
+            case R.id.llVip:
+                bundle.putString("title", "会员中心");
+                bundle.putString("url","http://8.140.109.101/daishengniao/display/agreement?id=4");
+                ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
                 break;
         }
     }
@@ -222,6 +272,8 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
                 tvName.setText(resultBean.dataobject.nickname);
                 tvMotto.setText("个性签名：" + resultBean.dataobject.autograph);
                 tvBalance.setText("¥" + resultBean.dataobject.balance);
+                integral = resultBean.dataobject.integral;
+                balance = resultBean.dataobject.balance;
             }
 
             @Override
@@ -253,9 +305,9 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
 
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
-                if (StringUtil.isEmpty(resultBean.datastr)||resultBean.datastr.equals("0")){
+                if (StringUtil.isEmpty(resultBean.datastr) || resultBean.datastr.equals("0")) {
                     tvOrderCount.setVisibility(View.GONE);
-                }else {
+                } else {
                     tvOrderCount.setVisibility(View.VISIBLE);
                     tvOrderCount.setText(resultBean.datastr);
                 }
