@@ -1,20 +1,28 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.ColletAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
 import com.lxkj.dsn.utils.StringUtil;
+import com.lxkj.dsn.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -76,7 +84,9 @@ public class ColletFra extends TitleFragment {
         colletAdapter.setOnItemClickListener(new ColletAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("gid", listBeans.get(firstPosition).gid);
+                ActivitySwitcher.startFragment(getActivity(), DetailFra.class, bundle);
             }
         });
         smart.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -87,29 +97,57 @@ public class ColletFra extends TitleFragment {
                     return;
                 }
                 page++;
-                gettuigoodslist();
+                getmycollgoodslist();
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page = 1;
                 refreshLayout.setNoMoreData(false);
-                gettuigoodslist();
+                getmycollgoodslist();
             }
         });
 
-        gettuigoodslist();
+        getmycollgoodslist();
+
+        etSousuo.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                /*判断是否是“GO”键*/
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    return true;
+                }
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    getmycollgoodslist();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
 
-    //首页推荐商品
-    private void gettuigoodslist() {
+    //我收藏的商品
+    private void getmycollgoodslist() {
         Map<String, Object> params = new HashMap<>();
         params.put("nowPage", page);
         params.put("uid", userId);
         params.put("content", etSousuo.getText().toString());
         params.put("pageCount", "10");
-        mOkHttpHelper.post_json(getContext(), Url.gettuigoodslist, params, new BaseCallback<ResultBean>() {
+        mOkHttpHelper.post_json(getContext(), Url.getmycollgoodslist, params, new BaseCallback<ResultBean>() {
             @Override
             public void onBeforeRequest(Request request) {
 

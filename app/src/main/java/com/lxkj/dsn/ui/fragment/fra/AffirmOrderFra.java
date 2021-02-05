@@ -126,7 +126,7 @@ public class AffirmOrderFra extends TitleFragment implements View.OnClickListene
         llSelectAddress.setOnClickListener(this);
         tvPay.setOnClickListener(this);
 
-        setData();
+
     }
 
     public void setData() {
@@ -294,6 +294,12 @@ public class AffirmOrderFra extends TitleFragment implements View.OnClickListene
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setData();
     }
 
     @Override

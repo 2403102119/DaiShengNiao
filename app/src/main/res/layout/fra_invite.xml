@@ -19,6 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
                <TextView
+                   android:id="@+id/tvYaoqingma"
                    android:gravity="center"
                    android:textSize="17sp"
                    android:textColor="@color/txt_33"
@@ -46,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tvShouyi"
                 android:text="今日收益：1000"
                 android:textColor="@color/txt_33"
                 android:textSize="14sp"
@@ -53,6 +55,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tvLeijishouji"
                 android:text="累计收益：1000"
                 android:textColor="@color/txt_33"
                 android:textSize="14sp"
@@ -66,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="29dp">
             <TextView
+                android:id="@+id/tvNumber"
                 android:text="我的好友（10）"
                 android:textColor="@color/colorBlack"
                 android:layout_width="wrap_content"

@@ -56,12 +56,13 @@ public class OrderFra extends TitleFragment implements NaviRightListener {
 
         state = getArguments().getString("state");
 
-        String[] titles = new String[5];
+        String[] titles = new String[6];
         titles[0] = "全部";
         titles[1] = "待付款";
         titles[2] = "待发货";
         titles[3] = "待收货";
         titles[4] = "待评价";
+        titles[5] = "退款/售后";
         //空-全部,1.待支付，3.待发货，6.进行中，7.待从社区自提，8.已完成，0.退款售后订单
         OrderListFra allOrderListFra = new OrderListFra();
         Bundle all = new Bundle();
@@ -88,12 +89,18 @@ public class OrderFra extends TitleFragment implements NaviRightListener {
         dpj.putString("state", "3");
         dpjOrderListFra.setArguments(dpj);
 
+        OrderListFra dpjOrderListFra1 = new OrderListFra();
+        Bundle dpj1 = new Bundle();
+        dpj1.putString("state", "4");
+        dpjOrderListFra1.setArguments(dpj1);
+
 
         fragments.add(allOrderListFra);
         fragments.add(dfkOrderListFra);
         fragments.add(dfhOrderListFra);
         fragments.add(dshOrderListFra);
         fragments.add(dpjOrderListFra);
+        fragments.add(dpjOrderListFra1);
 
         viewPager.setAdapter(new MFragmentStatePagerAdapter(getChildFragmentManager(), fragments, titles));
         tabLayout.setViewPager(viewPager);

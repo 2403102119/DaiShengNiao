@@ -47,6 +47,12 @@ public class ResultBean extends BaseBean implements Serializable {
     public String ordernum;
     public String body;
     public String name;
+    public String num;
+    public String apkurl;
+    public String adtime;
+    public String allnum;
+    public String daymoney;
+    public String allmoney;
 
 
     public String logo;
@@ -92,8 +98,12 @@ public class ResultBean extends BaseBean implements Serializable {
         public String aimage;
         public String aschool;
         public String adescs;
+        public String num;
+        public String apkurl;
+        public String adtime;
 
         public List<String> images;
+        public List<String> refundimage;
         public String address;
         public String goodsprice;
         public String backmoney;
@@ -105,7 +115,6 @@ public class ResultBean extends BaseBean implements Serializable {
         public String logisticsname;
         public String logisticsnum;
         public String state;
-        public String adtime;
         public String paytime;
         public String sendtime;
         public String shtime;
@@ -113,6 +122,7 @@ public class ResultBean extends BaseBean implements Serializable {
         public String sqtktime;
         public String tkshtime;
         public String qxtime;
+
         public List<OrdertailListBean> ordertailList;
 
     }

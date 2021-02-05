@@ -27,6 +27,7 @@ import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.activity.NaviActivity;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.PicassoUtil;
 import com.lxkj.dsn.utils.ToastUtil;
 import com.lzy.ninegrid.ImageInfo;
@@ -151,6 +152,7 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
         tvBuy.setOnClickListener(this);
         llEnshrine.setOnClickListener(this);
         tvAddCar.setOnClickListener(this);
+        llService.setOnClickListener(this);
 
         getgoodsdetail();
     }
@@ -180,6 +182,11 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
                 break;
             case R.id.tvAddCar://添加购物车
                 addgoodscar();
+                break;
+            case R.id.llService://客服
+                bundle.putString("title", "客服热线");
+                bundle.putString("url", "http://w10.ttkefu.com/k/linkurl/?t=4C2CFJI5");
+                ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
                 break;
         }
     }
@@ -215,7 +222,7 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
                         .createView(new CreateViewCallBack() {
                             @Override
                             public View createView(Context context, ViewGroup parent, int viewType) {
-                                View view = LayoutInflater.from(context).inflate(R.layout.custom_banner_page, null);
+                                View view = LayoutInflater.from(context).inflate(R.layout.deatil_banner_page, null);
                                 return view;
                             }
                         })

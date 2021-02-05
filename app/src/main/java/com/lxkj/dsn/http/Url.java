@@ -106,6 +106,28 @@ public class Url {
     public static String getmembermoneylist1 = IP + "getmembermoneylist1";
     //编辑用户信息
     public static String editmemberInfo = IP + "editmemberInfo";
+    //修改密码
+    public static String updatePassword = IP + "updatePassword";
+    //意见反馈
+    public static String addfeedback = IP + "addfeedback";
+    //版本更新
+    public static String versionupdate = IP + "versionupdate";
+    //注销用户
+    public static String deletemember = IP + "deletemember";
+    //退出登录(清空token不在推送)
+    public static String outlogin = IP + "outlogin";
+    //我收藏的商品
+    public static String getmycollgoodslist = IP + "getmycollgoodslist";
+    //我的邀请
+    public static String myfirstinvitationlist = IP + "myfirstinvitationlist";
+    //积分商品详情
+    public static String getintegralgoodsdetail = IP + "getintegralgoodsdetail";
+    //积分商品兑换
+    public static String exchangeintegralgoods = IP + "exchangeintegralgoods";
+    //申请退款
+    public static String orderrefund = IP + "orderrefund";
+    //订单评价
+    public static String orderevaluate = IP + "orderevaluate";
 
 
 }

@@ -50,7 +50,12 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                 .into(holder.riIcon);
 
         holder.tvName.setText(list.get(position).gname);
-        holder.tvPrice.setText("¥"+list.get(position).gprice);
+        if (list.get(position).type.equals("2")){//积分订单
+            holder.tvPrice.setText(list.get(position).gprice+"积分");
+        }else {//商品订单
+            holder.tvPrice.setText("¥"+list.get(position).gprice);
+        }
+
         holder.tvNumber.setText("x"+list.get(position).gnum);
         holder.AmountView.setGoodsNubber(list.get(position).gnum);
 

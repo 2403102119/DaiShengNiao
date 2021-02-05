@@ -40,53 +40,59 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyHo
     @Override
     public void onBindViewHolder(final OrderListAdapter.MyHolder holder, final int position) {
 
-       holder.tvorderNo.setText(list.get(position).ordernum);
-       holder.tvRealAmount.setText(list.get(position).goodsprice);
-       holder.tvTime.setText("日期："+list.get(position).adtime);
+        holder.tvorderNo.setText(list.get(position).ordernum);
+        if (list.get(position).type.equals("2")){//积分订单
+            holder.tvRealAmount.setText(list.get(position).goodsprice+"积分");
+        }else {//商品订单
+            holder.tvRealAmount.setText("¥"+list.get(position).goodsprice);
+        }
+
+        holder.tvTime.setText("共"+list.get(position).ordertailList.size()+"件商品");
+
         Glide.with(context).applyDefaultRequestOptions(new RequestOptions()
                 .error(R.mipmap.touxiang)
                 .placeholder(R.mipmap.touxiang))
                 .load(list.get(position).ordertailList.get(0).gimage)
                 .into(holder.riIcon);
 
-       if (list.get(position).state.equals("0")){
-           holder.tvOrderStatus.setText("待付款");
-           holder.tvPay.setVisibility(View.VISIBLE);
-           holder.tvCancel.setVisibility(View.VISIBLE);
-           holder.tvPay.setText("去付款");
-           holder.tvCancel.setText("取消订单");
-       }else if (list.get(position).state.equals("1")){
-           holder.tvOrderStatus.setText("待发货");
-           holder.tvPay.setVisibility(View.VISIBLE);
-           holder.tvCancel.setVisibility(View.GONE);
-           holder.tvPay.setText("提醒发货");
-       }else if (list.get(position).state.equals("2")){
-           holder.tvOrderStatus.setText("待收货");
-           holder.tvPay.setVisibility(View.VISIBLE);
-           holder.tvCancel.setVisibility(View.GONE);
-           holder.tvPay.setText("确认收货");
-       }else if (list.get(position).state.equals("3")){
-           holder.tvOrderStatus.setText("待评价");
-           holder.tvPay.setVisibility(View.VISIBLE);
-           holder.tvCancel.setVisibility(View.GONE);
-           holder.tvPay.setText("去评价");
-       }else if (list.get(position).state.equals("4")){
-           holder.tvOrderStatus.setText("已完成");
-           holder.tvPay.setVisibility(View.GONE);
-           holder.tvCancel.setVisibility(View.GONE);
-       }else if (list.get(position).state.equals("5")){
-           holder.tvOrderStatus.setText("退款中");
-           holder.tvPay.setVisibility(View.GONE);
-           holder.tvCancel.setVisibility(View.GONE);
-       }else if (list.get(position).state.equals("6")){
-           holder.tvOrderStatus.setText("已退款");
-           holder.tvPay.setVisibility(View.GONE);
-           holder.tvCancel.setVisibility(View.GONE);
-       }else if (list.get(position).state.equals("7")){
-           holder.tvOrderStatus.setText("已取消");
-           holder.tvPay.setVisibility(View.GONE);
-           holder.tvCancel.setVisibility(View.GONE);
-       }
+        if (list.get(position).state.equals("0")){
+            holder.tvOrderStatus.setText("待付款");
+            holder.tvPay.setVisibility(View.VISIBLE);
+            holder.tvCancel.setVisibility(View.VISIBLE);
+            holder.tvPay.setText("去付款");
+            holder.tvCancel.setText("取消订单");
+        }else if (list.get(position).state.equals("1")){
+            holder.tvOrderStatus.setText("待发货");
+            holder.tvPay.setVisibility(View.VISIBLE);
+            holder.tvCancel.setVisibility(View.GONE);
+            holder.tvPay.setText("提醒发货");
+        }else if (list.get(position).state.equals("2")){
+            holder.tvOrderStatus.setText("待收货");
+            holder.tvPay.setVisibility(View.VISIBLE);
+            holder.tvCancel.setVisibility(View.GONE);
+            holder.tvPay.setText("确认收货");
+        }else if (list.get(position).state.equals("3")){
+            holder.tvOrderStatus.setText("待评价");
+            holder.tvPay.setVisibility(View.VISIBLE);
+            holder.tvCancel.setVisibility(View.GONE);
+            holder.tvPay.setText("去评价");
+        }else if (list.get(position).state.equals("4")){
+            holder.tvOrderStatus.setText("已完成");
+            holder.tvPay.setVisibility(View.GONE);
+            holder.tvCancel.setVisibility(View.GONE);
+        }else if (list.get(position).state.equals("5")){
+            holder.tvOrderStatus.setText("退款中");
+            holder.tvPay.setVisibility(View.GONE);
+            holder.tvCancel.setVisibility(View.GONE);
+        }else if (list.get(position).state.equals("6")){
+            holder.tvOrderStatus.setText("已退款");
+            holder.tvPay.setVisibility(View.GONE);
+            holder.tvCancel.setVisibility(View.GONE);
+        }else if (list.get(position).state.equals("7")){
+            holder.tvOrderStatus.setText("已取消");
+            holder.tvPay.setVisibility(View.GONE);
+            holder.tvCancel.setVisibility(View.GONE);
+        }
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -95,18 +101,18 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyHo
                 onItemClickListener.OnItem(position);
             }
         });
-       holder.tvPay.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               onItemClickListener.OnPay(position,holder.tvPay.getText().toString());
-           }
-       });
-       holder.tvCancel.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               onItemClickListener.OnQuxiao(position);
-           }
-       });
+        holder.tvPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnPay(position,holder.tvPay.getText().toString());
+            }
+        });
+        holder.tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnQuxiao(position);
+            }
+        });
 
     }
 
@@ -121,13 +127,13 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyHo
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
-         TextView tvorderNo;
-         TextView tvTime;
-         TextView tvRealAmount;
-         TextView tvOrderStatus;
-         TextView tvPay;
-         TextView tvCancel;
-         RoundedImageView riIcon;
+        TextView tvorderNo;
+        TextView tvTime;
+        TextView tvRealAmount;
+        TextView tvOrderStatus;
+        TextView tvPay;
+        TextView tvCancel;
+        RoundedImageView riIcon;
         public MyHolder(View itemView) {
             super(itemView);
             tvorderNo = itemView.findViewById(R.id.tvorderNo);

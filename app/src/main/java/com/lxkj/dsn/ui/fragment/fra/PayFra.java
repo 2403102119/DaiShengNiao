@@ -118,7 +118,7 @@ public class PayFra extends TitleFragment {
                 if (b) {
                     payMethod = "3";
                     cbAlipay.setChecked(false);
-                    cbYue.setChecked(false);
+                    cbWeChat.setChecked(false);
                 }
             }
         });

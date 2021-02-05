@@ -59,6 +59,13 @@ public class IntegralAdapter extends RecyclerView.Adapter<IntegralAdapter.MyHold
         holder.tvPrice.setText(list.get(position).newprice);
         holder.tvOldPrice.setText(list.get(position).oldprice);
         holder.tvOldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemClickListener(position);
+            }
+        });
     }
 
     @Override

@@ -52,7 +52,7 @@
                     android:background="@null"
                     android:textColorHint="#999999"
                     android:singleLine="true"
-                    android:textColor="#FEFEFE"
+                    android:textColor="@color/colorBlack"
                     android:textSize="11sp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

@@ -3,28 +3,36 @@ package com.lxkj.dsn.ui.fragment.fra;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.OrderDetailAdapter;
+import com.lxkj.dsn.adapter.TextAdapter;
+import com.lxkj.dsn.bean.DataBean;
+import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.OrdertailListBean;
 import com.lxkj.dsn.bean.ResultBean;
 import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.StringUtil;
 import com.lxkj.dsn.view.NormalDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,8 +99,11 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
     @BindView(R.id.llButton)
     LinearLayout llButton;
     private OrderDetailAdapter affirmOrderAdapter;
+    private TextAdapter textAdapter;
     private String ordernum;
     private List<OrdertailListBean> listBeans = new ArrayList<>();
+    private PopupWindow popupWindow;
+    private LinearLayout ll_sell;
 
     @Nullable
     @Override
@@ -130,15 +141,16 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
         imCopy.setOnClickListener(this);
         llfanhui.setOnClickListener(this);
         tvCancel.setOnClickListener(this);
+        llCall.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.tvPay:
                 switch (tvPay.getText().toString()) {
                     case "去付款":
-                        Bundle bundle = new Bundle();
                         bundle.putString("ordernum", ordernum);
                         bundle.putString("money", tvOrderPrice.getText().toString());
                         ActivitySwitcher.startFragment(getActivity(), PayFra.class, bundle);
@@ -164,6 +176,9 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         });
                         break;
                     case "去评价":
+                        bundle.putString("ordernum", ordernum);
+                        ActivitySwitcher.startFragment(getActivity(), AppraiseFra.class, bundle);
+                        act.finish();
                         break;
                     case "删除订单":
                         NormalDialog dialog1 = new NormalDialog(getContext(), "确认删除订单？", "取消", "确定", true);
@@ -216,8 +231,19 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         });
                         break;
                     case "查看物流":
+
+                        break;
+                    case "退款":
+                        state();
+                        ll_sell.startAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.activity_translate_in));
+                        popupWindow.showAtLocation(v, Gravity.TOP,0,10);
                         break;
                 }
+                break;
+            case R.id.llCall://联系卖家
+                bundle.putString("title", "客服");
+                bundle.putString("url", "http://w10.ttkefu.com/k/linkurl/?t=4C2CFJI5");
+                ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
                 break;
         }
     }
@@ -246,13 +272,23 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
                 listBeans.clear();
+                for (int i = 0; i <resultBean.dataobject.ordertailList.size() ; i++) {
+                    resultBean.dataobject.ordertailList.get(i).type = resultBean.dataobject.type;
+                }
                 listBeans.addAll(resultBean.dataobject.ordertailList);
                 affirmOrderAdapter.notifyDataSetChanged();
 
                 tvSite.setText("收货地址：" + resultBean.dataobject.address);
                 tvName.setText(resultBean.dataobject.name + ":" + resultBean.dataobject.phone);
-                tvAllPrice.setText(resultBean.dataobject.goodsprice);
-                tvOrderPrice.setText(resultBean.dataobject.goodsprice);
+                if (resultBean.dataobject.type.equals("2")){
+                    tvAllPrice.setText(resultBean.dataobject.goodsprice+"积分");
+                    tvOrderPrice.setText(resultBean.dataobject.goodsprice+"积分");
+                }else {
+                    tvAllPrice.setText("¥"+resultBean.dataobject.goodsprice);
+                    tvOrderPrice.setText("¥"+resultBean.dataobject.goodsprice);
+                }
+
+
                 tvOrderNum.setText(resultBean.dataobject.ordernum);
                 tvChuangjian.setText(resultBean.dataobject.adtime);
                 tvFukuan.setText(resultBean.dataobject.paytime);
@@ -287,8 +323,17 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                     case "1":
                         tvState.setText("待发货");
                         tvPay.setVisibility(View.VISIBLE);
-                        tvCancel.setVisibility(View.GONE);
+
                         tvPay.setText("提醒发货");
+
+                        if (resultBean.dataobject.type.equals("0")){
+                            tvCancel.setVisibility(View.VISIBLE);
+                            tvCancel.setText("退款");
+                        }else {
+                            tvCancel.setVisibility(View.GONE);
+                        }
+
+
                         llButton.setVisibility(View.VISIBLE);
                         break;
                     case "2":
@@ -296,22 +341,38 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         tvPay.setVisibility(View.VISIBLE);
                         tvCancel.setVisibility(View.VISIBLE);
                         tvPay.setText("确认收货");
-                        tvCancel.setText("查看物流");
-                        llButton.setVisibility(View.VISIBLE);
+                        if (resultBean.dataobject.type.equals("1")){
+                            llButton.setVisibility(View.GONE);
+                        }else {
+                            tvCancel.setText("查看物流");
+                            llButton.setVisibility(View.VISIBLE);
+                        }
+
                         break;
                     case "3":
                         tvState.setText("待评价");
                         tvPay.setVisibility(View.VISIBLE);
-                        tvCancel.setVisibility(View.GONE);
+                        if (resultBean.dataobject.type.equals("0")){
+                            tvCancel.setVisibility(View.VISIBLE);
+                            tvCancel.setText("退款");
+                        }else {
+                            tvCancel.setVisibility(View.GONE);
+                        }
                         tvPay.setText("去评价");
                         llButton.setVisibility(View.VISIBLE);
                         break;
                     case "4":
                         tvState.setText("已完成");
                         tvPay.setVisibility(View.VISIBLE);
-                        tvCancel.setVisibility(View.GONE);
                         tvPay.setText("删除订单");
                         llButton.setVisibility(View.VISIBLE);
+
+                        if (resultBean.dataobject.type.equals("0")){
+                            tvCancel.setVisibility(View.VISIBLE);
+                            tvCancel.setText("退款");
+                        }else {
+                            tvCancel.setVisibility(View.GONE);
+                        }
                         break;
                     case "5":
                         tvState.setText("退款中");
@@ -373,7 +434,6 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
             }
         });
     }
-
     /**
      * 订单删除
      */
@@ -405,6 +465,58 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
             public void onError(Response response, int code, Exception e) {
             }
         });
+    }
+
+    public void state(){
+        popupWindow=new PopupWindow(getContext());
+        View view=getLayoutInflater().inflate(R.layout.popup_product,null);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setClippingEnabled(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setContentView(view);
+        ll_sell=view.findViewById(R.id.ll_sell);
+        TextView tvZanbushiyong = view.findViewById(R.id.tvZanbushiyong);
+        TextView tvQueding = view.findViewById(R.id.tvQueding);
+        RecyclerView recyclerView=  view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        textAdapter = new TextAdapter(getContext(), listBeans);
+        recyclerView.setAdapter(textAdapter);
+        List<OrdertailListBean> intentlist = new ArrayList<>();
+        textAdapter.setOnItemClickListener(new TextAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClickListener(int firstPosition) {
+
+            }
+        });
+        tvQueding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i <listBeans.size() ; i++) {
+                    if (listBeans.get(i).check){
+                        intentlist.add(listBeans.get(i));
+                    }
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("ordernum",ordernum);
+                bundle.putSerializable("bean", (Serializable) intentlist);
+                ActivitySwitcher.startFragment(getActivity(), GoRefoundFra.class, bundle);
+                popupWindow.dismiss();
+                ll_sell.clearAnimation();
+            }
+        });
+        tvZanbushiyong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                ll_sell.clearAnimation();
+            }
+        });
+
+
     }
 
     @Override

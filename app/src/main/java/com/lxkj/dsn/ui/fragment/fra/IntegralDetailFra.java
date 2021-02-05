@@ -12,9 +12,11 @@ import com.lxkj.dsn.actlink.NaviRightListener;
 import com.lxkj.dsn.adapter.IntegralDetailAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.StringUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -209,7 +211,10 @@ public class IntegralDetailFra extends TitleFragment implements NaviRightListene
 
     @Override
     public void onRightClicked(View v) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("title", "规则说明");
+        bundle.putString("url", "http://8.140.109.101/daishengniao/display/agreement?id=5");
+        ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
     }
 
 

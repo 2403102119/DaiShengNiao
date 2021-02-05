@@ -10,17 +10,28 @@ import android.widget.LinearLayout;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.InviteAdapter;
 import com.lxkj.dsn.bean.DataListBean;
+import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.http.BaseCallback;
+import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.utils.StringUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Time:2021/1/28
@@ -68,6 +79,72 @@ public class AllFriendFra extends TitleFragment {
             }
         });
 
+        smart.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                if (page >= totalPage) {
+                    refreshLayout.setNoMoreData(true);
+                    return;
+                }
+                page++;
+                myfirstinvitationlist();
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                page = 1;
+                myfirstinvitationlist();
+                refreshLayout.setNoMoreData(false);
+            }
+        });
+        myfirstinvitationlist();
+    }
+
+    //我的邀请
+    private void myfirstinvitationlist() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("nowPage", page);
+        params.put("uid", userId);
+        params.put("pageCount", "10");
+        mOkHttpHelper.post_json(getContext(), Url.myfirstinvitationlist, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                if (!StringUtil.isEmpty(resultBean.totalPage))
+                    totalPage = Integer.parseInt(resultBean.totalPage);
+                smart.finishLoadMore();
+                smart.finishRefresh();
+                if (page == 1) {
+                    listBeans.clear();
+                    inviteAdapter.notifyDataSetChanged();
+                }
+                if (null != resultBean.dataList)
+                    listBeans.addAll(resultBean.dataList);
+
+                inviteAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
     }
 
     @Override

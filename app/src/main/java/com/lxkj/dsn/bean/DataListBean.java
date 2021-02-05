@@ -50,6 +50,8 @@ public class DataListBean implements Serializable {
     public String isdefault;
     public String usernickname;
     public String integral;
+    public String allsalemoney;
+    public String allmoney;
     public List<OrdertailList> ordertailList;
 
 

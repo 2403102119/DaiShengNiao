@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
@@ -35,25 +36,31 @@ public class AgreementAdapter extends RecyclerView.Adapter<AgreementAdapter.MyHo
 
     @Override
     public void onBindViewHolder(AgreementAdapter.MyHolder holder, final int position) {
+        holder.tvTitle.setText(list.get(position).title);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemClickListener(position);
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-//        if (list == null) {
-//            return 0;
-//        } else {
-//            return list.size();
-//        }
-        return 2;
+        if (list == null) {
+            return 0;
+        } else {
+            return list.size();
+        }
     }
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
-
+           TextView tvTitle;
         public MyHolder(View itemView) {
             super(itemView);
-
+            tvTitle = itemView.findViewById(R.id.tvTitle);
         }
     }
     private AgreementAdapter.OnItemClickListener onItemClickListener;

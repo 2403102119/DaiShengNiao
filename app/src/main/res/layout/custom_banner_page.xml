@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_pic"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="5dp"
         android:src="@mipmap/imageerror"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

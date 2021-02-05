@@ -21,7 +21,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riIcon"
             app:riv_oval="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@mipmap/touxiang"
             android:layout_width="37dp"
             android:layout_height="37dp"/>

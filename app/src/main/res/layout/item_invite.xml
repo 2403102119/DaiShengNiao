@@ -9,6 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/riIcon"
         android:src="@mipmap/touxiang"
         android:scaleType="fitXY"
         app:riv_oval="true"
@@ -25,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tvName"
                 android:text="桑娜啊~"
                 android:textSize="15sp"
                 android:textColor="@color/colorBlack"
@@ -32,6 +34,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tvTime"
                 android:text="2020.12.02  16:20"
                 android:textColor="@color/txt_99"
                 android:textSize="11sp"
@@ -44,12 +47,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tvLeiji"
                 android:text="累计消费：1000"
                 android:textSize="12sp"
                 android:textColor="@color/txt_66"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tvHuibao"
                 android:text="累计回报：1000"
                 android:textSize="12sp"
                 android:layout_marginLeft="10dp"

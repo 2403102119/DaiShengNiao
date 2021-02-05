@@ -2,6 +2,8 @@ package com.lxkj.dsn.ui.fragment.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.lxkj.dsn.http.SpotsCallBack;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.activity.MainActivity;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.Md5;
 import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.StringUtil;
@@ -63,7 +66,7 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
     ImageView imQQ;
     @BindView(R.id.ckXieyi)
     CheckBox ckXieyi;
-
+    private boolean eyes = false;
 
     @Override
     public String getTitleName() {
@@ -93,6 +96,8 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
         tvRegister.setOnClickListener(this);
         tvRetrieve.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
+        tvYonghu.setOnClickListener(this);
+        imEys.setOnClickListener(this);
 
     }
 
@@ -133,6 +138,23 @@ public class LoginFra extends TitleFragment implements View.OnClickListener, Eve
                 }
 
                 phoneRegister();
+                break;
+            case R.id.tvYonghu://用户协议
+                Bundle bundle = new Bundle();
+                bundle.putString("title", "用户协议");
+                bundle.putString("url","http://8.140.109.101/daishengniao/display/agreement?id=1");
+                ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
+                break;
+            case R.id.imEys:
+                if (eyes){
+                    eyes= false;
+                    imEys.setImageResource(R.mipmap.biyan);
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }else {
+                    eyes= true;
+                    imEys.setImageResource(R.mipmap.zhengyan);
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
                 break;
         }
     }

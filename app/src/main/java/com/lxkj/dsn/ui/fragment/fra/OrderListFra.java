@@ -122,16 +122,23 @@ public class OrderListFra extends TitleFragment {
         adapter.setOnItemClickListener(new OrderListAdapter.OnItemClickListener() {
             @Override
             public void OnItem(int position) {//详情
-                Bundle bundle = new Bundle();
-                bundle.putString("ordernum",listBeans.get(position).ordernum);
-                ActivitySwitcher.startFragment(getActivity(), OrderDetailsFra.class,bundle);
+                if (listBeans.get(position).state.equals("5")||listBeans.get(position).state.equals("6")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ordernum",listBeans.get(position).ordernum);
+                    ActivitySwitcher.startFragment(getActivity(), RefundFra.class,bundle);
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ordernum",listBeans.get(position).ordernum);
+                    ActivitySwitcher.startFragment(getActivity(), OrderDetailsFra.class,bundle);
+                }
             }
 
             @Override
             public void OnPay(int position, String state) {
+                Bundle bundle = new Bundle();
                 switch (state){
                     case "去付款":
-                        Bundle bundle = new Bundle();
+
                         bundle.putString("ordernum",listBeans.get(position).ordernum);
                         bundle.putString("money",listBeans.get(position).goodsprice);
                         ActivitySwitcher.startFragment(getActivity(), PayFra.class,bundle);
@@ -147,7 +154,7 @@ public class OrderListFra extends TitleFragment {
                         dialog.setOnButtonClickListener(new NormalDialog.OnButtonClick() {
                             @Override
                             public void OnRightClick() {
-                                orderconfirm(listBeans.get(pageNoIndex).ordernum);
+                                orderconfirm(listBeans.get(position).ordernum);
                             }
 
                             @Override
@@ -157,7 +164,8 @@ public class OrderListFra extends TitleFragment {
                         });
                         break;
                     case "去评价":
-
+                        bundle.putString("ordernum", listBeans.get(position).ordernum);
+                        ActivitySwitcher.startFragment(getActivity(), AppraiseFra.class, bundle);
                         break;
 
                 }
@@ -169,7 +177,6 @@ public class OrderListFra extends TitleFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("ordernum",listBeans.get(position).ordernum);
                 ActivitySwitcher.startFragment(getActivity(), QuxiaoOrderFra.class,bundle);
-
             }
         });
         smart.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

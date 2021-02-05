@@ -49,6 +49,12 @@ public class ColletAdapter extends RecyclerView.Adapter<ColletAdapter.MyHolder> 
         holder.tvPrice.setText(list.get(position).newprice);
         holder.tvNumber.setText("¥"+list.get(position).oldprice);
         holder.tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemClickListener(position);
+            }
+        });
 
     }
 

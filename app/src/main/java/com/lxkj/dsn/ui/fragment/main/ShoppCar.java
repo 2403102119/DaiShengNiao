@@ -275,6 +275,7 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                 for (int i = 0; i <listBeans.size() ; i++) {
                     listBeans.get(i).isCheck = false;
                 }
+                tvSellMoeney.setText("0.0");
 
             }
 

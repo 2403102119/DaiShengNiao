@@ -165,8 +165,8 @@ public class UserFra extends TitleFragment implements View.OnClickListener {
         tvWx.setOnClickListener(this);
         tvSite.setOnClickListener(this);
         tvSign.setOnClickListener(this);
-        tvSite.setOnClickListener(this);
         llSign.setOnClickListener(this);
+        tvPhone.setOnClickListener(this);
 
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
 
@@ -238,7 +238,7 @@ public class UserFra extends TitleFragment implements View.OnClickListener {
                 pvOptions.show();
                 break;
             case R.id.tvPhone://手机号
-
+                ActivitySwitcher.startFrgForResultBun(act, BindingFra.class, 333, bundle);
                 break;
             case R.id.tvSite://地区
                 hideInput(getContext(), v);
@@ -247,15 +247,14 @@ public class UserFra extends TitleFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.tvSign://签名
-                AppConsts.title = "签名";
-                bundle.putString("title", "签名");
-                ActivitySwitcher.startFrgForResultBun(act, NameFra.class, 222, bundle);
+
                 break;
             case R.id.llSign:
                 AppConsts.title = "签名";
                 bundle.putString("title", "签名");
                 ActivitySwitcher.startFrgForResultBun(act, NameFra.class, 222, bundle);
                 break;
+
         }
     }
 

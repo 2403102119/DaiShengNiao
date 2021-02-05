@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
+            android:id="@id/etPhone"
             android:hint="便于我们联系您"
             android:layout_marginLeft="25dp"
             android:gravity="center_vertical"

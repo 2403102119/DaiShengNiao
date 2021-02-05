@@ -6,14 +6,15 @@
     android:padding="28dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-     <TextView
-         android:text="旧密码"
-         android:textSize="14dp"
-         android:textStyle="bold"
-         android:textColor="@color/txt_33"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"/>
+    <TextView
+        android:text="旧密码"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:textColor="@color/txt_33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <EditText
+        android:id="@+id/etOldPassword"
         android:hint="请输入旧密码"
         android:paddingLeft="5dp"
         android:textSize="12sp"
@@ -30,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <EditText
+        android:id="@+id/etNewPassword"
         android:hint="请设置新密码"
         android:paddingLeft="5dp"
         android:textSize="12sp"
@@ -37,13 +39,14 @@
         android:background="@drawable/wuliu"
         android:layout_width="match_parent"
         android:layout_height="33dp"/>
-        <TextView
-            android:text="确定"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:layout_marginTop="50dp"
-            android:textColor="@color/white"
-            android:background="@drawable/login_20"
-            android:layout_width="match_parent"
-            android:layout_height="38.5dp"/>
+    <TextView
+        android:id="@+id/tvEnter"
+        android:text="确定"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/white"
+        android:background="@drawable/login_20"
+        android:layout_width="match_parent"
+        android:layout_height="38.5dp"/>
 </LinearLayout>

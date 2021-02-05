@@ -16,6 +16,7 @@ import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.StringUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -42,7 +43,7 @@ import okhttp3.Response;
  * <p>
  * Interface:积分商城
  */
-public class IntegralFra extends TitleFragment implements View.OnClickListener, NaviRightListener {
+public class IntegralFra extends TitleFragment implements View.OnClickListener{
     Unbinder unbinder;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -86,7 +87,9 @@ public class IntegralFra extends TitleFragment implements View.OnClickListener, 
         integralAdapter.setOnItemClickListener(new IntegralAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("gid", listBeans.get(firstPosition).gid);
+                ActivitySwitcher.startFragment(getActivity(), IntegralDeatilFra.class, bundle);
             }
         });
         smart.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -119,7 +122,11 @@ public class IntegralFra extends TitleFragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvRule://积分规则
-                ActivitySwitcher.startFragment(getActivity(), RuleFra.class);
+//                ActivitySwitcher.startFragment(getActivity(), RuleFra.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", "积分规则");
+                bundle.putString("url", "http://8.140.109.101/daishengniao/display/agreement?id=6");
+                ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
                 break;
             case R.id.tvDetail://积分明细
                 ActivitySwitcher.startFragment(getActivity(), IntegralDetailFra.class);
@@ -173,15 +180,15 @@ public class IntegralFra extends TitleFragment implements View.OnClickListener, 
         });
     }
 
-    @Override
-    public String rightText() {
-        return "兑换记录";
-    }
-
-    @Override
-    public void onRightClicked(View v) {
-        ActivitySwitcher.startFragment(getActivity(), IntegralRecordFra.class);
-    }
+//    @Override
+//    public String rightText() {
+//        return "兑换记录";
+//    }
+//
+//    @Override
+//    public void onRightClicked(View v) {
+//        ActivitySwitcher.startFragment(getActivity(), IntegralRecordFra.class);
+//    }
 
     @Override
     public void onDestroyView() {

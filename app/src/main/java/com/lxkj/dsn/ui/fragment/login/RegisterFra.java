@@ -18,6 +18,7 @@ import com.lxkj.dsn.http.SpotsCallBack;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.activity.MainActivity;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.Md5;
 import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.StringUtil;
@@ -78,6 +79,7 @@ public class RegisterFra extends TitleFragment implements View.OnClickListener {
     private void initView() {
         tvGetCode.setOnClickListener(this);
         tvConfirm.setOnClickListener(this);
+        tvYonghu.setOnClickListener(this);
     }
 
     @Override
@@ -115,6 +117,11 @@ public class RegisterFra extends TitleFragment implements View.OnClickListener {
                 }
 
                 userRegister();
+                break;
+            case R.id.tvYonghu:
+                bundle.putString("title", "用户协议");
+                bundle.putString("url","http://8.140.109.101/daishengniao/display/agreement?id=1");
+                ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
                 break;
         }
     }

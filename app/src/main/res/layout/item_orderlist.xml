@@ -107,6 +107,7 @@
         android:layout_height="0.5dp"/>
     <LinearLayout
         android:paddingRight="9dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -115,15 +116,14 @@
             android:layout_marginLeft="10dp"
             android:textSize="12sp"
             android:textColor="@color/txt_99"
-            android:text="日期：2020/10/28   14:00"
+            android:text="共1件商品"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
         <TextView
-            android:text="合计：¥"
+            android:text="合计："
             android:textSize="12sp"
             android:textColor="@color/txt_66"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -131,12 +131,11 @@
             android:text="0"
             android:textSize="18sp"
             android:textColor="@color/txt_lv8"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:gravity="right"
         android:orientation="horizontal"
         android:layout_width="match_parent"
