@@ -26,6 +26,7 @@ public class DataListBean implements Serializable {
     public String did;
     public String content;
     public String adtime;
+    public String money;
     public String zannum;
     public String commentnum;
     public String iszan;
@@ -52,7 +53,10 @@ public class DataListBean implements Serializable {
     public String integral;
     public String allsalemoney;
     public String allmoney;
+    public String dcid;
+    public String usertype;
     public List<OrdertailList> ordertailList;
+    public List<SecondList> secondList;
 
 
     public String value;
@@ -70,5 +74,16 @@ public class DataListBean implements Serializable {
         public String gimage;
         public String gname;
         public String gnum;
+    }
+    public class SecondList{
+        public String dcid;
+        public String userid;
+        public String usernickname;
+        public String usertype;
+        public String taid;
+        public String tanickname;
+        public String tatype;
+        public String content;
+        public String adtime;
     }
 }

@@ -1,6 +1,8 @@
 package com.lxkj.dsn.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Time:2021/2/4
@@ -19,4 +21,6 @@ public class OrdertailListBean implements Serializable {
     public String state;
     public String type;
     public boolean check;
+
+    public List<String> mBannerSelectPath = new ArrayList<>();
 }

@@ -34,11 +34,10 @@ public class AppraiseAdapter extends  RecyclerView.Adapter<AppraiseAdapter.MyHol
 
     private Context context;
     private List<OrdertailListBean> list;
-    private PostArticleImgAdapter postArticleImgAdapter;
-    private String plusPath;
+
     private ArrayList<String> refundimage = new ArrayList<>();
-    private List<String> mBannerSelectPath = new ArrayList<>();
-    private static EvaluateListBean evaluateListBean = new EvaluateListBean();
+
+
 
     public AppraiseAdapter(Context context, List<OrdertailListBean> list) {
         this.context = context;
@@ -60,35 +59,29 @@ public class AppraiseAdapter extends  RecyclerView.Adapter<AppraiseAdapter.MyHol
 
         holder.tvTitle.setText(list.get(position).gname);
 
-        evaluateListBean.odid = list.get(position).odid;
-
-
-        postArticleImgAdapter = new PostArticleImgAdapter(context,mBannerSelectPath);
+        PostArticleImgAdapter postArticleImgAdapter = new PostArticleImgAdapter(context,list.get(position).mBannerSelectPath);
         holder.ryimage.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         holder.ryimage.setAdapter(postArticleImgAdapter);
         postArticleImgAdapter.setOnItemClickListener(new PostArticleImgAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int positiom) {
-                evaluateListBean.images.remove(positiom);
-                mBannerSelectPath.remove(positiom);
-                postArticleImgAdapter.notifyDataSetChanged();
+                list.get(position).mBannerSelectPath.remove(positiom);
+                notifyDataSetChanged();
             }
 
             @Override
-            public void Onbig(int position) {
-               onItemClickListener.OnItemClickListener(position,mBannerSelectPath);
+            public void Onbig(int positiom) {
+                onItemClickListener.OnItemClickListener(position);
             }
 
         });
 
-        //添加按钮图片资源
-        plusPath = context.getString(R.string.glide_plus_icon_string) + AppUtils.getPackageInfo(context).packageName + "/mipmap/" + R.mipmap.tianjiatupian;
-        mBannerSelectPath.add(plusPath);//添加按键，超过9张时在adapter中隐藏
+
 
         holder.mr_score.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
             @Override
             public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
-                evaluateListBean.star = rating+"";
+                onItemClickListener.OnRatingListener(position,rating+"");
             }
         });
 
@@ -104,7 +97,7 @@ public class AppraiseAdapter extends  RecyclerView.Adapter<AppraiseAdapter.MyHol
 
             @Override
             public void afterTextChanged(Editable editable) {
-                evaluateListBean.content =  editable.toString();
+                onItemClickListener.OnEditListener(position,editable.toString());
             }
         });
 
@@ -115,15 +108,7 @@ public class AppraiseAdapter extends  RecyclerView.Adapter<AppraiseAdapter.MyHol
         return i;
     }
 
-    public void setdata(List<String> bean,List<String> mBannerSelectPath1){
-        evaluateListBean.images = bean;
-        mBannerSelectPath = mBannerSelectPath1;
-        postArticleImgAdapter.notifyDataSetChanged();
-    }
-    public EvaluateListBean getBean(){
 
-        return evaluateListBean;
-    }
     @Override
     public int getItemCount() {
 
@@ -135,11 +120,11 @@ public class AppraiseAdapter extends  RecyclerView.Adapter<AppraiseAdapter.MyHol
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-      private RoundedImageView riIcon;
-      TextView tvTitle;
-      EditText editFeed;
-      RecyclerView ryimage;
-      MaterialRatingBar mr_score;
+        private RoundedImageView riIcon;
+        TextView tvTitle;
+        EditText editFeed;
+        RecyclerView ryimage;
+        MaterialRatingBar mr_score;
         public MyHolder(View itemView) {
             super(itemView);
             riIcon = itemView.findViewById(R.id.riIcon);
@@ -158,6 +143,8 @@ public class AppraiseAdapter extends  RecyclerView.Adapter<AppraiseAdapter.MyHol
         this.onItemClickListener = onItemClickListener;
     }
     public interface OnItemClickListener {
-        void OnItemClickListener(int firstPosition,List<String> mBannerSelectPath);
+        void OnItemClickListener(int firstPosition);
+        void OnEditListener(int firstPosition,String edit);
+        void OnRatingListener(int firstPosition,String star);
     }
 }

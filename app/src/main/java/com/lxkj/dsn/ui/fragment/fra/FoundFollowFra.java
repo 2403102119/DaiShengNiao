@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.lxkj.dsn.R;
+import com.lxkj.dsn.adapter.FoundFollowAdapter;
 import com.lxkj.dsn.adapter.IntegralDetailAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
@@ -49,7 +50,7 @@ public class FoundFollowFra extends TitleFragment {
     SmartRefreshLayout smart;
     private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
-    private IntegralDetailAdapter integralDetailAdapter;
+    private FoundFollowAdapter foundFollowAdapter;
     private String type;
     @Override
     public String getTitleName() {
@@ -71,9 +72,9 @@ public class FoundFollowFra extends TitleFragment {
 
         listBeans = new ArrayList<DataListBean>();
         ryList.setLayoutManager(new LinearLayoutManager(getContext()));
-        integralDetailAdapter = new IntegralDetailAdapter(getContext(), listBeans);
-        ryList.setAdapter(integralDetailAdapter);
-        integralDetailAdapter.setOnItemClickListener(new IntegralDetailAdapter.OnItemClickListener() {
+        foundFollowAdapter = new FoundFollowAdapter(getContext(), listBeans);
+        ryList.setAdapter(foundFollowAdapter);
+        foundFollowAdapter.setOnItemClickListener(new FoundFollowAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
 
@@ -132,12 +133,18 @@ public class FoundFollowFra extends TitleFragment {
                 smart.finishRefresh();
                 if (page == 1) {
                     listBeans.clear();
-                    integralDetailAdapter.notifyDataSetChanged();
+                    foundFollowAdapter.notifyDataSetChanged();
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
 
-                integralDetailAdapter.notifyDataSetChanged();
+                if (resultBean.dataList.size() ==0){
+                    llNodata.setVisibility(View.VISIBLE);
+                }else {
+                    llNodata.setVisibility(View.GONE);
+                }
+
+                foundFollowAdapter.notifyDataSetChanged();
 
             }
 

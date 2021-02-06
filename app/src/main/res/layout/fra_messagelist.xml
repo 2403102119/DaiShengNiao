@@ -80,12 +80,26 @@
                     android:textSize="13sp"
                     android:visibility="visible" />
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:visibility="visible"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </androidx.recyclerview.widget.RecyclerView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </androidx.recyclerview.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/tvNoData"
+                    android:text="暂无数据"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/txt_66"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
+
         </LinearLayout>
 
 

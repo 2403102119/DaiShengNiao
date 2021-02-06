@@ -46,14 +46,17 @@ public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAd
             holder.imageView.setVisibility(View.VISIBLE);
         }
 
-        Glide.with(mContext).applyDefaultRequestOptions(new RequestOptions()
-                .error(R.mipmap.imageerror)
-                .placeholder(R.mipmap.imageerror))
-                .load(mDatas.get(position))
-                .into(holder.imageView);
+        if (position == mDatas.size())
+            holder.imageView.setImageResource(R.mipmap.tianjiatupian);
+        else
+            Glide.with(mContext).applyDefaultRequestOptions(new RequestOptions()
+                    .error(R.mipmap.imageerror)
+                    .placeholder(R.mipmap.imageerror))
+                    .load(mDatas.get(position))
+                    .into(holder.imageView);
 
 
-        if (mDatas.get(position).contains(mContext.getString(R.string.glide_plus_icon_string))) {
+        if (position == mDatas.size()) {
             holder.del.setVisibility(View.GONE);
         }else {
             holder.del.setVisibility(View.VISIBLE);
@@ -68,7 +71,8 @@ public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAd
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.Onbig(position);
+                if (position == mDatas.size())
+                    onItemClickListener.Onbig(position);
             }
         });
 
@@ -76,7 +80,7 @@ public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAd
 
     @Override
     public int getItemCount() {
-        return mDatas == null ? 0 : mDatas.size();
+        return  mDatas.size()+1;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

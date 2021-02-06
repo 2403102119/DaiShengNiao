@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.OrderListAdapter;
 import com.lxkj.dsn.adapter.ShoppingAdapter;
@@ -236,6 +235,12 @@ public class OrderListFra extends TitleFragment {
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
+
+                if (resultBean.dataList.size() == 0){
+                    llNoData.setVisibility(View.VISIBLE);
+                }else {
+                    llNoData.setVisibility(View.GONE);
+                }
 
                 adapter.notifyDataSetChanged();
 

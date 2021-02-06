@@ -105,7 +105,11 @@ public class OrderFra extends TitleFragment implements NaviRightListener {
         viewPager.setAdapter(new MFragmentStatePagerAdapter(getChildFragmentManager(), fragments, titles));
         tabLayout.setViewPager(viewPager);
         viewPager.setCurrentItem(Integer.parseInt(state));
+
     }
+
+
+
 
     @Override
     public void onDestroyView() {

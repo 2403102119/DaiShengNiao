@@ -1,8 +1,12 @@
 package com.lxkj.dsn.ui.fragment.main;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +51,7 @@ import okhttp3.Response;
  */
 public class AudioFra extends CachableFrg implements View.OnClickListener {
 
+
     @BindView(R.id.et_seek)
     EditText etSeek;
     @BindView(R.id.tv_seek)
@@ -75,6 +80,12 @@ public class AudioFra extends CachableFrg implements View.OnClickListener {
     LinearLayout llScreen;
     @BindView(R.id.ryProduct)
     RecyclerView ryProduct;
+    @BindView(R.id.ivNoData)
+    ImageView ivNoData;
+    @BindView(R.id.tvNoData)
+    TextView tvNoData;
+    @BindView(R.id.llNodata)
+    LinearLayout llNodata;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
     private ArrayList<DataListBean> listBeans = new ArrayList<>();
@@ -149,6 +160,34 @@ public class AudioFra extends CachableFrg implements View.OnClickListener {
                 refreshLayout.setNoMoreData(false);
             }
         });
+
+        etSeek.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                /*判断是否是“GO”键*/
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    return true;
+                }
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    getclassify2goodslist(sid);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         getclassify2list();
 
@@ -280,6 +319,12 @@ public class AudioFra extends CachableFrg implements View.OnClickListener {
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
 
+                if (resultBean.dataList.size() == 0) {
+                    llNodata.setVisibility(View.VISIBLE);
+                } else {
+                    llNodata.setVisibility(View.GONE);
+                }
+
                 productAdapter.notifyDataSetChanged();
 
             }
@@ -314,9 +359,9 @@ public class AudioFra extends CachableFrg implements View.OnClickListener {
 
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
-                if (StringUtil.isEmpty(resultBean.datastr)||resultBean.datastr.equals("0")){
+                if (StringUtil.isEmpty(resultBean.datastr) || resultBean.datastr.equals("0")) {
                     tvOrderCount.setVisibility(View.GONE);
-                }else {
+                } else {
                     tvOrderCount.setVisibility(View.VISIBLE);
                     tvOrderCount.setText(resultBean.datastr);
                 }

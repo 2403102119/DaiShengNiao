@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lxkj.dsn.R;
-import com.lxkj.dsn.actlink.NaviRightListener;
 import com.lxkj.dsn.adapter.IntegralAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
@@ -43,7 +44,7 @@ import okhttp3.Response;
  * <p>
  * Interface:积分商城
  */
-public class IntegralFra extends TitleFragment implements View.OnClickListener{
+public class IntegralFra extends TitleFragment implements View.OnClickListener {
     Unbinder unbinder;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -55,6 +56,12 @@ public class IntegralFra extends TitleFragment implements View.OnClickListener{
     TextView tvDetail;
     @BindView(R.id.tvJifen)
     TextView tvJifen;
+    @BindView(R.id.ivNoData)
+    ImageView ivNoData;
+    @BindView(R.id.tvNoData)
+    TextView tvNoData;
+    @BindView(R.id.llNodata)
+    LinearLayout llNodata;
     private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
     private IntegralAdapter integralAdapter;
@@ -168,6 +175,12 @@ public class IntegralFra extends TitleFragment implements View.OnClickListener{
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
+
+                if (resultBean.dataList.size()==0){
+                    llNodata.setVisibility(View.VISIBLE);
+                }else {
+                    llNodata.setVisibility(View.GONE);
+                }
 
                 integralAdapter.notifyDataSetChanged();
 

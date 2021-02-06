@@ -263,7 +263,7 @@ public class SetFra extends TitleFragment implements View.OnClickListener {
     }
 
     /*
-     * 性别
+     * 验证码
      * */
     public void state() {
         popupWindow = new PopupWindow(getActivity());

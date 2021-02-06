@@ -2,7 +2,6 @@ package com.lxkj.dsn.ui.fragment.fra;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lxkj.dsn.R;
@@ -22,7 +23,6 @@ import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
 import com.lxkj.dsn.utils.StringUtil;
-import com.lxkj.dsn.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -56,6 +56,12 @@ public class ColletFra extends TitleFragment {
     SmartRefreshLayout smart;
     @BindView(R.id.etSousuo)
     EditText etSousuo;
+    @BindView(R.id.ivNoData)
+    ImageView ivNoData;
+    @BindView(R.id.tvNoData)
+    TextView tvNoData;
+    @BindView(R.id.llNoData)
+    LinearLayout llNoData;
     private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
     private ColletAdapter colletAdapter;
@@ -175,6 +181,12 @@ public class ColletFra extends TitleFragment {
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
+
+                if (resultBean.dataList.size() == 0){
+                    llNoData.setVisibility(View.VISIBLE);
+                }else {
+                    llNoData.setVisibility(View.GONE);
+                }
 
                 colletAdapter.notifyDataSetChanged();
 

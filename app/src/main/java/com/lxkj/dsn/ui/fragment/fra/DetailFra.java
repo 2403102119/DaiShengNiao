@@ -1,23 +1,31 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.ProductAdapter;
 import com.lxkj.dsn.bean.DataListBean;
@@ -27,11 +35,15 @@ import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.activity.NaviActivity;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.dialog.ShareFra;
 import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.PicassoUtil;
+import com.lxkj.dsn.utils.SharePrefUtil;
+import com.lxkj.dsn.utils.StringUtils;
 import com.lxkj.dsn.utils.ToastUtil;
 import com.lzy.ninegrid.ImageInfo;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.mylhyl.zxing.scanner.encode.QREncode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -113,7 +125,10 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
     private List<String> BanString = new ArrayList<>();
     private DataListBean dataListBean = new DataListBean();
 
-
+    private RelativeLayout ll_sell;
+    private LinearLayout ll_sell_item;
+    private Bitmap qrCode;
+    private PopupWindow popupWindow;// 声明PopupWindow
     @Override
     public String getTitleName() {
         return "商品详情";
@@ -254,9 +269,19 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
 
                 aid = resultBean.dataobject.aid;
                 tvName.setText(resultBean.dataobject.name);
-                tvPrice.setText(resultBean.dataobject.newprice);
-                tvOldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                tvOldPrice.setText("原价:¥ "+resultBean.dataobject.oldprice);
+
+                if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember,null))){
+                    tvPrice.setText(resultBean.dataobject.oldprice);
+                    tvOldPrice.setVisibility(View.INVISIBLE);
+                }else {
+                    tvPrice.setText(resultBean.dataobject.newprice);
+                    tvOldPrice.setVisibility(View.VISIBLE);
+                    tvOldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    tvOldPrice.setText("原价:¥ "+resultBean.dataobject.oldprice);
+                }
+
+
+
                 tvSalenum.setText("已售："+resultBean.dataobject.salenum);
                 tvSkunum.setText("库存量："+resultBean.dataobject.skunum);
                 tvCommnum.setText(resultBean.dataobject.commnum+"条");
@@ -433,6 +458,74 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
         unbinder.unbind();
     }
 
+    public void state() {
+        popupWindow = new PopupWindow(getContext());
+        View view = getLayoutInflater().inflate(R.layout.commodity, null);
+        ll_sell_item = view.findViewById(R.id.ll_sell_item);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setContentView(view);
+        ll_sell = view.findViewById(R.id.ll_sell);
+        ImageView im_master = view.findViewById(R.id.im_master);
+        ImageView im_icon = view.findViewById(R.id.im_icon);
+        TextView tv_title = view.findViewById(R.id.tv_title);
+        TextView tv_jiage = view.findViewById(R.id.tv_jiage);
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        TextView tvoldPrice = view.findViewById(R.id.tvoldPrice);
+
+        final LinearLayout ll_view = view.findViewById(R.id.ll_view);
+
+
+        Glide.with(getContext()).applyDefaultRequestOptions(new RequestOptions()
+                .error(R.mipmap.logo)
+                .placeholder(R.mipmap.logo))
+                .load(BanString.get(0))
+                .into(im_master);
+        tv_title.setText(tvName.getText().toString());
+        tv_jiage.setText(tvPrice.getText().toString());
+        tvoldPrice.setText(tvOldPrice.getText().toString());
+        tvoldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+//        qrCode = CodeCreator.createQRCode("https://www.baidu.com/", 400, 400, logo);
+        //文本类型
+        qrCode = new QREncode.Builder(getContext())
+                .setColor(getResources().getColor(R.color.colorBlack))//二维码颜色
+                //.setParsedResultType(ParsedResultType.TEXT)//默认是TEXT类型
+                .setContents("https://www.baidu.com/")//二维码内容
+                .setLogoBitmap(logo)//二维码中间logo
+                .build().encodeAsBitmap();
+
+        im_icon.setImageBitmap(qrCode);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StringUtils.saveBmp2Gallery(mContext, createBitmap(ll_view), "戴胜鸟图书");
+                popupWindow.dismiss();
+                ll_sell.clearAnimation();
+            }
+        });
+        ll_sell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                ll_sell.clearAnimation();
+            }
+        });
+
+
+    }
+
+
+    private Bitmap createBitmap(View view) {
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
+    }
+
     @Override
     public int rightImg() {
         return R.mipmap.fenxiang;
@@ -440,6 +533,9 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
 
     @Override
     public void onRightClicked(View v) {
-
+        state();
+        ll_sell_item.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.activity_translate_in));
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+        new ShareFra().show(getFragmentManager(), "Menu");
     }
 }

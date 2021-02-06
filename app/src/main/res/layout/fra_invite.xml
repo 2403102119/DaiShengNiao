@@ -30,6 +30,7 @@
                    android:layout_height="33dp"/>
         </RelativeLayout>
          <TextView
+             android:id="@+id/tvLijiyaoqing"
              android:text="立即邀请"
              android:textSize="15sp"
              android:textColor="@color/white"

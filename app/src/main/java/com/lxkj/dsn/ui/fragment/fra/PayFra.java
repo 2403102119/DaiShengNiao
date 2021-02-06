@@ -181,7 +181,7 @@ public class PayFra extends TitleFragment {
                         eventCenter.sendType(EventCenter.EventType.EVT_PaySuccess);
 
                         ActivitySwitcher.startFragment(getActivity(), PayOkFra.class);
-//                        act.finishSelf();
+                        act.finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtil.show("支付失败！");
@@ -295,6 +295,7 @@ public class PayFra extends TitleFragment {
             @Override
             public void onSuccess(Response response, WxPayBean resultBean) {
                 ActivitySwitcher.startFragment(getActivity(), PayOkFra.class);
+                act.finish();
             }
 
             @Override
@@ -317,6 +318,7 @@ public class PayFra extends TitleFragment {
         if (e.type.equals(EventCenter.EventType.EVT_WxPay)) {
             eventCenter.sendType(EventCenter.EventType.EVT_PaySuccess);
             ActivitySwitcher.startFragment(getActivity(), PayOkFra.class);
+            act.finish();
         }
     }
 

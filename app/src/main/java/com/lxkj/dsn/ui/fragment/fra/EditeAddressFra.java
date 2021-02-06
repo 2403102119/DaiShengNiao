@@ -26,6 +26,7 @@ import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
 import com.lxkj.dsn.utils.GetJsonDataUtil;
 import com.lxkj.dsn.utils.StringUtil;
+import com.lxkj.dsn.utils.StringUtils;
 import com.lxkj.dsn.utils.ToastUtil;
 
 import org.json.JSONArray;
@@ -180,6 +181,11 @@ public class EditeAddressFra extends TitleFragment implements View.OnClickListen
         }
         if (StringUtil.isEmpty(phone)) {
             ToastUtil.show("请输入联系电话");
+            return;
+        }
+        //验证手机号是否正确
+        if (!StringUtils.isMobile(phone)) {
+            ToastUtil.show("输入的手机号格式不正确");
             return;
         }
         if (StringUtil.isEmpty(address)) {

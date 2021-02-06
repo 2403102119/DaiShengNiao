@@ -1,8 +1,18 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.DynamicAdapter;
 import com.lxkj.dsn.bean.DataListBean;
@@ -15,8 +25,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -70,6 +82,11 @@ public class NGCFra extends CachableFrg {
             @Override
             public void OnFenxiangClickListener(int firstPosition) {
 
+            }
+
+            @Override
+            public void Onchakandatu(int firstPosition, int position) {//查看大图
+                showImage(new ImageView(getContext()), firstPosition, listBeans.get(position).images);
             }
         });
         smart.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -132,6 +149,12 @@ public class NGCFra extends CachableFrg {
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
 
+                if (resultBean.dataList.size() == 0){
+                    llNodata.setVisibility(View.VISIBLE);
+                }else {
+                    llNodata.setVisibility(View.GONE);
+                }
+
                 dynamicAdapter.notifyDataSetChanged();
 
             }
@@ -141,5 +164,38 @@ public class NGCFra extends CachableFrg {
 
             }
         });
+    }
+
+
+    private void showImage(final ImageView iv, int position, List<String> list) {
+        List<Object> urls = new ArrayList<>();
+        urls.clear();
+        urls.addAll(list);
+
+        new XPopup.Builder(getContext()).asImageViewer(iv, position, urls, new OnSrcViewUpdateListener() {
+            @Override
+            public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
+                popupView.updateSrcView(iv);
+            }
+        }, new NGCFra.ImageLoader())
+                .show();
+    }
+
+    class ImageLoader implements XPopupImageLoader {
+        @Override
+        public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
+            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
+            Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.logo).override(Target.SIZE_ORIGINAL)).into(imageView);
+        }
+
+        @Override
+        public File getImageFile(@NonNull Context context, @NonNull Object uri) {
+            try {
+                return Glide.with(context).downloadOnly().load(uri).submit().get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

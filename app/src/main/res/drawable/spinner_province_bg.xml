@@ -7,9 +7,9 @@
                 android:color="@android:color/transparent" />
         </shape>
     </item>
-    <item android:right="5dp">
+    <item android:right="10dp">
         <bitmap
             android:gravity="end"
-            android:src="@mipmap/ic_xiala" />
+            android:src="@mipmap/xiala" />
     </item>
 </layer-list>

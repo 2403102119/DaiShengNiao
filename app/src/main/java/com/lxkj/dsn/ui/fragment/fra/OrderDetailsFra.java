@@ -161,7 +161,7 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         toast.show();
                         break;
                     case "确认收货":
-                        NormalDialog dialog = new NormalDialog(getContext(), "确认确认收货？", "取消", "确定", true);
+                        NormalDialog dialog = new NormalDialog(getContext(), "确认收货？", "取消", "确定", true);
                         dialog.show();
                         dialog.setOnButtonClickListener(new NormalDialog.OnButtonClick() {
                             @Override

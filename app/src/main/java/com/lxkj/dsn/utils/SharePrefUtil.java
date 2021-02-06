@@ -3,12 +3,19 @@ package com.lxkj.dsn.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 public class SharePrefUtil {
 	private static String tag = SharePrefUtil.class.getSimpleName();
 	private final static String SP_NAME = "config";
 	private static SharedPreferences sp;
-
+	private static SharedPreferences.Editor editor;
 
 	/**
 	 * 保存布尔值
@@ -164,4 +171,34 @@ public class SharePrefUtil {
 		return sp.getBoolean(key, defValue);
 	}
 
+	public static void addSessionMap(String key, List<String> object) {
+		editor = sp.edit();
+		if (editor != null) {
+			if (key != null && !"".equals(key)) {
+				Gson gson = new Gson();
+				//转换成json数据，再保存
+				editor = sp.edit();
+				String Json = gson.toJson(object);
+				editor.putString(key, Json);
+				editor.commit();
+			}
+		} else {
+			throw new IllegalStateException("editor not initialized");
+		}
+	}
+
+	public static List<String> getDataList(String tag) {
+		List<String> datalist = new ArrayList<>();
+		String Json = sp.getString(tag, null);
+		if (null == Json) {
+			return datalist;
+		}
+
+		Gson gson = new Gson();
+		datalist.addAll((Collection<? extends String>) gson.fromJson(Json, new TypeToken<List<String>>() {
+
+		}.getType()));
+		return datalist;
+
+	}
 }

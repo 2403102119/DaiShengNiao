@@ -1,11 +1,16 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,7 +53,7 @@ import okhttp3.Response;
 public class ClassfiltyFra extends TitleFragment implements View.OnClickListener {
     Unbinder unbinder;
     @BindView(R.id.et_seek)
-    TextView etSeek;
+    EditText etSeek;
     @BindView(R.id.tv_seek)
     TextView tvSeek;
     @BindView(R.id.ll_search)
@@ -155,6 +160,33 @@ public class ClassfiltyFra extends TitleFragment implements View.OnClickListener
                 Bundle bundle = new Bundle();
                 bundle.putString("gid", secondlist.get(firstPosition).gid);
                 ActivitySwitcher.startFragment(getActivity(), DetailFra.class, bundle);
+            }
+        });
+
+        etSeek.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                /*判断是否是“GO”键*/
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    return true;
+                }
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    getclassify2goodslist(sid);
+
+                    return true;
+                }
+                return false;
             }
         });
 

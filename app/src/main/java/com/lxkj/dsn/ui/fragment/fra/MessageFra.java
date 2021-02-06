@@ -11,9 +11,11 @@ import com.lxkj.dsn.adapter.IntegralAdapter;
 import com.lxkj.dsn.adapter.MessageListAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.system.WebFra;
 import com.lxkj.dsn.utils.StringUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -73,6 +75,16 @@ public class MessageFra extends TitleFragment {
         messageListAdapter.setOnItemClickListener(new MessageListAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
+                if (listBeans.get(firstPosition).type.equals("1")){//订单消息
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ordernum",listBeans.get(firstPosition).objid);
+                    ActivitySwitcher.startFragment(getActivity(), OrderDetailsFra.class,bundle);
+                }else {//系统消息
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", listBeans.get(firstPosition).title);
+                    bundle.putString("url",  listBeans.get(firstPosition).url);
+                    ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
+                }
 
             }
 
@@ -99,7 +111,7 @@ public class MessageFra extends TitleFragment {
                 refreshLayout.setNoMoreData(false);
             }
         });
-        mymembernoticeslist();
+
     }
 
 
@@ -147,6 +159,12 @@ public class MessageFra extends TitleFragment {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mymembernoticeslist();
     }
 
     @Override

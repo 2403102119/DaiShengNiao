@@ -1,6 +1,7 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.AffirmOrderAdapter;
 import com.lxkj.dsn.bean.DataListBean;
@@ -18,6 +20,7 @@ import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.StringUtil;
 import com.lxkj.dsn.utils.ToastUtil;
 
@@ -130,8 +133,13 @@ public class AffirmOrderFra extends TitleFragment implements View.OnClickListene
     }
 
     public void setData() {
+        BigDecimal price;
         for (int i = 0; i < listBeans.size(); i++) {
-            BigDecimal price = new BigDecimal(listBeans.get(i).newprice);
+            if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember,null))){
+                price = new BigDecimal(listBeans.get(i).oldprice);
+            }else {
+                price = new BigDecimal(listBeans.get(i).newprice);
+            }
             BigDecimal count = new BigDecimal(listBeans.get(i).numbers);
             BigDecimal jine = count.multiply(price);
             zongjine += jine.doubleValue();

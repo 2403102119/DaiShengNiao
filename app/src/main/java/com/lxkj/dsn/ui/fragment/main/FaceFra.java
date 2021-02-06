@@ -1,11 +1,24 @@
 package com.lxkj.dsn.ui.fragment.main;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.FaceAdapter;
@@ -15,6 +28,7 @@ import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
+import com.lxkj.dsn.ui.fragment.fra.FaceDeatilFra;
 import com.lxkj.dsn.ui.fragment.fra.MessageFra;
 import com.lxkj.dsn.ui.fragment.fra.PushHeartFra;
 import com.lxkj.dsn.utils.SharePrefUtil;
@@ -26,6 +40,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +66,7 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
     @BindView(R.id.imPush)
     ImageView imPush;
     @BindView(R.id.et_seek)
-    TextView etSeek;
+    EditText etSeek;
     @BindView(R.id.tv_seek)
     TextView tvSeek;
     @BindView(R.id.ll_search)
@@ -66,6 +81,12 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
     TagFlowLayout TagFlow;
     @BindView(R.id.ryFace)
     RecyclerView ryFace;
+    @BindView(R.id.ivNoData)
+    ImageView ivNoData;
+    @BindView(R.id.tvNoData)
+    TextView tvNoData;
+    @BindView(R.id.llNodata)
+    LinearLayout llNodata;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
     private ArrayList<DataListBean> listBeans = new ArrayList<>();
@@ -113,7 +134,19 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
         faceAdapter.setOnItemClickListener(new FaceAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
+                Bundle bundle = new Bundle();
+                bundle.putString("did", listBeans.get(firstPosition).did);
+                ActivitySwitcher.startFragment(getActivity(), FaceDeatilFra.class, bundle);
+            }
 
+            @Override
+            public void Onchakandatu(int firstPosition, int position) {
+                showImage(new ImageView(getContext()), firstPosition, listBeans.get(position).images);
+            }
+
+            @Override
+            public void OnDianzan(int firstPosition) {//点赞
+                dynamiczan(listBeans.get(firstPosition).did, firstPosition);
             }
         });
 
@@ -135,6 +168,34 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
                 refreshLayout.setNoMoreData(false);
             }
         });
+
+        etSeek.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                /*判断是否是“GO”键*/
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    return true;
+                }
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isActive()) {
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    }
+                    getdynamiclist();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         getclassify1list();
 
@@ -179,13 +240,15 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
             public void onSuccess(Response response, ResultBean resultBean) {
                 hot_list.clear();
                 fid_list.clear();
+                hot_list.add("全部");
+                fid_list.add("");
                 for (int i = 0; i < resultBean.dataList.size(); i++) {
                     hot_list.add(resultBean.dataList.get(i).name);
                     fid_list.add(resultBean.dataList.get(i).fid);
                 }
                 adapter.notifyDataChanged();
 
-                fid = resultBean.dataList.get(0).fid;
+                fid = "";
                 getdynamiclist();
             }
 
@@ -202,6 +265,7 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
         params.put("uid", SharePrefUtil.getString(getContext(), AppConsts.UID, null));
         params.put("nowPage", page);
         params.put("fid", fid);
+        params.put("content", etSeek.getText().toString());
         params.put("pageCount", "10");
         mOkHttpHelper.post_json(getContext(), Url.getdynamiclist, params, new BaseCallback<ResultBean>() {
             @Override
@@ -231,6 +295,12 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
+
+                if (resultBean.dataList.size() == 0) {
+                    llNodata.setVisibility(View.VISIBLE);
+                } else {
+                    llNodata.setVisibility(View.GONE);
+                }
 
                 faceAdapter.notifyDataSetChanged();
 
@@ -265,9 +335,9 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
 
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
-                if (StringUtil.isEmpty(resultBean.datastr)||resultBean.datastr.equals("0")){
+                if (StringUtil.isEmpty(resultBean.datastr) || resultBean.datastr.equals("0")) {
                     tvOrderCount.setVisibility(View.GONE);
-                }else {
+                } else {
                     tvOrderCount.setVisibility(View.VISIBLE);
                     tvOrderCount.setText(resultBean.datastr);
                 }
@@ -280,6 +350,78 @@ public class FaceFra extends CachableFrg implements View.OnClickListener {
 
             }
         });
+    }
+
+    /**
+     * 点赞/取消点赞
+     */
+    private void dynamiczan(String did, int position) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("uid", userId);
+        params.put("did", did);
+        mOkHttpHelper.post_json(getContext(), Url.dynamiczan, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+                if (listBeans.get(position).iszan.equals("0")) {
+                    listBeans.get(position).iszan = "1";
+                    listBeans.get(position).zannum = (Integer.parseInt(listBeans.get(position).zannum) + 1) + "";
+
+                } else {
+                    listBeans.get(position).iszan = "0";
+                    listBeans.get(position).zannum = (Integer.parseInt(listBeans.get(position).zannum) - 1) + "";
+                }
+                faceAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+            }
+        });
+    }
+
+    private void showImage(final ImageView iv, int position, List<String> list) {
+        List<Object> urls = new ArrayList<>();
+        urls.clear();
+        urls.addAll(list);
+
+        new XPopup.Builder(getContext()).asImageViewer(iv, position, urls, new OnSrcViewUpdateListener() {
+            @Override
+            public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
+                popupView.updateSrcView(iv);
+            }
+        }, new ImageLoader())
+                .show();
+    }
+
+    class ImageLoader implements XPopupImageLoader {
+        @Override
+        public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
+            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
+            Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.logo).override(Target.SIZE_ORIGINAL)).into(imageView);
+        }
+
+        @Override
+        public File getImageFile(@NonNull Context context, @NonNull Object uri) {
+            try {
+                return Glide.with(context).downloadOnly().load(uri).submit().get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 

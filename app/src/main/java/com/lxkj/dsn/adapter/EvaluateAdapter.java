@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
+import com.lxkj.dsn.utils.StringUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -65,8 +66,12 @@ public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.MyHold
                 .placeholder(R.mipmap.touxiang))
                 .load(list.get(position).usericon)
                 .into(holder.imIcon);
+        if (!StringUtil.isEmpty(list.get(position).star)){
+            holder.mr_score.setRating(Float.parseFloat(list.get(position).star));
+        }else {
+            holder.mr_score.setRating(5);
+        }
 
-        holder.mr_score.setRating(Float.parseFloat(list.get(position).star));
 
     }
 

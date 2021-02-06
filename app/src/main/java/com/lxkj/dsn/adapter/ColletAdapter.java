@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
+import com.lxkj.dsn.utils.SharePrefUtil;
 
 import java.util.List;
 
@@ -46,9 +48,19 @@ public class ColletAdapter extends RecyclerView.Adapter<ColletAdapter.MyHolder> 
                 .load(list.get(position).image)
                 .into(holder.imIcon);
         holder.tvTitle.setText(list.get(position).name);
-        holder.tvPrice.setText(list.get(position).newprice);
-        holder.tvNumber.setText("¥"+list.get(position).oldprice);
-        holder.tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+        if ("0".equals(SharePrefUtil.getString(context, AppConsts.ismember,null))){
+            holder.tvPrice.setText(list.get(position).oldprice);
+            holder.tvNumber.setVisibility(View.INVISIBLE);
+        }else {
+            holder.tvPrice.setText(list.get(position).newprice);
+            holder.tvNumber.setVisibility(View.VISIBLE);
+            holder.tvNumber.setText("¥"+list.get(position).oldprice);
+            holder.tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

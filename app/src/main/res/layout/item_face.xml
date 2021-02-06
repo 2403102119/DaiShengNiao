@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/riIcon"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:riv_oval="true"
             android:src="@mipmap/touxiang"
             android:layout_width="35dp"
@@ -89,9 +89,10 @@
         <ImageView
             android:id="@+id/imShoucang"
             android:src="@mipmap/dianzan"
+            android:padding="5dp"
             android:layout_marginLeft="26dp"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"/>
+            android:layout_height="28dp"/>
         <TextView
             android:id="@+id/tvcollectCount"
             android:text="0"

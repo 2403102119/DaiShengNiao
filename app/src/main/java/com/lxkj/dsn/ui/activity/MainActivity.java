@@ -13,14 +13,20 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.GlobalBeans;
 import com.lxkj.dsn.R;
+import com.lxkj.dsn.bean.ResultBean;
 import com.lxkj.dsn.bean.SendmessageBean;
 import com.lxkj.dsn.biz.EventCenter;
+import com.lxkj.dsn.http.BaseCallback;
+import com.lxkj.dsn.http.OkHttpHelper;
+import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.socket.WsManager;
 import com.lxkj.dsn.ui.fragment.main.HomeFra;
 import com.lxkj.dsn.ui.fragment.main.HomeMineFra;
@@ -41,6 +47,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends BaseFragAct
         implements TabHost.OnTabChangeListener, EventCenter.EventListener {
@@ -72,6 +80,8 @@ public class MainActivity extends BaseFragAct
             EventBus.getDefault().register(this); //向EventBus注册该对象，使之成为订阅者
         }
 
+
+
     }
 
 
@@ -98,7 +108,43 @@ public class MainActivity extends BaseFragAct
     protected void onResume() {
         super.onResume();
         mTabHost.setCurrentTab(tabIdx);
+
+        memberinfo();
     }
+
+    //用户个人信息
+    private void memberinfo() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("uid", SharePrefUtil.getString(MainActivity.this,AppConsts.UID,null));
+        OkHttpHelper.getInstance().post_json(MainActivity.this, Url.memberinfo, params, new BaseCallback<ResultBean>() {
+            @Override
+            public void onBeforeRequest(Request request) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, ResultBean resultBean) {
+
+                SharePrefUtil.saveString(MainActivity.this, AppConsts.ismember, resultBean.dataobject.ismember);
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+
+            }
+        });
+    }
+
 
     private void initTabHost() {
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);

@@ -22,7 +22,6 @@
             android:layout_width="31dp"
             android:layout_height="31dp" />
         <LinearLayout
-            android:id="@+id/ll_search"
             android:background="@drawable/biankuang20"
             android:orientation="horizontal"
             android:layout_width="0dp"
@@ -34,6 +33,7 @@
             android:layout_marginRight="10dp"
             android:layout_height="31dp">
             <LinearLayout
+                android:id="@+id/llSearch"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -107,6 +107,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
              <RelativeLayout
+                 android:layout_marginTop="5dp"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content">
                  <cn.ymex.widget.banner.Banner
@@ -193,12 +194,18 @@
                          android:layout_height="wrap_content"/>
                  </LinearLayout>
              </LinearLayout>
-             <androidx.recyclerview.widget.RecyclerView
-                 android:id="@+id/ry_product"
-                 android:paddingBottom="5dp"
-                 android:background="#F6F6F6"
+             <RelativeLayout
+                 android:descendantFocusability="blocksDescendants"
                  android:layout_width="match_parent"
-                 android:layout_height="match_parent"/>
+                 android:layout_height="match_parent">
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/ry_product"
+                     android:paddingBottom="5dp"
+                     android:background="#F6F6F6"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"/>
+             </RelativeLayout>
+
          </LinearLayout>
 
      </ScrollView>

@@ -52,6 +52,7 @@ public class PayOkFra extends TitleFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("state","0");
                 ActivitySwitcher.startFragment(getActivity(), OrderFra.class,bundle);
+                act.finish();
             }
         });
     }

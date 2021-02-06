@@ -16,6 +16,7 @@ import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.dialog.ShareFra;
 import com.lxkj.dsn.ui.fragment.system.WebFra;
 
 import java.util.ArrayList;
@@ -52,6 +53,8 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
     TextView tvNumber;
     @BindView(R.id.tvYaoqingma)
     TextView tvYaoqingma;
+    @BindView(R.id.tvLijiyaoqing)
+    TextView tvLijiyaoqing;
     private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
     private InviteAdapter inviteAdapter;
@@ -76,7 +79,7 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
 
         invitationcode = getArguments().getString("invitationcode");
 
-        tvYaoqingma.setText("邀请码："+invitationcode);
+        tvYaoqingma.setText("邀请码：" + invitationcode);
 
         listBeans = new ArrayList<DataListBean>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -91,6 +94,7 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
         });
 
         tvAll.setOnClickListener(this);
+        tvLijiyaoqing.setOnClickListener(this);
 
         myfirstinvitationlist();
     }
@@ -100,6 +104,9 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
         switch (v.getId()) {
             case R.id.tvAll://查看全部
                 ActivitySwitcher.startFragment(getActivity(), AllFriendFra.class);
+                break;
+            case R.id.tvLijiyaoqing://立即邀请
+                new ShareFra().show(getFragmentManager(), "Menu");
                 break;
         }
     }
@@ -161,7 +168,7 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
     public void onRightClicked(View v) {
         Bundle bundle = new Bundle();
         bundle.putString("title", "邀请规则");
-        bundle.putString("url","http://8.140.109.101/daishengniao/display/agreement?id=7");
+        bundle.putString("url", "http://8.140.109.101/daishengniao/display/agreement?id=7");
         ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
     }
 }

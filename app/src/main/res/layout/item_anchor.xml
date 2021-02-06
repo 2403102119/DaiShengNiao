@@ -25,6 +25,8 @@
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
         android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:text="初中数学运算能手"
         android:gravity="center"
         android:textColor="@color/txt_lv8"

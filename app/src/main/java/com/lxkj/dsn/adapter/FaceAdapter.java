@@ -49,7 +49,7 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.MyHolder> {
         recycletwoItemAdapter.setOnItemClickListener(new Recycle_one_itemAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-//                onItemClickListener.Onchakandatu(firstPosition,position);
+                onItemClickListener.Onchakandatu(firstPosition,position);
             }
         });
 
@@ -70,6 +70,19 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.MyHolder> {
         }else {
             holder.imShoucang.setImageResource(R.mipmap.yidianzan);
         }
+        holder.imShoucang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnDianzan(position);
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemClickListener(position);
+            }
+        });
 
     }
 
@@ -113,5 +126,7 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.MyHolder> {
 
     public interface OnItemClickListener {
         void OnItemClickListener(int firstPosition);
+        void Onchakandatu(int firstPosition,int position);
+        void OnDianzan(int firstPosition);
     }
 }

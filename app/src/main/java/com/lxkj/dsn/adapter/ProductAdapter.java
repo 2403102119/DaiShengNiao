@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.utils.AppUtil;
+import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.StringUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -54,9 +56,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
                 .load(list.get(position).image)
                 .into(holder.riImage);
         holder.tvName.setText(list.get(position).name);
-        holder.tvPrice.setText(list.get(position).newprice);
-        holder.tvOldPrice.setText("¥"+list.get(position).oldprice);
-        holder.tvOldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+        if ("0".equals(SharePrefUtil.getString(context, AppConsts.ismember,null))){
+            holder.tvPrice.setText(list.get(position).oldprice);
+            holder.tvOldPrice.setVisibility(View.INVISIBLE);
+        }else {
+            holder.tvPrice.setText(list.get(position).newprice);
+            holder.tvOldPrice.setVisibility(View.VISIBLE);
+            holder.tvOldPrice.setText("¥"+list.get(position).oldprice);
+            holder.tvOldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

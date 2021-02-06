@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lxkj.dsn.R;
@@ -55,6 +57,12 @@ public class IntegralDetailFra extends TitleFragment implements NaviRightListene
     TextView tvShouru;
     @BindView(R.id.tvZhichu)
     TextView tvZhichu;
+    @BindView(R.id.ivNoData)
+    ImageView ivNoData;
+    @BindView(R.id.tvNoData)
+    TextView tvNoData;
+    @BindView(R.id.llNodata)
+    LinearLayout llNodata;
     private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
     private IntegralDetailAdapter integralDetailAdapter;
@@ -113,9 +121,10 @@ public class IntegralDetailFra extends TitleFragment implements NaviRightListene
         tvZhichu.setOnClickListener(this);
 
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tvQuanbu://全部
                 tvQuanbu.setBackgroundResource(R.drawable.login_20);
                 tvShouru.setBackgroundResource(R.drawable.guigexuanzefalse);
@@ -185,6 +194,13 @@ public class IntegralDetailFra extends TitleFragment implements NaviRightListene
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
+
+                if (resultBean.dataList.size() == 0){
+                    llNodata.setVisibility(View.VISIBLE);
+                }else {
+                    llNodata.setVisibility(View.GONE);
+                }
+
 
                 integralDetailAdapter.notifyDataSetChanged();
 

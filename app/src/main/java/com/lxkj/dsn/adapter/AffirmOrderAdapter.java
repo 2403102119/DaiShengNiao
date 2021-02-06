@@ -1,6 +1,7 @@
 package com.lxkj.dsn.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.utils.AmountView2;
+import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.StringUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -64,7 +67,12 @@ public class AffirmOrderAdapter extends RecyclerView.Adapter<AffirmOrderAdapter.
         }
 
 
-        holder.tvPrice.setText("¥"+list.get(position).newprice);
+        if (SharePrefUtil.getString(context, AppConsts.ismember,null).equals("0")){
+            holder.tvPrice.setText("¥"+list.get(position).oldprice);
+        }else {
+            holder.tvPrice.setText("¥"+list.get(position).newprice);
+        }
+
         holder.tvNumber.setText("x"+list.get(position).numbers);
         holder.AmountView.setGoodsNubber(list.get(position).numbers);
 

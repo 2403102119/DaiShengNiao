@@ -53,6 +53,7 @@ public class ResultBean extends BaseBean implements Serializable {
     public String allnum;
     public String daymoney;
     public String allmoney;
+    public String isnewuser;
 
 
     public String logo;
@@ -122,6 +123,13 @@ public class ResultBean extends BaseBean implements Serializable {
         public String sqtktime;
         public String tkshtime;
         public String qxtime;
+        public String did;
+        public String userid;
+        public String username;
+        public String usericon;
+        public String zannum;
+        public String commentnum;
+        public String iszan;
 
         public List<OrdertailListBean> ordertailList;
 

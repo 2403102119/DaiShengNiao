@@ -1,15 +1,13 @@
 package com.lxkj.dsn.ui.fragment.main;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.ShoppingAdapter;
 import com.lxkj.dsn.bean.DataListBean;
@@ -19,7 +17,7 @@ import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
 import com.lxkj.dsn.ui.fragment.fra.AffirmOrderFra;
-import com.lxkj.dsn.utils.StringUtil;
+import com.lxkj.dsn.utils.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -65,13 +63,16 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
     TextView tvSellMoeney;
     @BindView(R.id.tv_accounts)
     TextView tvAccounts;
+    @BindView(R.id.tvNoData)
+    TextView tvNoData;
     private List<DataListBean> listBeans = new ArrayList<>();
     private ShoppingAdapter shoppingAdapter;
     private int page = 1, totalPage = 1;
     private boolean imageSelcheck;
     private ArrayList<String> cartidlist = new ArrayList<>();
     private List<Float> moneylist = new ArrayList<>();
-    ArrayList<DataListBean> list_intent=new ArrayList<>();
+    ArrayList<DataListBean> list_intent = new ArrayList<>();
+
     @Override
     protected int rootLayout() {
         return R.layout.fra_messagelist;
@@ -87,41 +88,51 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
             @Override
             public void OnItem(int position) {
 
-                if (listBeans.get(position).isCheck == true){
+                if (listBeans.get(position).isCheck == true) {
                     cartidlist.add(listBeans.get(position).gcid);
-                    BigDecimal qian = new BigDecimal(listBeans.get(position).newprice);
+                    BigDecimal qian;
+                    if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember, null))) {
+                        qian = new BigDecimal(listBeans.get(position).oldprice);
+                    } else {
+                        qian = new BigDecimal(listBeans.get(position).newprice);
+                    }
                     BigDecimal shulaing = new BigDecimal(listBeans.get(position).numbers);
                     BigDecimal jine = qian.multiply(shulaing);
                     moneylist.add(jine.floatValue());
                     list_intent.add(listBeans.get(position));
-                }else {
+                } else {
                     cartidlist.remove(listBeans.get(position).gcid);
-                    BigDecimal qian = new BigDecimal(listBeans.get(position).newprice);
+                    BigDecimal qian;
+                    if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember, null))) {
+                        qian = new BigDecimal(listBeans.get(position).oldprice);
+                    } else {
+                        qian = new BigDecimal(listBeans.get(position).newprice);
+                    }
                     BigDecimal shulaing = new BigDecimal(listBeans.get(position).numbers);
                     BigDecimal jine = qian.multiply(shulaing);
                     moneylist.remove(jine.floatValue());
                     list_intent.remove(listBeans.get(position));
                 }
                 float a = 0;
-                for (int i = 0; i <listBeans.size() ; i++) {
-                    if (listBeans.get(i).isCheck == true){
-                        a += Float.parseFloat(listBeans.get(i).newprice)*Integer.parseInt(listBeans.get(i).numbers);
+                for (int i = 0; i < listBeans.size(); i++) {
+                    if (listBeans.get(i).isCheck == true) {
+                        a += Float.parseFloat(listBeans.get(i).newprice) * Integer.parseInt(listBeans.get(i).numbers);
                     }
 
                 }
                 BigDecimal bigDecimal = new BigDecimal(a);
-                tvSellMoeney.setText(bigDecimal.setScale(2, RoundingMode.HALF_DOWN).toString());
+                tvSellMoeney.setText(bigDecimal.setScale(2, RoundingMode.HALF_UP).toString());
 //                zong = a+"";
 
                 imageSelcheck = true;
-                for (int i = 0; i <listBeans.size() ; i++) {
-                    if (listBeans.get(i).isCheck == false){
+                for (int i = 0; i < listBeans.size(); i++) {
+                    if (listBeans.get(i).isCheck == false) {
                         imageSelcheck = false;
                     }
                 }
-                if (imageSelcheck){
+                if (imageSelcheck) {
                     imageSel.setImageResource(R.drawable.xuanzhong);
-                } else{
+                } else {
                     imageSel.setImageResource(R.drawable.weixuanzhong);
                 }
 
@@ -130,7 +141,7 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
             @Override
             public void Onselect(int position, String mount) {
 
-                editgoodscar(listBeans.get(position).gcid,mount,position);
+                editgoodscar(listBeans.get(position).gcid, mount, position);
             }
         });
 
@@ -141,7 +152,7 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                     refreshLayout.setNoMoreData(true);
                     return;
                 }
-                page=1;
+                page = 1;
                 getmygoodscar();
             }
 
@@ -168,10 +179,15 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                 list_intent.clear();
                 moneylist.clear();
 
-                if (imageSelcheck == true){
-                    for (int i = 0; i <listBeans.size() ; i++) {
+                if (imageSelcheck == true) {
+                    for (int i = 0; i < listBeans.size(); i++) {
                         listBeans.get(i).isCheck = true;
-                        BigDecimal qian = new BigDecimal(listBeans.get(i).newprice);
+                        BigDecimal qian;
+                        if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember, null))) {
+                            qian = new BigDecimal(listBeans.get(i).oldprice);
+                        } else {
+                            qian = new BigDecimal(listBeans.get(i).newprice);
+                        }
                         BigDecimal shulaing = new BigDecimal(listBeans.get(i).numbers);
                         BigDecimal jine = qian.multiply(shulaing);
                         moneylist.add(jine.floatValue());
@@ -180,10 +196,15 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                     }
                     list_intent.addAll(listBeans);
                     imageSel.setImageResource(R.drawable.xuanzhong);
-                }else {
-                    for (int i = 0; i <listBeans.size() ; i++) {
+                } else {
+                    for (int i = 0; i < listBeans.size(); i++) {
                         listBeans.get(i).isCheck = false;
-                        BigDecimal qian = new BigDecimal(listBeans.get(i).newprice);
+                        BigDecimal qian;
+                        if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember, null))) {
+                            qian = new BigDecimal(listBeans.get(i).oldprice);
+                        } else {
+                            qian = new BigDecimal(listBeans.get(i).newprice);
+                        }
                         BigDecimal shulaing = new BigDecimal(listBeans.get(i).numbers);
                         BigDecimal jine = qian.multiply(shulaing);
                         moneylist.remove(jine.floatValue());
@@ -195,30 +216,30 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                     imageSel.setImageResource(R.drawable.weixuanzhong);
                 }
                 float a = 0;
-                for (int i = 0; i <moneylist.size() ; i++) {
+                for (int i = 0; i < moneylist.size(); i++) {
                     a += moneylist.get(i);
                 }
                 BigDecimal bigDecimal = new BigDecimal(a);
 
 
-                tvSellMoeney.setText(bigDecimal.setScale(2, RoundingMode.HALF_DOWN).toString());
+                tvSellMoeney.setText(bigDecimal.setScale(2, RoundingMode.HALF_UP).toString());
 //                zong = bigDecimal.setScale(2, RoundingMode.HALF_DOWN).toString();
                 shoppingAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_accounts://去结算
-                if (tvAccounts.getText().toString().equals("去结算")){
-                    if (cartidlist.size() == 0){
-                        Toast.makeText(getContext(),"请选择商品",Toast.LENGTH_SHORT).show();
+                if (tvAccounts.getText().toString().equals("去结算")) {
+                    if (cartidlist.size() == 0) {
+                        Toast.makeText(getContext(), "请选择商品", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("bean", (Serializable) list_intent);
                     bundle.putSerializable("gcidlist", (Serializable) cartidlist);
                     bundle.putString("type", "1");
-                    ActivitySwitcher.startFragment(getActivity(), AffirmOrderFra.class,bundle);
-                }else {
-                    if (cartidlist.size() == 0){
-                        Toast.makeText(getContext(),"请选择商品",Toast.LENGTH_SHORT).show();
+                    ActivitySwitcher.startFragment(getActivity(), AffirmOrderFra.class, bundle);
+                } else {
+                    if (cartidlist.size() == 0) {
+                        Toast.makeText(getContext(), "请选择商品", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     deletegoodscar();
@@ -226,13 +247,13 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
 
                 break;
             case R.id.navi_right_txt://编辑
-                 if (naviRightTxt.getText().toString().equals("编辑")){
-                     naviRightTxt.setText("取消");
-                     tvAccounts.setText("删除");
-                 }else {
-                     naviRightTxt.setText("编辑");
-                     tvAccounts.setText("去结算");
-                 }
+                if (naviRightTxt.getText().toString().equals("编辑")) {
+                    naviRightTxt.setText("取消");
+                    tvAccounts.setText("删除");
+                } else {
+                    naviRightTxt.setText("编辑");
+                    tvAccounts.setText("去结算");
+                }
                 break;
         }
     }
@@ -263,6 +284,11 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                 smart.finishLoadMore();
                 smart.finishRefresh();
 
+                if (resultBean.dataList.size() == 0) {
+                    tvNoData.setVisibility(View.VISIBLE);
+                }else {
+                    tvNoData.setVisibility(View.GONE);
+                }
                 listBeans.clear();
                 listBeans.addAll(resultBean.dataList);
                 shoppingAdapter.notifyDataSetChanged();
@@ -272,7 +298,8 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                 imageSel.setImageResource(R.drawable.weixuanzhong);
                 imageSelcheck = false;
                 tvAccounts.setText("去结算");
-                for (int i = 0; i <listBeans.size() ; i++) {
+                naviRightTxt.setText("编辑");
+                for (int i = 0; i < listBeans.size(); i++) {
                     listBeans.get(i).isCheck = false;
                 }
                 tvSellMoeney.setText("0.0");
@@ -287,7 +314,7 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
     }
 
     //编辑购物车
-    private void editgoodscar(String gcid,String numbers,int position) {
+    private void editgoodscar(String gcid, String numbers, int position) {
         Map<String, Object> params = new HashMap<>();
         params.put("uid", userId);
         params.put("gcid", gcid);
@@ -313,31 +340,31 @@ public class ShoppCar extends CachableFrg implements View.OnClickListener {
                 int a = 0;
                 BigDecimal bigDecimal2 = null;
 
-                if (listBeans.get(position).isCheck == true){
-                    if (Integer.parseInt(listBeans.get(position).numbers)>Integer.parseInt(numbers)){
+                if (listBeans.get(position).isCheck == true) {
+                    if (Integer.parseInt(listBeans.get(position).numbers) > Integer.parseInt(numbers)) {
                         a = Integer.parseInt(listBeans.get(position).numbers) - Integer.parseInt(numbers);
                         BigDecimal bigDecimal = new BigDecimal(tvSellMoeney.getText().toString());
                         BigDecimal bigDecimal1 = new BigDecimal(a);
                         BigDecimal bigDecimal3 = new BigDecimal(listBeans.get(position).newprice);
                         BigDecimal bigDecimal4 = bigDecimal1.multiply(bigDecimal3);
                         bigDecimal2 = bigDecimal.subtract(bigDecimal4);
-                        tvSellMoeney.setText(bigDecimal2.setScale(2, RoundingMode.HALF_DOWN).toString());
+                        tvSellMoeney.setText(bigDecimal2.setScale(2, RoundingMode.HALF_UP).toString());
 
 
-                    }else  if (Integer.parseInt(listBeans.get(position).numbers)<Integer.parseInt(numbers)){
-                        a = Integer.parseInt(numbers)-Integer.parseInt(listBeans.get(position).numbers);
+                    } else if (Integer.parseInt(listBeans.get(position).numbers) < Integer.parseInt(numbers)) {
+                        a = Integer.parseInt(numbers) - Integer.parseInt(listBeans.get(position).numbers);
                         BigDecimal bigDecimal = new BigDecimal(tvSellMoeney.getText().toString());
                         BigDecimal bigDecimal1 = new BigDecimal(a);
                         BigDecimal bigDecimal3 = new BigDecimal(listBeans.get(position).newprice);
                         BigDecimal bigDecimal4 = bigDecimal1.multiply(bigDecimal3);
                         bigDecimal2 = bigDecimal.add(bigDecimal4);
-                        tvSellMoeney.setText(bigDecimal2.setScale(2, RoundingMode.HALF_DOWN).toString());
+                        tvSellMoeney.setText(bigDecimal2.setScale(2, RoundingMode.HALF_UP).toString());
 
 
-                    }else {
+                    } else {
 
                     }
-                }else {
+                } else {
 
                 }
                 listBeans.get(position).numbers = numbers;

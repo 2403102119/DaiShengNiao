@@ -13,17 +13,21 @@
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:background="#F6F6F6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
             <LinearLayout
                 android:id="@+id/llNoData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="140dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -45,12 +49,7 @@
                     android:textSize="13sp"
                     android:visibility="visible" />
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:background="#F6F6F6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

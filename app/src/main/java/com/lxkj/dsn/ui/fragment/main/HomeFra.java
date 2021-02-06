@@ -23,7 +23,7 @@ import com.lxkj.dsn.ui.fragment.CachableFrg;
 import com.lxkj.dsn.ui.fragment.fra.ClassfiltyFra;
 import com.lxkj.dsn.ui.fragment.fra.DetailFra;
 import com.lxkj.dsn.ui.fragment.fra.MessageFra;
-import com.lxkj.dsn.ui.fragment.fra.SetFra;
+import com.lxkj.dsn.ui.fragment.fra.SearchFra;
 import com.lxkj.dsn.utils.PicassoUtil;
 import com.lxkj.dsn.utils.StringUtil;
 import com.lzy.ninegrid.ImageInfo;
@@ -63,8 +63,6 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
     TextView etSeek;
     @BindView(R.id.tv_seek)
     TextView tvSeek;
-    @BindView(R.id.ll_search)
-    LinearLayout llSearch;
     @BindView(R.id.imMessage)
     ImageView imMessage;
     @BindView(R.id.tvOrderCount)
@@ -81,6 +79,8 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
     RecyclerView ryProduct;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
+    @BindView(R.id.llSearch)
+    LinearLayout llSearch;
     private ArrayList<DataListBean> listBeans = new ArrayList<>();
     private ArrayList<DataListBean> listBeansOne;
     private ArrayList<DataListBean> listBeansTwo = new ArrayList<>();
@@ -106,21 +106,21 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
 
         listBeansOne = new ArrayList<DataListBean>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
+//        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
         messageAdapter = new ClassAdapter(getContext(), listBeansOne);//首页一级分类
         messageAdapter.checked = false;
         recyclerView.setAdapter(messageAdapter);
         messageAdapter.setOnItemClickListener(new ClassAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-                if (listBeansOne.get(firstPosition).fid.equals("5")){
+                if (listBeansOne.get(firstPosition).fid.equals("5")) {
                     ((MainActivity) getActivity()).mTabHost.setCurrentTab(1);
                 } else {
                     Bundle bundle = new Bundle();
-                    bundle.putString("position",firstPosition+"");
-                    bundle.putString("type","1");
-                    ActivitySwitcher.startFragment(getActivity(), ClassfiltyFra.class,bundle);
+                    bundle.putString("position", firstPosition + "");
+                    bundle.putString("type", "1");
+                    ActivitySwitcher.startFragment(getActivity(), ClassfiltyFra.class, bundle);
                 }
             }
         });
@@ -134,14 +134,14 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
             @Override
             public void OnItemClickListener(int firstPosition) {
                 Bundle bundle = new Bundle();
-                bundle.putString("position",firstPosition+"");
-                bundle.putString("type","2");
-                ActivitySwitcher.startFragment(getActivity(), ClassfiltyFra.class,bundle);
+                bundle.putString("position", firstPosition + "");
+                bundle.putString("type", "2");
+                ActivitySwitcher.startFragment(getActivity(), ClassfiltyFra.class, bundle);
 
             }
         });
 
-        ryProduct.setHasFixedSize(true);
+//        ryProduct.setHasFixedSize(true);
         ryProduct.setNestedScrollingEnabled(false);
         ryProduct.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         productAdapter = new ProductAdapter(getContext(), listBeans);//首页推荐商品
@@ -180,6 +180,7 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
         gettuigoodslist();
 
         imMessage.setOnClickListener(this);
+        llSearch.setOnClickListener(this);
     }
 
     @Override
@@ -187,6 +188,9 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.imMessage://系统消息
                 ActivitySwitcher.startFragment(getActivity(), MessageFra.class);
+                break;
+            case R.id.llSearch://搜索
+                ActivitySwitcher.startFragment(getActivity(), SearchFra.class);
                 break;
         }
     }
@@ -241,7 +245,9 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
                         .setOnClickBannerListener(new OnClickBannerListener<View, String>() {
                             @Override
                             public void onClickBanner(View view, String data, int position) {
-
+                                Bundle bundle = new Bundle();
+                                bundle.putString("gid", listBeans.get(position).gid);
+                                ActivitySwitcher.startFragment(getActivity(), DetailFra.class, bundle);
                             }
                         })
                         //填充数据
@@ -392,9 +398,9 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
 
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
-                if (StringUtil.isEmpty(resultBean.datastr)||resultBean.datastr.equals("0")){
+                if (StringUtil.isEmpty(resultBean.datastr) || resultBean.datastr.equals("0")) {
                     tvOrderCount.setVisibility(View.GONE);
-                }else {
+                } else {
                     tvOrderCount.setVisibility(View.VISIBLE);
                     tvOrderCount.setText(resultBean.datastr);
                 }

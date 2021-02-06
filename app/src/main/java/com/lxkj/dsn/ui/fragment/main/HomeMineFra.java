@@ -19,6 +19,7 @@ import com.lxkj.dsn.bean.ResultBean;
 import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
+import com.lxkj.dsn.ui.activity.MainActivity;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
 import com.lxkj.dsn.ui.fragment.fra.ColletFra;
 import com.lxkj.dsn.ui.fragment.fra.FoundFra;
@@ -30,6 +31,7 @@ import com.lxkj.dsn.ui.fragment.fra.OrderFra;
 import com.lxkj.dsn.ui.fragment.fra.SetFra;
 import com.lxkj.dsn.ui.fragment.fra.UserFra;
 import com.lxkj.dsn.ui.fragment.system.WebFra;
+import com.lxkj.dsn.utils.SharePrefUtil;
 import com.lxkj.dsn.utils.StringUtil;
 import com.lxkj.dsn.utils.ToastUtil;
 import com.lzy.ninegrid.ImageInfo;
@@ -284,6 +286,7 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
                 integral = resultBean.dataobject.integral;
                 balance = resultBean.dataobject.balance;
                 invitationcode = resultBean.dataobject.invitationcode;
+                SharePrefUtil.saveString(getContext(), AppConsts.ismember, resultBean.dataobject.ismember);
             }
 
             @Override

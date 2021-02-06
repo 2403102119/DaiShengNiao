@@ -9,11 +9,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.utils.AmountView2;
+import com.lxkj.dsn.utils.SharePrefUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +47,13 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.MyHold
                 .load(list.get(position).gimage)
                 .into(holder.imIcon);
         holder.tvName.setText(list.get(position).gname);
-        holder.tvPrice.setText(list.get(position).newprice);
+
+        if ("0".equals(SharePrefUtil.getString(context, AppConsts.ismember,null))){
+            holder.tvPrice.setText(list.get(position).oldprice);
+        }else {
+            holder.tvPrice.setText(list.get(position).newprice);
+        }
+
         holder.AmountView.setGoodsNubber(list.get(position).numbers);
 
         if (list.get(position).isCheck==true){

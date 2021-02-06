@@ -69,15 +69,10 @@ public class AppraiseFra extends TitleFragment {
     private AppraiseAdapter appraiseAdapter;
     private List<OrdertailListBean> listBeans = new ArrayList<>();
     private String ordernum;
-    private int select_number = 6;
-    private String plusPath;
-    private ArrayList<String> refundimage = new ArrayList<>();
     private List<LocalMedia> selectList = new ArrayList<>();
-    private String carousel, fid;
-    private List<String> upould = new ArrayList<>();
     private List<EvaluateListBean> evaluateList = new ArrayList<>();
-    private List<String> mBannerSelectPath = new ArrayList<>();
-
+    private EvaluateListBean evaluateListBean = new EvaluateListBean();
+    private int doPosition;
     @Override
     public String getTitleName() {
         return "评价";
@@ -94,18 +89,20 @@ public class AppraiseFra extends TitleFragment {
     }
 
     public void initView() {
+        for (int i = 0; i <listBeans.size() ; i++) {
+            evaluateListBean.odid = listBeans.get(i).odid;
+            evaluateList.add(evaluateListBean);
+        }
 
         ordernum = getArguments().getString("ordernum");
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycle.setLayoutManager(layoutManager);
         appraiseAdapter = new AppraiseAdapter(getContext(), listBeans);
         recycle.setAdapter(appraiseAdapter);
         appraiseAdapter.setOnItemClickListener(new AppraiseAdapter.OnItemClickListener() {
             @Override
-            public void OnItemClickListener(int firstPosition, List<String> mBannerSelectPath1) {
-                mBannerSelectPath = mBannerSelectPath1;
+            public void OnItemClickListener(int firstPosition) {
+                doPosition = firstPosition;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     checkPmsExternalStorageDeatil();
                 } else {
@@ -113,22 +110,28 @@ public class AppraiseFra extends TitleFragment {
                 }
             }
 
+            @Override
+            public void OnEditListener(int firstPosition,String edit) {
+                evaluateList.get(firstPosition).content = edit;
+            }
+
+            @Override
+            public void OnRatingListener(int firstPosition, String star) {
+                evaluateList.get(firstPosition).star = star;
+            }
+
         });
 
         myorderdetail();
-
         okID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (int i = 0; i <listBeans.size() ; i++) {
-                    evaluateList.add(appraiseAdapter.getBean());
+                    evaluateList.get(i).images.addAll(listBeans.get(i).mBannerSelectPath);
                 }
                 orderevaluate();
-
             }
         });
-
-        plusPath = getString(R.string.glide_plus_icon_string) + AppUtils.getPackageInfo(getContext()).packageName + "/mipmap/" + R.mipmap.tianjiatupian;
     }
 
     /**
@@ -220,7 +223,7 @@ public class AppraiseFra extends TitleFragment {
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
                 .loadImageEngine(GlideEngine.createGlideEngine())
-                .maxSelectNum(select_number)
+                .maxSelectNum(6-listBeans.get(doPosition).mBannerSelectPath.size())
                 .minSelectNum(1)
                 .imageSpanCount(3)// 每行显示个数 int
                 .isCamera(true)// 是否显示拍照按钮 true or false
@@ -255,12 +258,7 @@ public class AppraiseFra extends TitleFragment {
             if (photoLists != null && !photoLists.isEmpty()) {
                 File file = new File(photoLists.get(0));//获取第一张图片
                 if (file.exists()) {
-                    mBannerSelectPath.remove(mBannerSelectPath.size() - 1);
-                    mBannerSelectPath.addAll(photoLists);
-                    uploadImage(mBannerSelectPath);
-                    mBannerSelectPath.add(plusPath);//添加按键，超过9张时在adapter中隐藏
-                    Log.i("TAG", "onSuccess:------- " + mBannerSelectPath);
-                    select_number = 5 - (mBannerSelectPath.size() - 1);
+                    uploadImage(photoLists);
                 }
             }
         }
@@ -292,13 +290,9 @@ public class AppraiseFra extends TitleFragment {
         mOkHttpHelper.post_file(mContext, Url.uploadmanyFile, files, new SpotsCallBack<ResultBean>(mContext) {
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
-                upould.clear();
-                for (int i = 0; i < resultBean.dataarr.size(); i++) {
-                    refundimage.add(resultBean.dataarr.get(i));
-                }
-
-                appraiseAdapter.setdata(resultBean.dataarr,mBannerSelectPath);
-
+                if (null != resultBean.dataarr)
+                listBeans.get(doPosition).mBannerSelectPath.addAll(resultBean.dataarr);
+                appraiseAdapter.notifyDataSetChanged();
             }
 
 

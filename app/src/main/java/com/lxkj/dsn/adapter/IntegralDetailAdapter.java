@@ -44,11 +44,9 @@ public class IntegralDetailAdapter extends RecyclerView.Adapter<IntegralDetailAd
          holder.tvJifen.setText(list.get(position).integral);
          holder.tvTime.setText(list.get(position).adtime);
          if (list.get(position).type.equals("0")){
-//             holder.tvReson.setText("购买书籍");
-             holder.tvReson.setText("");
+             holder.tvReson.setText("消费获得");
          }else {
-//             holder.tvReson.setText("兑换支出");
-             holder.tvReson.setText("");
+             holder.tvReson.setText("兑换支出");
          }
     }
 

@@ -1,5 +1,6 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.lxkj.dsn.R;
@@ -79,7 +80,7 @@ public class RepalyFra extends CachableFrg {
                 getmyadddynamiccommlist();
             }
         });
-
+        getmyadddynamiccommlist();
     }
 
     //我的评论
@@ -116,6 +117,12 @@ public class RepalyFra extends CachableFrg {
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
+
+                if (resultBean.dataList.size() == 0){
+                    llNodata.setVisibility(View.VISIBLE);
+                }else {
+                    llNodata.setVisibility(View.GONE);
+                }
 
                 repalyAdapter.notifyDataSetChanged();
 

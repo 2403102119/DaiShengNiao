@@ -128,6 +128,20 @@ public class Url {
     public static String orderrefund = IP + "orderrefund";
     //订单评价
     public static String orderevaluate = IP + "orderevaluate";
+    //首页搜索商品
+    public static String getsearchgoodslist = IP + "getsearchgoodslist";
+    //动态详情
+    public static String getdynamicdetail = IP + "getdynamicdetail";
+    //动态评论列表
+    public static String getdynamiccommlist = IP + "getdynamiccommlist";
+    //点赞/取消点赞
+    public static String dynamiczan = IP + "dynamiczan";
+    //删除评论
+    public static String deletedynamiccomm = IP + "deletedynamiccomm";
+    //举报用户
+    public static String addreports = IP + "addreports";
+    //三方登录
+    public static String threeLogin = IP + "threeLogin";
 
 
 }

@@ -257,7 +257,7 @@
             android:value="developer-default" /> <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="f41b924a9d987dae3cade022" />
+            android:value="ba22131c5a36e0b58ce5fc23" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
