@@ -49,6 +49,12 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyHolder> 
         holder.tvTime.setText(list.get(position).adtime);
         holder.tvLeiji.setText("累计消费："+list.get(position).allsalemoney);
         holder.tvHuibao.setText("累计回报："+list.get(position).allmoney);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemClickListener(position);
+            }
+        });
 
     }
 

@@ -65,6 +65,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.MyHolder
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.OnItemClickListener(position);
+            }
+        });
+
         recycletwoItemAdapter.notifyDataSetChanged();
     }
 

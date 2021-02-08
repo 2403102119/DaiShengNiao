@@ -30,12 +30,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/tvSku"
-                android:text="参数"
-                android:visibility="invisible"
+                android:id="@+id/tvNumber"
+                android:text="x1"
                 android:layout_marginTop="@dimen/dp_10"
-                android:textSize="12sp"
                 android:textColor="@color/txt_66"
+                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -46,37 +45,20 @@
             android:layout_width="wrap_content"
             android:layout_marginLeft="14dp"
             android:layout_height="match_parent">
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvNumber"
-                    android:text="x1"
-                    android:textColor="@color/txt_66"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <com.lxkj.dsn.utils.AmountView2
-                    android:id="@+id/AmountView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="right"
-                    android:gravity="center"
-                    android:visibility="gone" />
-            </LinearLayout>
             <TextView
                 android:id="@+id/tvPrice"
                 android:text="¥0.00"
-                android:layout_marginTop="@dimen/dp_10"
                 android:textSize="12sp"
                 android:textColor="@color/txt_66"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-
+            <TextView
+                android:text=""
+                android:layout_marginTop="@dimen/dp_10"
+                android:textColor="@color/txt_66"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

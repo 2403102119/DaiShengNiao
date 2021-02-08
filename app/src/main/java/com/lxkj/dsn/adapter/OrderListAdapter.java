@@ -54,6 +54,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyHo
                 .placeholder(R.mipmap.touxiang))
                 .load(list.get(position).ordertailList.get(0).gimage)
                 .into(holder.riIcon);
+        holder.tvPrice.setText("¥"+list.get(position).ordertailList.get(0).gprice);
+        holder.tvName.setText(list.get(position).ordertailList.get(0).gname);
+        holder.tvNumber.setText("×"+list.get(position).ordertailList.get(0).gnum);
 
         if (list.get(position).state.equals("0")){
             holder.tvOrderStatus.setText("待付款");
@@ -133,6 +136,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyHo
         TextView tvOrderStatus;
         TextView tvPay;
         TextView tvCancel;
+        TextView tvPrice;
+        TextView tvName;
+        TextView tvNumber;
         RoundedImageView riIcon;
         public MyHolder(View itemView) {
             super(itemView);
@@ -143,6 +149,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.MyHo
             tvPay = itemView.findViewById(R.id.tvPay);
             tvCancel = itemView.findViewById(R.id.tvCancel);
             riIcon = itemView.findViewById(R.id.riIcon);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvName = itemView.findViewById(R.id.tvName);
+            tvNumber = itemView.findViewById(R.id.tvNumber);
         }
     }
     private OrderListAdapter.OnItemClickListener onItemClickListener;

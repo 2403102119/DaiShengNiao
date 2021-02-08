@@ -308,8 +308,10 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
 
                 if (resultBean.dataobject.type.equals("0")){//普通商品
                     tvAddCar.setVisibility(View.VISIBLE);
+                    act.setRightImgVisibility(true);
                 }else {
                     tvAddCar.setVisibility(View.INVISIBLE);
+                    act.setRightImgVisibility(false);
                 }
             }
 
@@ -362,7 +364,6 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
         });
     }
 
-
     //添加购物车
     private void addgoodscar() {
         Map<String, Object> params = new HashMap<>();
@@ -397,8 +398,6 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
             }
         });
     }
-
-
 
     private void webSetting(String url) {
         webView.loadUrl(url);
@@ -495,7 +494,7 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
         qrCode = new QREncode.Builder(getContext())
                 .setColor(getResources().getColor(R.color.colorBlack))//二维码颜色
                 //.setParsedResultType(ParsedResultType.TEXT)//默认是TEXT类型
-                .setContents("https://www.baidu.com/")//二维码内容
+                .setContents("http://app.daishengbook.com/h5/#/pages/detail/index?invitationcode="+SharePrefUtil.getString(getContext(),AppConsts.invitationcode,null)+"&gid="+gid+"&type=1")//二维码内容
                 .setLogoBitmap(logo)//二维码中间logo
                 .build().encodeAsBitmap();
 
@@ -536,6 +535,10 @@ public class DetailFra extends TitleFragment implements NaviActivity.NaviRigthIm
         state();
         ll_sell_item.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.activity_translate_in));
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+        AppConsts.SHAREDES = tvName.getText().toString();
+        AppConsts.FENGMIAN = BanString.get(0);
+        AppConsts.miaoshu = tvPrice.getText().toString();
+        AppConsts.SHAREURL = "http://app.daishengbook.com/h5/#/pages/detail/index?invitationcode="+SharePrefUtil.getString(getContext(),AppConsts.invitationcode,null)+"&gid="+gid+"&type=1";
         new ShareFra().show(getFragmentManager(), "Menu");
     }
 }

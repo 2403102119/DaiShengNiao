@@ -89,11 +89,8 @@ public class AppraiseFra extends TitleFragment {
     }
 
     public void initView() {
-        for (int i = 0; i <listBeans.size() ; i++) {
-            evaluateListBean.odid = listBeans.get(i).odid;
-            evaluateList.add(evaluateListBean);
-        }
 
+        evaluateListBean.images = new ArrayList<>();
         ordernum = getArguments().getString("ordernum");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycle.setLayoutManager(layoutManager);
@@ -199,7 +196,10 @@ public class AppraiseFra extends TitleFragment {
 
                 appraiseAdapter.notifyDataSetChanged();
 
-
+                for (int i = 0; i <listBeans.size() ; i++) {
+                    evaluateListBean.odid = listBeans.get(i).odid;
+                    evaluateList.add(evaluateListBean);
+                }
             }
 
             @Override

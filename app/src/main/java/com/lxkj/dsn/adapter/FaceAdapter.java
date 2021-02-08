@@ -65,6 +65,7 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.MyHolder> {
         holder.tvConten.setText(list.get(position).content);
         holder.tvcommentCount.setText(list.get(position).commentnum);
         holder.tvcollectCount.setText(list.get(position).zannum);
+        holder.tvFenlei.setText(list.get(position).fname);
         if (list.get(position).iszan.equals("0")){
             holder.imShoucang.setImageResource(R.mipmap.dianzan);
         }else {
@@ -105,6 +106,7 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.MyHolder> {
          TextView tvConten;
          TextView tvcommentCount;
          TextView tvcollectCount;
+         TextView tvFenlei;
          ImageView imShoucang;
         public MyHolder(View itemView) {
             super(itemView);
@@ -116,6 +118,7 @@ public class FaceAdapter extends RecyclerView.Adapter<FaceAdapter.MyHolder> {
             tvcommentCount = itemView.findViewById(R.id.tvcommentCount);
             tvcollectCount = itemView.findViewById(R.id.tvcollectCount);
             imShoucang = itemView.findViewById(R.id.imShoucang);
+            tvFenlei = itemView.findViewById(R.id.tvFenlei);
         }
     }
     private FaceAdapter.OnItemClickListener onItemClickListener;

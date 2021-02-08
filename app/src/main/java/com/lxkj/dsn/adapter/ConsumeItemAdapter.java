@@ -12,54 +12,50 @@ import com.lxkj.dsn.R;
 import com.lxkj.dsn.bean.DataListBean;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
- * Time:2021/1/22
+ * Time:2021/2/7
  * <p>
  * Author:李迪迦
  * <p>
  * Interface:
  */
-public class RepalyAdapter extends RecyclerView.Adapter<RepalyAdapter.MyHolder> {
+public class ConsumeItemAdapter extends RecyclerView.Adapter<ConsumeItemAdapter.MyHolder> {
     private Context context;
-    private List<DataListBean> list;
-    public RepalyAdapter(Context context, List<DataListBean> list) {
+    private List<DataListBean.OrdertailList> list;
+    public ConsumeItemAdapter(Context context, List<DataListBean.OrdertailList> list) {
         this.context = context;
         this.list = list;
 
     }
     @Override
-    public RepalyAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_repaly, parent, false);
-        return new RepalyAdapter.MyHolder(view);
+    public ConsumeItemAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_consumeitem, parent, false);
+        return new ConsumeItemAdapter.MyHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RepalyAdapter.MyHolder holder, final int position) {
-        holder.tvName.setText(list.get(position).usernickname);
-        holder.tvContent.setText(list.get(position).content);
-        holder.tvTime.setText(list.get(position).adtime);
+    public void onBindViewHolder(ConsumeItemAdapter.MyHolder holder, final int position) {
+        holder.tvName.setText(list.get(position).gname);
+        holder.tvNumber.setText("¥"+list.get(position).gnum);
+        holder.tvPrice.setText(list.get(position).gprice);
+
 
         Glide.with(context).applyDefaultRequestOptions(new RequestOptions()
                 .error(R.mipmap.touxiang)
                 .placeholder(R.mipmap.touxiang))
-                .load(list.get(position).usericon)
+                .load(list.get(position).gimage)
                 .into(holder.riIcon);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemClickListener.OnItemClickListener(position);
-            }
-        });
+
     }
 
     @Override
     public int getItemCount() {
+
         if (list == null) {
             return 0;
         } else {
@@ -69,21 +65,22 @@ public class RepalyAdapter extends RecyclerView.Adapter<RepalyAdapter.MyHolder> 
 
 
     public class MyHolder extends RecyclerView.ViewHolder {
+        TextView tvName;
+        TextView tvNumber;
+        TextView tvPrice;
         RoundedImageView riIcon;
-        TextView  tvName;
-        TextView  tvTime;
-        TextView  tvContent;
         public MyHolder(View itemView) {
             super(itemView);
+
             riIcon = itemView.findViewById(R.id.riIcon);
             tvName = itemView.findViewById(R.id.tvName);
-            tvTime = itemView.findViewById(R.id.tvTime);
-            tvContent = itemView.findViewById(R.id.tvContent);
+            tvNumber = itemView.findViewById(R.id.tvNumber);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
         }
     }
-    private RepalyAdapter.OnItemClickListener onItemClickListener;
+    private ConsumeItemAdapter.OnItemClickListener onItemClickListener;
 
-    public void setOnItemClickListener(RepalyAdapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(ConsumeItemAdapter.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 

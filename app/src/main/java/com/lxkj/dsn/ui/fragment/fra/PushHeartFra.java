@@ -21,6 +21,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
+import com.lxkj.dsn.adapter.PostArticleAdapter;
 import com.lxkj.dsn.adapter.PostArticleImgAdapter;
 import com.lxkj.dsn.bean.ResultBean;
 import com.lxkj.dsn.http.BaseCallback;
@@ -75,7 +76,7 @@ public class PushHeartFra extends TitleFragment implements View.OnClickListener 
     private  List<String> fidlist = new ArrayList<>();
     private ArrayAdapter mAdapter;
     private List<String> mBannerSelectPath = new ArrayList<>();
-    private PostArticleImgAdapter postArticleImgAdapter;
+    private PostArticleAdapter postArticleImgAdapter;
     private int select_number = 6;
     private String plusPath;
     private ArrayList<String> imagelist = new ArrayList<>();
@@ -113,10 +114,10 @@ public class PushHeartFra extends TitleFragment implements View.OnClickListener 
             }
         });
 
-        postArticleImgAdapter = new PostArticleImgAdapter(mContext, mBannerSelectPath);
+        postArticleImgAdapter = new PostArticleAdapter(mContext, mBannerSelectPath);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(postArticleImgAdapter);
-        postArticleImgAdapter.setOnItemClickListener(new PostArticleImgAdapter.OnItemClickListener() {
+        postArticleImgAdapter.setOnItemClickListener(new PostArticleAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int positiom) {
                 mBannerSelectPath.remove(positiom);
@@ -214,7 +215,7 @@ public class PushHeartFra extends TitleFragment implements View.OnClickListener 
                     uploadImage(mBannerSelectPath);
                     mBannerSelectPath.add(plusPath);//添加按键，超过9张时在adapter中隐藏
                     Log.i("TAG", "onSuccess:------- " + mBannerSelectPath);
-                    select_number = 5 - (mBannerSelectPath.size() - 1);
+                    select_number = 6 - (mBannerSelectPath.size() - 1);
                     postArticleImgAdapter.notifyDataSetChanged();
                 }
             }

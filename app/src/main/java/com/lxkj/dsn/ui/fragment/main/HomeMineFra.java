@@ -287,6 +287,7 @@ public class HomeMineFra extends CachableFrg implements View.OnClickListener {
                 balance = resultBean.dataobject.balance;
                 invitationcode = resultBean.dataobject.invitationcode;
                 SharePrefUtil.saveString(getContext(), AppConsts.ismember, resultBean.dataobject.ismember);
+                SharePrefUtil.saveString(getContext(), AppConsts.invitationcode, resultBean.dataobject.invitationcode);
             }
 
             @Override

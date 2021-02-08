@@ -525,10 +525,16 @@ public class FaceDeatilFra extends TitleFragment implements View.OnClickListener
             tvJubao.setVisibility(View.VISIBLE);
             if (listBeans.get(position).userid.equals(SharePrefUtil.getString(getContext(), AppConsts.UID,null))){
                 tvShanchu.setVisibility(View.VISIBLE);
+            }else {
+                tvShanchu.setVisibility(View.GONE);
             }
         }else {
+            if (listBeans.get(position).userid.equals(SharePrefUtil.getString(getContext(), AppConsts.UID,null))){
+                tvShanchu.setVisibility(View.VISIBLE);
+            }else {
+                tvShanchu.setVisibility(View.GONE);
+            }
             tvJubao.setVisibility(View.VISIBLE);
-            tvShanchu.setVisibility(View.VISIBLE);
         }
 
         tvShanchu.setOnClickListener(new View.OnClickListener() {

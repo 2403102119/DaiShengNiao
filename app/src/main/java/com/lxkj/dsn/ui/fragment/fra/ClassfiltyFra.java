@@ -112,8 +112,8 @@ public class ClassfiltyFra extends TitleFragment implements View.OnClickListener
         type = getArguments().getString("type");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
+//        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
         messageAdapter = new ClassAdapter(getContext(), listBeansOne);//首页一级分类
         if (type.equals("1")){
             messageAdapter.checked = true;

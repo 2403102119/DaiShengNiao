@@ -17,6 +17,7 @@ import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.DynamicAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.CachableFrg;
@@ -71,7 +72,9 @@ public class NGCFra extends CachableFrg {
         dynamicAdapter.setOnItemClickListener(new DynamicAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("did", listBeans.get(firstPosition).did);
+                ActivitySwitcher.startFragment(getActivity(), FaceDeatilFra.class, bundle);
             }
 
             @Override

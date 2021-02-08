@@ -1,12 +1,17 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.actlink.NaviRightListener;
 import com.lxkj.dsn.adapter.InviteAdapter;
@@ -18,6 +23,8 @@ import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
 import com.lxkj.dsn.ui.fragment.dialog.ShareFra;
 import com.lxkj.dsn.ui.fragment.system.WebFra;
+import com.lxkj.dsn.utils.SharePrefUtil;
+import com.mylhyl.zxing.scanner.encode.QREncode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +62,8 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
     TextView tvYaoqingma;
     @BindView(R.id.tvLijiyaoqing)
     TextView tvLijiyaoqing;
+    @BindView(R.id.imCode)
+    ImageView imCode;
     private ArrayList<DataListBean> listBeans;
     private int page = 1, totalPage = 1;
     private InviteAdapter inviteAdapter;
@@ -81,6 +90,17 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
 
         tvYaoqingma.setText("邀请码：" + invitationcode);
 
+       Bitmap qrCode = new QREncode.Builder(getContext())
+                .setColor(getResources().getColor(R.color.colorBlack))//二维码颜色
+                .setContents("http://app.daishengbook.com/h5/#/pages/registe/index?invitationcode=" + SharePrefUtil.getString(getContext(), AppConsts.invitationcode, null) + "&type=1")//二维码内容
+                .build().encodeAsBitmap();
+
+        Glide.with(getContext()).applyDefaultRequestOptions(new RequestOptions()
+                .error(R.mipmap.logo)
+                .placeholder(R.mipmap.logo))
+                .load(qrCode)
+                .into(imCode);
+
         listBeans = new ArrayList<DataListBean>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -89,7 +109,10 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
         inviteAdapter.setOnItemClickListener(new InviteAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("userid", listBeans.get(firstPosition).userid);
+                bundle.putString("title", listBeans.get(firstPosition).username);
+                ActivitySwitcher.startFragment(getActivity(), ConsumeFra.class, bundle);
             }
         });
 
@@ -106,6 +129,10 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
                 ActivitySwitcher.startFragment(getActivity(), AllFriendFra.class);
                 break;
             case R.id.tvLijiyaoqing://立即邀请
+                AppConsts.SHAREDES = "欢迎使用戴胜鸟图书";
+                AppConsts.FENGMIAN = "";
+                AppConsts.miaoshu = "欢迎使用戴胜鸟图书";
+                AppConsts.SHAREURL = "http://app.daishengbook.com/h5/#/pages/registe/index?invitationcode=" + SharePrefUtil.getString(getContext(), AppConsts.invitationcode, null) + "&type=1";
                 new ShareFra().show(getFragmentManager(), "Menu");
                 break;
         }
@@ -139,9 +166,14 @@ public class InviteFra extends TitleFragment implements NaviRightListener, View.
                 tvLeijishouji.setText("累计收益：" + resultBean.allmoney);
                 tvNumber.setText("我的好友（" + resultBean.allnum + "）");
                 listBeans.clear();
-                for (int i = 0; i < 3; i++) {
-                    listBeans.add(resultBean.dataList.get(i));
+                if (resultBean.dataList.size() > 3) {
+                    for (int i = 0; i < 3; i++) {
+                        listBeans.add(resultBean.dataList.get(i));
+                    }
+                } else {
+                    listBeans.addAll(resultBean.dataList);
                 }
+
                 inviteAdapter.notifyDataSetChanged();
 
             }

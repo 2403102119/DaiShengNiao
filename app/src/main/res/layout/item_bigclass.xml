@@ -5,9 +5,10 @@
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     android:layout_marginTop="5dp"
+    android:gravity="center_vertical"
     android:background="@drawable/bigclass"
     android:layout_width="match_parent"
-    android:layout_height="98dp">
+    android:layout_height="80dp">
     <LinearLayout
         android:gravity="center"
         android:orientation="vertical"
@@ -32,10 +33,9 @@
     </LinearLayout>
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/riIcon"
+        android:layout_marginRight="5dp"
         android:src="@mipmap/imageerror"
-        android:scaleType="centerCrop"
-        app:riv_corner_radius_top_right="5dp"
-        app:riv_corner_radius_bottom_right="5dp"
-        android:layout_width="98dp"
-        android:layout_height="98dp"/>
+        app:riv_corner_radius="3dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"/>
 </LinearLayout>

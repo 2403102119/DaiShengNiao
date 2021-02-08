@@ -42,7 +42,7 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(TextAdapter.MyHolder holder, final int position) {
          holder.tvName.setText(list.get(position).gname);
-         holder.imXuanzhong.setOnClickListener(new View.OnClickListener() {
+         holder.itemView.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  if (list.get(position).check){

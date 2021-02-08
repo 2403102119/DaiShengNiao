@@ -21,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
  * 邮箱:595327086@qq.com
  */
 
-public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAdapter.MyViewHolder> {
+public class PostArticleAdapter extends RecyclerView.Adapter<PostArticleAdapter.MyViewHolder> {
 
     private List<String> mDatas;
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
 
-    public PostArticleImgAdapter(Context context, List<String> datas) {
+    public PostArticleAdapter(Context context, List<String> datas) {
         this.mDatas = datas;
         this.mContext = context;
         this.mLayoutInflater = LayoutInflater.from(context);
@@ -40,23 +40,20 @@ public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-//        if (position >= PushHeartFra.IMAGE_SIZE) {//图片已选完时，隐藏添加按钮
-//            holder.imageView.setVisibility(View.GONE);
-//        } else {
-//            holder.imageView.setVisibility(View.VISIBLE);
-//        }
+        if (position >= PushHeartFra.IMAGE_SIZE) {//图片已选完时，隐藏添加按钮
+            holder.imageView.setVisibility(View.GONE);
+        } else {
+            holder.imageView.setVisibility(View.VISIBLE);
+        }
 
-        if (position == mDatas.size())
-            holder.imageView.setImageResource(R.mipmap.tianjiatupian);
-        else
-            Glide.with(mContext).applyDefaultRequestOptions(new RequestOptions()
-                    .error(R.mipmap.imageerror)
-                    .placeholder(R.mipmap.imageerror))
-                    .load(mDatas.get(position))
-                    .into(holder.imageView);
+        Glide.with(mContext).applyDefaultRequestOptions(new RequestOptions()
+                .error(R.mipmap.imageerror)
+                .placeholder(R.mipmap.imageerror))
+                .load(mDatas.get(position))
+                .into(holder.imageView);
 
 
-        if (position == mDatas.size()) {
+        if (mDatas.get(position).contains(mContext.getString(R.string.glide_plus_icon_string))) {
             holder.del.setVisibility(View.GONE);
         }else {
             holder.del.setVisibility(View.VISIBLE);
@@ -71,8 +68,7 @@ public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAd
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position == mDatas.size())
-                    onItemClickListener.Onbig(position);
+                onItemClickListener.Onbig(position);
             }
         });
 
@@ -80,7 +76,7 @@ public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAd
 
     @Override
     public int getItemCount() {
-        return  mDatas.size()+1;
+        return mDatas == null ? 0 : mDatas.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -94,9 +90,9 @@ public class PostArticleImgAdapter extends RecyclerView.Adapter<PostArticleImgAd
         }
     }
 
-    private PostArticleImgAdapter.OnItemClickListener onItemClickListener;
+    private PostArticleAdapter.OnItemClickListener onItemClickListener;
 
-    public void setOnItemClickListener(PostArticleImgAdapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(PostArticleAdapter.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 

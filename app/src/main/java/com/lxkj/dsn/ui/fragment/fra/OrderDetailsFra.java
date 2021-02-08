@@ -20,8 +20,6 @@ import android.widget.Toast;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.OrderDetailAdapter;
 import com.lxkj.dsn.adapter.TextAdapter;
-import com.lxkj.dsn.bean.DataBean;
-import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.OrdertailListBean;
 import com.lxkj.dsn.bean.ResultBean;
 import com.lxkj.dsn.biz.ActivitySwitcher;
@@ -98,6 +96,10 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
     LinearLayout llChengjiao;
     @BindView(R.id.llButton)
     LinearLayout llButton;
+    @BindView(R.id.imFnahui)
+    ImageView imFnahui;
+    @BindView(R.id.tvTuikuan)
+    TextView tvTuikuan;
     private OrderDetailAdapter affirmOrderAdapter;
     private TextAdapter textAdapter;
     private String ordernum;
@@ -142,6 +144,7 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
         llfanhui.setOnClickListener(this);
         tvCancel.setOnClickListener(this);
         llCall.setOnClickListener(this);
+        tvTuikuan.setOnClickListener(this);
     }
 
     @Override
@@ -154,6 +157,7 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         bundle.putString("ordernum", ordernum);
                         bundle.putString("money", tvOrderPrice.getText().toString());
                         ActivitySwitcher.startFragment(getActivity(), PayFra.class, bundle);
+                        act.finish();
                         break;
                     case "提醒发货":
                         Toast toast = Toast.makeText(getContext(), "已提醒商家尽快发货", Toast.LENGTH_SHORT);
@@ -211,7 +215,7 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                 act.finishSelf();
                 break;
             case R.id.tvCancel:
-                switch (tvCancel.getText().toString()){
+                switch (tvCancel.getText().toString()) {
                     case "取消订单":
                         NormalDialog dialog1 = new NormalDialog(getContext(), "确认取消订单？", "取消", "确定", true);
                         dialog1.show();
@@ -219,8 +223,8 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                             @Override
                             public void OnRightClick() {
                                 Bundle bundle = new Bundle();
-                                bundle.putString("ordernum",ordernum);
-                                ActivitySwitcher.startFragment(getActivity(), QuxiaoOrderFra.class,bundle);
+                                bundle.putString("ordernum", ordernum);
+                                ActivitySwitcher.startFragment(getActivity(), QuxiaoOrderFra.class, bundle);
                                 act.finish();
                             }
 
@@ -235,8 +239,8 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         break;
                     case "退款":
                         state();
-                        ll_sell.startAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.activity_translate_in));
-                        popupWindow.showAtLocation(v, Gravity.TOP,0,10);
+                        ll_sell.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.activity_translate_in));
+                        popupWindow.showAtLocation(v, Gravity.TOP, 0, 10);
                         break;
                 }
                 break;
@@ -244,6 +248,11 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                 bundle.putString("title", "客服");
                 bundle.putString("url", "http://w10.ttkefu.com/k/linkurl/?t=4C2CFJI5");
                 ActivitySwitcher.startFragment(getContext(), WebFra.class, bundle);
+                break;
+            case R.id.tvTuikuan:
+                state();
+                ll_sell.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.activity_translate_in));
+                popupWindow.showAtLocation(v, Gravity.TOP, 0, 10);
                 break;
         }
     }
@@ -272,7 +281,7 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
                 listBeans.clear();
-                for (int i = 0; i <resultBean.dataobject.ordertailList.size() ; i++) {
+                for (int i = 0; i < resultBean.dataobject.ordertailList.size(); i++) {
                     resultBean.dataobject.ordertailList.get(i).type = resultBean.dataobject.type;
                 }
                 listBeans.addAll(resultBean.dataobject.ordertailList);
@@ -280,12 +289,12 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
 
                 tvSite.setText("收货地址：" + resultBean.dataobject.address);
                 tvName.setText(resultBean.dataobject.name + ":" + resultBean.dataobject.phone);
-                if (resultBean.dataobject.type.equals("2")){
-                    tvAllPrice.setText(resultBean.dataobject.goodsprice+"积分");
-                    tvOrderPrice.setText(resultBean.dataobject.goodsprice+"积分");
-                }else {
-                    tvAllPrice.setText("¥"+resultBean.dataobject.goodsprice);
-                    tvOrderPrice.setText("¥"+resultBean.dataobject.goodsprice);
+                if (resultBean.dataobject.type.equals("2")) {
+                    tvAllPrice.setText(resultBean.dataobject.goodsprice + "积分");
+                    tvOrderPrice.setText(resultBean.dataobject.goodsprice + "积分");
+                } else {
+                    tvAllPrice.setText("¥" + resultBean.dataobject.goodsprice);
+                    tvOrderPrice.setText("¥" + resultBean.dataobject.goodsprice);
                 }
 
 
@@ -298,17 +307,17 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                 if (StringUtil.isEmpty(resultBean.dataobject.paytime)) {
                     llFukuan.setVisibility(View.GONE);
                 } else {
-                    llFukuan.setVisibility(View.GONE);
+                    llFukuan.setVisibility(View.VISIBLE);
                 }
                 if (StringUtil.isEmpty(resultBean.dataobject.sendtime)) {
                     llFahuo.setVisibility(View.GONE);
                 } else {
-                    llFahuo.setVisibility(View.GONE);
+                    llFahuo.setVisibility(View.VISIBLE);
                 }
                 if (StringUtil.isEmpty(resultBean.dataobject.shtime)) {
                     llChengjiao.setVisibility(View.GONE);
                 } else {
-                    llChengjiao.setVisibility(View.GONE);
+                    llChengjiao.setVisibility(View.VISIBLE);
                 }
 
                 switch (resultBean.dataobject.state) {
@@ -319,6 +328,7 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         tvPay.setText("去付款");
                         tvCancel.setText("取消订单");
                         llButton.setVisibility(View.VISIBLE);
+                        tvTuikuan.setVisibility(View.GONE);
                         break;
                     case "1":
                         tvState.setText("待发货");
@@ -326,51 +336,52 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
 
                         tvPay.setText("提醒发货");
 
-                        if (resultBean.dataobject.type.equals("0")){
+                        if (resultBean.dataobject.type.equals("0")) {
                             tvCancel.setVisibility(View.VISIBLE);
                             tvCancel.setText("退款");
-                        }else {
+                        } else {
                             tvCancel.setVisibility(View.GONE);
                         }
-
-
                         llButton.setVisibility(View.VISIBLE);
+                        tvTuikuan.setVisibility(View.GONE);
                         break;
                     case "2":
                         tvState.setText("待收货");
                         tvPay.setVisibility(View.VISIBLE);
                         tvCancel.setVisibility(View.VISIBLE);
                         tvPay.setText("确认收货");
-                        if (resultBean.dataobject.type.equals("1")){
-                            llButton.setVisibility(View.GONE);
-                        }else {
+                        if (resultBean.dataobject.type.equals("0")) {
                             tvCancel.setText("查看物流");
                             llButton.setVisibility(View.VISIBLE);
+                            tvTuikuan.setVisibility(View.VISIBLE);
+                        } else {
+                            llButton.setVisibility(View.GONE);
                         }
 
                         break;
                     case "3":
                         tvState.setText("待评价");
                         tvPay.setVisibility(View.VISIBLE);
-                        if (resultBean.dataobject.type.equals("0")){
+                        if (resultBean.dataobject.type.equals("0")) {
                             tvCancel.setVisibility(View.VISIBLE);
                             tvCancel.setText("退款");
-                        }else {
+                        } else {
                             tvCancel.setVisibility(View.GONE);
                         }
                         tvPay.setText("去评价");
                         llButton.setVisibility(View.VISIBLE);
+                        tvTuikuan.setVisibility(View.GONE);
                         break;
                     case "4":
                         tvState.setText("已完成");
                         tvPay.setVisibility(View.VISIBLE);
                         tvPay.setText("删除订单");
                         llButton.setVisibility(View.VISIBLE);
-
-                        if (resultBean.dataobject.type.equals("0")){
+                        tvTuikuan.setVisibility(View.GONE);
+                        if (resultBean.dataobject.type.equals("0")) {
                             tvCancel.setVisibility(View.VISIBLE);
                             tvCancel.setText("退款");
-                        }else {
+                        } else {
                             tvCancel.setVisibility(View.GONE);
                         }
                         break;
@@ -379,18 +390,21 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
                         tvPay.setVisibility(View.GONE);
                         tvCancel.setVisibility(View.GONE);
                         llButton.setVisibility(View.GONE);
+                        tvTuikuan.setVisibility(View.GONE);
                         break;
                     case "6":
                         tvState.setText("已退款");
                         tvPay.setVisibility(View.GONE);
                         tvCancel.setVisibility(View.GONE);
                         llButton.setVisibility(View.GONE);
+                        tvTuikuan.setVisibility(View.GONE);
                         break;
                     case "7":
                         tvState.setText("已取消");
                         tvPay.setVisibility(View.GONE);
                         tvCancel.setVisibility(View.GONE);
                         llButton.setVisibility(View.GONE);
+                        tvTuikuan.setVisibility(View.GONE);
                         break;
                 }
 
@@ -434,6 +448,7 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
             }
         });
     }
+
     /**
      * 订单删除
      */
@@ -467,9 +482,9 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
         });
     }
 
-    public void state(){
-        popupWindow=new PopupWindow(getContext());
-        View view=getLayoutInflater().inflate(R.layout.popup_product,null);
+    public void state() {
+        popupWindow = new PopupWindow(getContext());
+        View view = getLayoutInflater().inflate(R.layout.popup_product, null);
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -477,10 +492,10 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
-        ll_sell=view.findViewById(R.id.ll_sell);
+        ll_sell = view.findViewById(R.id.ll_sell);
         TextView tvZanbushiyong = view.findViewById(R.id.tvZanbushiyong);
         TextView tvQueding = view.findViewById(R.id.tvQueding);
-        RecyclerView recyclerView=  view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         textAdapter = new TextAdapter(getContext(), listBeans);
@@ -495,13 +510,13 @@ public class OrderDetailsFra extends TitleFragment implements View.OnClickListen
         tvQueding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i <listBeans.size() ; i++) {
-                    if (listBeans.get(i).check){
+                for (int i = 0; i < listBeans.size(); i++) {
+                    if (listBeans.get(i).check) {
                         intentlist.add(listBeans.get(i));
                     }
                 }
                 Bundle bundle = new Bundle();
-                bundle.putString("ordernum",ordernum);
+                bundle.putString("ordernum", ordernum);
                 bundle.putSerializable("bean", (Serializable) intentlist);
                 ActivitySwitcher.startFragment(getActivity(), GoRefoundFra.class, bundle);
                 popupWindow.dismiss();

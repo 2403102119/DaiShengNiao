@@ -62,6 +62,8 @@ public class AgreementFra extends TitleFragment {
     }
 
     public void initView() {
+        llNodata.setVisibility(View.GONE);
+
         DataListBean dataListBean = new DataListBean();
         dataListBean.url = "http://8.140.109.101/daishengniao/display/agreement?id=1";
         dataListBean.title = "《注册协议》";

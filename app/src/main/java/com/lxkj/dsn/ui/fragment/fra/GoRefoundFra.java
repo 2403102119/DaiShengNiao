@@ -19,6 +19,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.lxkj.dsn.AppConsts;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.OrderDetailAdapter;
+import com.lxkj.dsn.adapter.PostArticleAdapter;
 import com.lxkj.dsn.adapter.PostArticleImgAdapter;
 import com.lxkj.dsn.bean.OrdertailListBean;
 import com.lxkj.dsn.bean.ResultBean;
@@ -83,7 +84,7 @@ public class GoRefoundFra extends TitleFragment {
     private OrderDetailAdapter orderDetailAdapter;
     private List<OrdertailListBean> bean = new ArrayList();
     private List<String> mBannerSelectPath = new ArrayList<>();
-    private PostArticleImgAdapter postArticleImgAdapter;
+    private PostArticleAdapter postArticleImgAdapter;
     private int select_number = 6;
     private String plusPath;
     private ArrayList<String> imagelist = new ArrayList<>();
@@ -149,10 +150,10 @@ public class GoRefoundFra extends TitleFragment {
             }
         });
 
-        postArticleImgAdapter = new PostArticleImgAdapter(mContext, mBannerSelectPath);
+        postArticleImgAdapter = new PostArticleAdapter(mContext, mBannerSelectPath);
         riimage.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         riimage.setAdapter(postArticleImgAdapter);
-        postArticleImgAdapter.setOnItemClickListener(new PostArticleImgAdapter.OnItemClickListener() {
+        postArticleImgAdapter.setOnItemClickListener(new PostArticleAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int positiom) {
                 mBannerSelectPath.remove(positiom);
@@ -218,7 +219,7 @@ public class GoRefoundFra extends TitleFragment {
             public void onSuccess(Response response, ResultBean resultBean) {
                 ToastUtil.show(resultBean.resultNote);
                 ActivitySwitcher.startFragment(getActivity(), ConversionOkFra.class);
-                act.finishSelf();
+                act.finish();
             }
 
             @Override

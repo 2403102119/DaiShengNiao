@@ -81,6 +81,8 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
     SmartRefreshLayout smart;
     @BindView(R.id.llSearch)
     LinearLayout llSearch;
+    @BindView(R.id.tvLook)
+    TextView tvLook;
     private ArrayList<DataListBean> listBeans = new ArrayList<>();
     private ArrayList<DataListBean> listBeansOne;
     private ArrayList<DataListBean> listBeansTwo = new ArrayList<>();
@@ -181,6 +183,7 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
 
         imMessage.setOnClickListener(this);
         llSearch.setOnClickListener(this);
+        tvLook.setOnClickListener(this);
     }
 
     @Override
@@ -191,6 +194,12 @@ public class HomeFra extends CachableFrg implements View.OnClickListener {
                 break;
             case R.id.llSearch://搜索
                 ActivitySwitcher.startFragment(getActivity(), SearchFra.class);
+                break;
+            case R.id.tvLook://查看更多
+                Bundle bundle = new Bundle();
+                bundle.putString("position", "0");
+                bundle.putString("type", "1");
+                ActivitySwitcher.startFragment(getActivity(), ClassfiltyFra.class, bundle);
                 break;
         }
     }

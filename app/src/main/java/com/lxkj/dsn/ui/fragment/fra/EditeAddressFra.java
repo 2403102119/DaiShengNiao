@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -58,6 +59,8 @@ public class EditeAddressFra extends TitleFragment implements View.OnClickListen
     EditText etAddressDetail;
     @BindView(R.id.tvConfirm)
     TextView tvConfirm;
+    @BindView(R.id.ckXieyi)
+    CheckBox ckXieyi;
     private List<DataListBean> provinceList = new ArrayList<>();
 
     private String type;
@@ -131,6 +134,11 @@ public class EditeAddressFra extends TitleFragment implements View.OnClickListen
             etPhone.setText(dataListBean.phone);
             etAddressDetail.setText(dataListBean.addressdetail);
             addressId = dataListBean.addressid;
+            if (dataListBean.isdefault.equals("0")){
+                ckXieyi.setChecked(false);
+            }else {
+                ckXieyi.setChecked(true);
+            }
             type = "0";
         } else {
             act.titleTv.setText("添加新地址");
@@ -149,20 +157,21 @@ public class EditeAddressFra extends TitleFragment implements View.OnClickListen
                 addAddress();
                 break;
             case R.id.tvAddress://选择地址
-                hideInput(getContext(),view);
+                hideInput(getContext(), view);
                 if (isLoaded) {
                     showPickerView();
                 }
                 break;
         }
     }
+
     /**
      * 强制隐藏输入法键盘
      */
-    private void hideInput(Context context, View view){
+    private void hideInput(Context context, View view) {
         InputMethodManager inputMethodManager =
-                (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
@@ -175,6 +184,11 @@ public class EditeAddressFra extends TitleFragment implements View.OnClickListen
         String addressdetail = etAddressDetail.getText().toString();
         String address = tvAddress.getText().toString();
 
+        if (ckXieyi.isChecked()){
+            isdefault = "1";
+        }else {
+            isdefault = "0";
+        }
         if (StringUtil.isEmpty(name)) {
             ToastUtil.show("请输入收货人");
             return;
@@ -203,7 +217,7 @@ public class EditeAddressFra extends TitleFragment implements View.OnClickListen
         params.put("phone", phone);
         params.put("address", tvAddress.getText().toString());
         params.put("addressdetail", addressdetail);
-        params.put("isdefault", "0");
+        params.put("isdefault", isdefault);
         mOkHttpHelper.post_json(getContext(), Url.addAddress, params, new SpotsCallBack<ResultBean>(getContext()) {
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
@@ -216,6 +230,7 @@ public class EditeAddressFra extends TitleFragment implements View.OnClickListen
             }
         });
     }
+
     private void initJsonData() {//解析数据
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件

@@ -1,5 +1,6 @@
 package com.lxkj.dsn.ui.fragment.fra;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.OrderDetailAdapter;
 import com.lxkj.dsn.adapter.Recycle_one_itemAdapter;
@@ -18,13 +26,16 @@ import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
+import com.lxkj.dsn.ui.fragment.main.FaceFra;
 import com.lxkj.dsn.ui.fragment.system.WebFra;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -114,7 +125,7 @@ public class RefundFra extends TitleFragment implements View.OnClickListener {
         recycle_one_itemAdapter.setOnItemClickListener(new Recycle_one_itemAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-//                onItemClickListener.Onchakandatu(firstPosition,position);
+                showImage(new ImageView(getContext()), firstPosition, list_image);
             }
         });
 
@@ -177,6 +188,38 @@ public class RefundFra extends TitleFragment implements View.OnClickListener {
             public void onError(Response response, int code, Exception e) {
             }
         });
+    }
+
+    private void showImage(final ImageView iv, int position, List<String> list) {
+        List<Object> urls = new ArrayList<>();
+        urls.clear();
+        urls.addAll(list);
+
+        new XPopup.Builder(getContext()).asImageViewer(iv, position, urls, new OnSrcViewUpdateListener() {
+            @Override
+            public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
+                popupView.updateSrcView(iv);
+            }
+        }, new RefundFra.ImageLoader())
+                .show();
+    }
+
+    class ImageLoader implements XPopupImageLoader {
+        @Override
+        public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
+            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
+            Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.logo).override(Target.SIZE_ORIGINAL)).into(imageView);
+        }
+
+        @Override
+        public File getImageFile(@NonNull Context context, @NonNull Object uri) {
+            try {
+                return Glide.with(context).downloadOnly().load(uri).submit().get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     @Override

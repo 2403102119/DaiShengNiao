@@ -351,6 +351,18 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <TextView
+            android:id="@+id/tvTuikuan"
+            android:layout_marginRight="11dp"
+            android:layout_marginLeft="11dp"
+            android:visibility="gone"
+            android:background="@drawable/xiangqing"
+            android:gravity="center"
+            android:text="退款"
+            android:textColor="@color/txt_33"
+            android:textSize="14sp"
+            android:layout_width="82dp"
+            android:layout_height="31dp"/>
+        <TextView
             android:id="@+id/tvCancel"
             android:layout_marginRight="11dp"
             android:layout_marginLeft="11dp"

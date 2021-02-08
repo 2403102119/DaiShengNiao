@@ -133,20 +133,26 @@ public class AffirmOrderFra extends TitleFragment implements View.OnClickListene
     }
 
     public void setData() {
-        BigDecimal price;
-        for (int i = 0; i < listBeans.size(); i++) {
-            if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember,null))){
-                price = new BigDecimal(listBeans.get(i).oldprice);
-            }else {
-                price = new BigDecimal(listBeans.get(i).newprice);
+
+        try {
+            BigDecimal price = new BigDecimal(0.00);
+            for (int i = 0; i < listBeans.size(); i++) {
+                if ("0".equals(SharePrefUtil.getString(getContext(), AppConsts.ismember,null))){
+                    price = new BigDecimal(listBeans.get(i).oldprice);
+                }else {
+                    price = new BigDecimal(listBeans.get(i).newprice);
+                }
+                BigDecimal count = new BigDecimal(listBeans.get(i).numbers);
+                BigDecimal jine = count.multiply(price);
+                zongjine = jine.doubleValue();
+                zongshuliang = Integer.parseInt(listBeans.get(i).numbers);
             }
-            BigDecimal count = new BigDecimal(listBeans.get(i).numbers);
-            BigDecimal jine = count.multiply(price);
-            zongjine += jine.doubleValue();
-            zongshuliang += Integer.parseInt(listBeans.get(i).numbers);
+            tvAllPrice.setText("¥" + zongjine);
+            tvAllCount.setText("共计" + zongshuliang + "件商品,");
+        }catch (Exception e){
+            e.fillInStackTrace();
         }
-        tvAllPrice.setText("¥" + zongjine);
-        tvAllCount.setText("共计" + zongshuliang + "件商品,");
+
     }
 
     @Override
@@ -257,6 +263,7 @@ public class AffirmOrderFra extends TitleFragment implements View.OnClickListene
                 bundle.putString("ordernum",resultBean.ordernum);
                 bundle.putString("money",zongjine+"");
                 ActivitySwitcher.startFragment(getActivity(), PayFra.class,bundle);
+                act.finish();
             }
 
             @Override
@@ -295,6 +302,7 @@ public class AffirmOrderFra extends TitleFragment implements View.OnClickListene
                 bundle.putString("ordernum",resultBean.ordernum);
                 bundle.putString("money",zongjine+"");
                 ActivitySwitcher.startFragment(getActivity(), PayFra.class,bundle);
+                act.finish();
             }
 
             @Override

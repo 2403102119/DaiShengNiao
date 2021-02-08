@@ -142,6 +142,8 @@ public class Url {
     public static String addreports = IP + "addreports";
     //三方登录
     public static String threeLogin = IP + "threeLogin";
+    //下级订单
+    public static String mysubordinateorderlist = IP + "mysubordinateorderlist";
 
 
 }

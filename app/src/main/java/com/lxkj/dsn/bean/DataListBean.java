@@ -55,6 +55,8 @@ public class DataListBean implements Serializable {
     public String allmoney;
     public String dcid;
     public String usertype;
+    public String profitmoney;
+    public String fname;
     public List<OrdertailList> ordertailList;
     public List<SecondList> secondList;
 

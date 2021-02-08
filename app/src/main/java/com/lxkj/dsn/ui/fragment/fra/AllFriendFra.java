@@ -11,6 +11,7 @@ import com.lxkj.dsn.R;
 import com.lxkj.dsn.adapter.InviteAdapter;
 import com.lxkj.dsn.bean.DataListBean;
 import com.lxkj.dsn.bean.ResultBean;
+import com.lxkj.dsn.biz.ActivitySwitcher;
 import com.lxkj.dsn.http.BaseCallback;
 import com.lxkj.dsn.http.Url;
 import com.lxkj.dsn.ui.fragment.TitleFragment;
@@ -75,7 +76,10 @@ public class AllFriendFra extends TitleFragment {
         inviteAdapter.setOnItemClickListener(new InviteAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickListener(int firstPosition) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("userid",listBeans.get(firstPosition).userid);
+                bundle.putString("title",listBeans.get(firstPosition).username);
+                ActivitySwitcher.startFragment(getActivity(), ConsumeFra.class,bundle);
             }
         });
 
@@ -134,6 +138,11 @@ public class AllFriendFra extends TitleFragment {
                 }
                 if (null != resultBean.dataList)
                     listBeans.addAll(resultBean.dataList);
+                if (resultBean.dataList.size() == 0){
+                    llNodata.setVisibility(View.VISIBLE);
+                }else {
+                    llNodata.setVisibility(View.GONE);
+                }
 
                 inviteAdapter.notifyDataSetChanged();
 

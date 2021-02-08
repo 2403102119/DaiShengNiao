@@ -211,6 +211,7 @@ public class ConversionFra extends TitleFragment implements View.OnClickListener
             @Override
             public void onSuccess(Response response, ResultBean resultBean) {
                 ActivitySwitcher.startFragment(getActivity(), ConversionOkFra.class);
+                act.finish();
             }
 
             @Override
